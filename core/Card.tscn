@@ -1,9 +1,46 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=6 format=2]
 
+[ext_resource path="res://assets/cards.png" type="Texture" id=1]
 [ext_resource path="res://core/Card.gd" type="Script" id=2]
 
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 71, 96 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "Hover"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -25 ) ]
+}
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 35.2479, 47.6186 )
+
 [node name="Card" type="Node2D"]
+scale = Vector2( 1.5, 1.5 )
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
-scale = Vector2( 1.5, 1.5 )
+texture = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Hover = SubResource( 2 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 3 )
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_Area2D_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_Area2D_mouse_exited"]

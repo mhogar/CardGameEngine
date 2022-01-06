@@ -5,4 +5,4 @@
 [node name="Game" type="Node2D"]
 
 [node name="Deck" parent="." instance=ExtResource( 1 )]
-position = Vector2( 492.73, 307.321 )
+position = Vector2( 531.462, 488.92 )
