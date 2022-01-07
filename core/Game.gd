@@ -3,17 +3,24 @@ extends Node
 onready var table := $Table
 onready var hand := $Table/Hand
 onready var play_pile := $Table/PlayPile
-
+onready var event_queue := $EventQueue
 
 func _ready():
-	var move_card_event : MoveCardEvent = preload("res://core/events/MoveCard.tscn").instance()
-	move_card_event.table = table
-	move_card_event.source_hand = hand
-	move_card_event.dest_deck = play_pile
+	for i in 5:
+		add_move_card_event()
 	
-	move_card_event.connect("completed", self, "_on_move_card_completed")
-	move_card_event.execute()
-	
+	event_queue.connect("completed", self, "_on_event_completed")
+	event_queue.execute()
 
-func _on_move_card_completed():
-	print("card moved")
+
+func add_move_card_event():
+	var event : MoveCardEvent = preload("res://core/events/MoveCard.tscn").instance()
+	event.table = table
+	event.source_hand = hand
+	event.dest_deck = play_pile
+	
+	event_queue.add_event(event)
+
+
+func _on_event_completed():
+	print("queue finished")

@@ -5,6 +5,8 @@ signal select_card
 
 const MAX_WIDTH := 500.0
 
+var can_select := false
+
 var hovered_card_indices := []
 var selected_card_index : int = -1
 
@@ -18,7 +20,7 @@ func _ready():
 
 
 func _process(delta):
-	if Input.is_action_just_pressed("confirm_card") && selected_card_index >= 0:
+	if can_select && Input.is_action_just_pressed("confirm_card") && selected_card_index >= 0:
 		emit_signal("select_card", selected_card_index)
 
 

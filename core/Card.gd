@@ -26,7 +26,8 @@ func _ready():
 	sprite.texture = tex
 
 
-func reset_anims():
+func reset():
+	sprite.position = Vector2()
 	anim_player.stop()
 	
 

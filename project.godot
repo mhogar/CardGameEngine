@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://core/events/Event.gd"
 }, {
+"base": "Event",
+"class": "EventQueue",
+"language": "GDScript",
+"path": "res://core/events/EventQueue.gd"
+}, {
 "base": "Deck",
 "class": "Hand",
 "language": "GDScript",
@@ -43,21 +48,16 @@ _global_script_classes=[ {
 "class": "SelectCardEvent",
 "language": "GDScript",
 "path": "res://core/events/SelectCard.gd"
-}, {
-"base": "Event",
-"class": "WaitAllEvent",
-"language": "GDScript",
-"path": "res://core/events/WaitAll.gd"
 } ]
 _global_script_class_icons={
 "Card": "",
 "Deck": "",
 "Event": "",
+"EventQueue": "",
 "Hand": "",
 "MoveCardEvent": "",
 "Pile": "",
-"SelectCardEvent": "",
-"WaitAllEvent": ""
+"SelectCardEvent": ""
 }
 
 [application]
