@@ -24,7 +24,15 @@ func _ready():
 	tex.region = Rect2(value * card_width, suit * card_height, card_width, card_height)
 	
 	sprite.texture = tex
+
+
+func reset_anims():
+	anim_player.stop()
 	
+
+func get_sprite_relative_position() -> Vector2:
+	return transform.xform(sprite.position)
+
 
 func play_hover_anim(backwards : bool = false):	
 	if backwards:

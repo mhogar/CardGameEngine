@@ -1,4 +1,7 @@
 extends Deck
+class_name Hand
+
+signal select_card
 
 const MAX_WIDTH := 500.0
 
@@ -15,19 +18,24 @@ func _ready():
 
 
 func _process(delta):
-	if Input.is_action_just_pressed("confirm_card"):
-		print(selected_card_index)
+	if Input.is_action_just_pressed("confirm_card") && selected_card_index >= 0:
+		emit_signal("select_card", selected_card_index)
 
 
 func create_hand(num_cards : int):
-	for index in num_cards:
+	for i in num_cards:
 		var card : Card = preload("res://core/Card.tscn").instance()
 		card.value = randi() % Card.NUM_VALUES
 		card.suit = randi() % Card.NUM_SUITS
 
-		card.connect("card_mouse_entered", self, "_on_card_mouse_entered", [index])
-		card.connect("card_mouse_exited", self, "_on_card_mouse_exited", [index])
+		card.connect("card_mouse_entered", self, "_on_card_mouse_entered", [card])
+		card.connect("card_mouse_exited", self, "_on_card_mouse_exited", [card])
 		cards_node.add_child(card)
+
+
+func remove_card(index : int) -> Card:
+	unselect_card(index)
+	return .remove_card(index)
 
 
 func select_card(index : int):
@@ -52,13 +60,14 @@ func unselect_card(index : int):
 		select_card(hovered_card_indices.max())
 
 		
-func _on_card_mouse_entered(index : int):
+func _on_card_mouse_entered(card : Card):
+	var index := get_cards().find(card)
 	hovered_card_indices.append(index)
 	
 	if index > selected_card_index:
 		select_card(index)
 	
 
-func _on_card_mouse_exited(index : int):
-	unselect_card(index)
+func _on_card_mouse_exited(card : Card):
+	unselect_card(get_cards().find(card))
 
