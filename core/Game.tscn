@@ -7,6 +7,8 @@
 [node name="Game" type="Node"]
 script = ExtResource( 2 )
 
+[node name="Events" type="Node" parent="."]
+
 [node name="Table" type="Node2D" parent="."]
 z_index = -1
 
@@ -15,7 +17,3 @@ position = Vector2( 492.73, 457.807 )
 
 [node name="PlayPile" parent="Table" instance=ExtResource( 3 )]
 position = Vector2( 495.27, 120.643 )
-
-[node name="Tween" type="Tween" parent="."]
-
-[connection signal="select_card" from="Table/Hand" to="." method="_on_Hand_select_card"]
