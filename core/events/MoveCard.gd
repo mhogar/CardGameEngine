@@ -16,7 +16,7 @@ func execute(inputs : Array):
 	card.position = table.transform.xform(source_hand.get_card_relative_position(card))
 	card.reset()
 	
-	tween.interpolate_property(card, "position", card.position, table.transform.xform(dest_deck.position), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	tween.interpolate_property(card, "position", card.position, table.transform.xform(dest_deck.position), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.connect("tween_all_completed", self, "_on_Tween_tween_all_completed", [dest_deck, card], CONNECT_ONESHOT)
 	tween.start()
 

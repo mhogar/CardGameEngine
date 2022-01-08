@@ -11,6 +11,14 @@ func _process(delta):
 		emit_signal("select_card", selected_card_index)
 
 
+func start_select():
+	can_select = true
+
+
+func end_select():
+	can_select = false
+
+
 func select_card(index : int):
 	var old_index := selected_card_index
 	selected_card_index = index

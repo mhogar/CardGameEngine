@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Controller",
+"class": "AIController",
+"language": "GDScript",
+"path": "res://core/controllers/AI/AI.gd"
+}, {
 "base": "Node2D",
 "class": "Card",
 "language": "GDScript",
@@ -65,6 +70,7 @@ _global_script_classes=[ {
 "path": "res://core/events/SelectCard.gd"
 } ]
 _global_script_class_icons={
+"AIController": "",
 "Card": "",
 "CardSelector": "",
 "Controller": "",
