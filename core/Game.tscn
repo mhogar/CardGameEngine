@@ -31,3 +31,4 @@ position = Vector2( 496.54, 292.082 )
 
 [node name="AIHand" parent="Table" instance=ExtResource( 1 )]
 position = Vector2( 492.73, 81.91 )
+rotation = 3.14159

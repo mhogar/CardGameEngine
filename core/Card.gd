@@ -4,14 +4,14 @@ class_name Card
 signal card_mouse_entered
 signal card_mouse_exited
 
-const NUM_VALUES := 13
-const NUM_SUITS := 4
-
 export(int, 12) var value : int
 export(int, 3) var suit : int
 
 onready var sprite := $Sprite
 onready var anim_player := $AnimationPlayer
+
+const NUM_VALUES := 13
+const NUM_SUITS := 4
 
 
 func _ready():
@@ -43,6 +43,10 @@ func play_hover_anim(backwards : bool = false):
 			anim_player.stop()
 	else:
 		anim_player.play("Hover")
+
+
+func set_show_outline(val : bool):
+	sprite.material.set_shader_param("show_outline", val)
 
 
 func _on_Area2D_mouse_entered():

@@ -13,10 +13,14 @@ func _process(delta):
 
 func start_select():
 	can_select = true
+	for card in get_hand().get_cards():
+		card.set_show_outline(true)
 
 
 func end_select():
 	can_select = false
+	for card in get_hand().get_cards():
+		card.set_show_outline(false)
 
 
 func select_card(index : int):

@@ -12,10 +12,11 @@ onready var play_pile := $Table/PlayPile
 
 
 func _ready():
-	create_hand(player_hand, 10)
-	create_hand(ai_hand, 10)
+	var num_cards := 10
+	create_hand(player_hand, num_cards)
+	create_hand(ai_hand, num_cards)
 	
-	for i in 5:
+	for i in num_cards:
 		add_select_card_event(player)
 		add_move_card_event(player_hand)
 		
