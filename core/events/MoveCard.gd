@@ -17,7 +17,7 @@ func execute(inputs : Array):
 	card.reset()
 	
 	tween.interpolate_property(card, "position", card.position, table.transform.xform(dest_deck.position), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.connect("tween_all_completed", self, "_on_Tween_tween_all_completed", [dest_deck, card])
+	tween.connect("tween_all_completed", self, "_on_Tween_tween_all_completed", [dest_deck, card], CONNECT_ONESHOT)
 	tween.start()
 
 
@@ -27,4 +27,4 @@ func _on_Tween_tween_all_completed(deck : Deck, card: Card):
 	card.position = Vector2()
 	deck.add_card(card)
 	
-	emit_signal("completed", self, [])
+	emit_signal("completed", [])

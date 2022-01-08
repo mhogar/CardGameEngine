@@ -23,10 +23,9 @@ func execute_next(inputs : Array):
 		return
 	
 	var event : Event = events[current_event_index]
-	event.connect("completed", self, "_on_event_completed")
+	event.connect("completed", self, "_on_event_completed", [], CONNECT_ONESHOT)
 	event.execute(inputs)
 
 
-func _on_event_completed(event : Event, outputs : Array):
-	event.queue_free()
+func _on_event_completed(outputs : Array):
 	execute_next(outputs)

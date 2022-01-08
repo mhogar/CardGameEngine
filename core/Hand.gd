@@ -20,6 +20,7 @@ func adjust_spacing():
 
 	tween.start()
 
+
 func add_card(card : Card):
 	.add_card(card)
 	adjust_spacing()

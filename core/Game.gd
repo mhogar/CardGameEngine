@@ -15,7 +15,7 @@ func _ready():
 		add_select_card_event()
 		add_move_card_event()
 	
-	event_queue.connect("completed", self, "_on_event_completed")
+	event_queue.connect("completed", self, "_on_event_completed", [], CONNECT_ONESHOT)
 	event_queue.execute([])
 
 
@@ -46,5 +46,5 @@ func add_move_card_event():
 	event_queue.add_event(event)
 
 
-func _on_event_completed(outputs : Array):
+func _on_event_completed():
 	print("queue finished")
