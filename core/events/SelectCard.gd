@@ -1,14 +1,14 @@
 extends Event
 class_name SelectCardEvent
 
-var hand : Hand
+var controller : Controller
 
 
-func execute():
-	hand.connect("select_card", self, "_on_Hand_select_card")
-	hand.can_select = true
+func execute(inputs : Array):
+	controller.card_selector.connect("select_card", self, "_on_Hand_select_card")
+	controller.card_selector.can_select = true
 
 
 func _on_Hand_select_card(index : int):
-	hand.can_select = false
-	emit_signal("completed", index)
+	controller.card_selector.can_select = false
+	emit_signal("completed", self, [index])

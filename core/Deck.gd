@@ -3,9 +3,12 @@ class_name Deck
 
 onready var cards_node := $Cards
 
+var uid : int
+
 
 func _ready():
 	randomize()
+	uid = UidManager.next_uid()
 
 
 func num_cards() -> int:
@@ -20,13 +23,21 @@ func get_card(index : int) -> Card:
 	return get_cards()[index]
 
 
+func get_card_index(card : Card) -> int:
+	return get_cards().find(card)
+
+
 func add_card(card : Card):
 	cards_node.add_child(card)
+	get_tree().call_group("Deck", "_on_deck_card_added", uid, card)
 
 
 func remove_card(index : int) -> Card:
 	var card := get_card(index)
 	cards_node.remove_child(card)
+	
+	get_tree().call_group("Deck", "_on_deck_card_removed", uid, index, card)
+	
 	return card
 	
 

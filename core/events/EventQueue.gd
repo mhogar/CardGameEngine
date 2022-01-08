@@ -10,12 +10,12 @@ func add_event(event : Event):
 	sub_events_node.add_child(event)
 
 
-func execute():
+func execute(inputs : Array):
 	current_event_index = -1
-	execute_next()
+	execute_next(inputs)
 	
 
-func execute_next():
+func execute_next(inputs : Array):
 	current_event_index += 1
 	
 	if current_event_index >= events.size():
@@ -23,10 +23,10 @@ func execute_next():
 		return
 	
 	var event : Event = events[current_event_index]
-	event.connect("completed", self, "_on_event_completed", [event])
-	event.execute()
+	event.connect("completed", self, "_on_event_completed")
+	event.execute(inputs)
 
 
-func _on_event_completed(event : Event):
+func _on_event_completed(event : Event, outputs : Array):
 	event.queue_free()
-	execute_next()
+	execute_next(outputs)

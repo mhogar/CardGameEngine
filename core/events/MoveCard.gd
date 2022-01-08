@@ -9,15 +9,8 @@ var source_hand : Hand
 var dest_deck : Deck
 
 
-func execute():
-	select_card_event.hand = source_hand
-	
-	select_card_event.connect("completed", self, "_on_select_card_completed")
-	select_card_event.execute()
-
-
-func _on_select_card_completed(index : int):	
-	var card := source_hand.remove_card(index)
+func execute(inputs : Array):
+	var card := source_hand.remove_card(inputs[0])
 	table.get_parent().add_child(card)
 	
 	card.position = table.transform.xform(source_hand.get_card_relative_position(card))
@@ -34,4 +27,4 @@ func _on_Tween_tween_all_completed(deck : Deck, card: Card):
 	card.position = Vector2()
 	deck.add_card(card)
 	
-	emit_signal("completed")
+	emit_signal("completed", self, [])
