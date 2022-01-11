@@ -3,31 +3,48 @@ class_name EventQueue
 
 onready var events_node := $Events
 
-var events := []
 var current_event_index : int
+var inputs := {}
 
 
-func add_event(event : Event):
-	events.append(event)
+func add_event(event : Event, type : int, args : Dictionary):
+	event.type = type
+	event.static_args = args
 	events_node.add_child(event)
 
 
-func execute(inputs : Array):
+func execute(init_inputs : Dictionary):
 	current_event_index = -1
-	execute_next(inputs)
+	execute_next(init_inputs)
 	
 
-func execute_next(inputs : Array):
+func execute_next(next_inputs : Dictionary):
 	current_event_index += 1
 	
-	if current_event_index >= events.size():
-		emit_signal("completed")
+	if current_event_index >= events_node.get_child_count():
+		emit_signal("completed", self, next_inputs)
 		return
+		
+	var event : Event = events_node.get_children()[current_event_index]
+	inputs = merge_inputs(next_inputs, event.static_args)
 	
-	var event : Event = events[current_event_index]
 	event.connect("completed", self, "_on_event_completed", [], CONNECT_ONESHOT)
 	event.execute(inputs)
 
 
-func _on_event_completed(outputs : Array):
-	execute_next(outputs)
+func merge_inputs(inputs1 : Dictionary, inputs2 : Dictionary):
+	for key in inputs2:
+		inputs1[key] = inputs2[key]
+		
+	return inputs1
+
+
+func _on_event_completed(event : Event, outputs : Dictionary):
+	var next_inputs := {}
+	
+	if event.type == EventType.MERGE:
+		next_inputs = merge_inputs(inputs, outputs)
+	else:
+		next_inputs = outputs
+	
+	execute_next(next_inputs)

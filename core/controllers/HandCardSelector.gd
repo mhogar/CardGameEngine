@@ -1,6 +1,8 @@
 extends CardSelector
 class_name HandCardSelector
 
+var hand : Hand
 
-func get_hand() -> Hand:
-	return get_parent().hand
+
+func start_select(deck : Deck):
+	hand = deck

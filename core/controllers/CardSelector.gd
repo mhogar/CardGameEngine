@@ -4,7 +4,7 @@ class_name CardSelector
 signal select_card
 
 
-func start_select():
+func start_select(deck : Deck):
 	pass
 	
 	

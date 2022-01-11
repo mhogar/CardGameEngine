@@ -11,15 +11,17 @@ func _process(delta):
 		emit_signal("select_card", selected_card_index)
 
 
-func start_select():
+func start_select(deck : Deck):
+	.start_select(deck)
+	
 	can_select = true
-	for card in get_hand().get_cards():
+	for card in hand.get_cards():
 		card.set_show_outline(true)
 
 
 func end_select():
 	can_select = false
-	for card in get_hand().get_cards():
+	for card in hand.get_cards():
 		card.set_show_outline(false)
 
 
@@ -28,10 +30,10 @@ func select_card(index : int):
 	selected_card_index = index
 	
 	if index >= 0:
-		get_hand().get_card(index).play_hover_anim()
+		hand.get_card(index).play_hover_anim()
 	
-	if old_index >= 0 && old_index < get_hand().num_cards():
-		get_hand().get_card(old_index).play_hover_anim(true)
+	if old_index >= 0 && old_index < hand.num_cards():
+		hand.get_card(old_index).play_hover_anim(true)
 
 
 func unselect_card(index : int):
@@ -46,7 +48,7 @@ func unselect_card(index : int):
 
 		
 func _on_card_mouse_entered(card : Card):
-	var index := get_hand().get_card_index(card)
+	var index := hand.get_card_index(card)
 	hovered_card_indices.append(index)
 	
 	if index > selected_card_index:
@@ -54,20 +56,21 @@ func _on_card_mouse_entered(card : Card):
 	
 
 func _on_card_mouse_exited(card : Card):
-	unselect_card(get_hand().get_card_index(card))
+	unselect_card(hand.get_card_index(card))
 	
 	
 # Deck Group
 func _on_deck_card_added(uid : int, card : Card):
-	if uid != get_hand().uid:
+	if hand == null || uid != hand.uid:
 		return
 	
 	card.connect("card_mouse_entered", self, "_on_card_mouse_entered", [card])
 	card.connect("card_mouse_exited", self, "_on_card_mouse_exited", [card])
 
+
 # Deck Group
 func _on_deck_card_removed(uid : int, index : int, card : Card):
-	if uid != get_hand().uid:
+	if hand == null || uid != hand.uid:
 		return
 	
 	card.disconnect("card_mouse_entered", self, "_on_card_mouse_entered")

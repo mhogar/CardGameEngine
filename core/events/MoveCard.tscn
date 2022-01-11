@@ -6,4 +6,4 @@
 [node name="MoveCard" instance=ExtResource( 2 )]
 script = ExtResource( 1 )
 
-[node name="Tween" type="Tween" parent="." index="1"]
+[node name="Tween" type="Tween" parent="." index="0"]

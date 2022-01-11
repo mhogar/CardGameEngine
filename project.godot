@@ -54,6 +54,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://core/events/EventQueue.gd"
 }, {
+"base": "Node",
+"class": "EventQueueBuilder",
+"language": "GDScript",
+"path": "res://core/GameBuilder.gd"
+}, {
 "base": "Deck",
 "class": "Hand",
 "language": "GDScript",
@@ -95,6 +100,11 @@ _global_script_classes=[ {
 "path": "res://core/controllers/Player/PileCardSelector.gd"
 }, {
 "base": "Event",
+"class": "RevealCardEvent",
+"language": "GDScript",
+"path": "res://core/events/RevealCard.gd"
+}, {
+"base": "Event",
 "class": "SelectCardEvent",
 "language": "GDScript",
 "path": "res://core/events/SelectCard.gd"
@@ -109,6 +119,7 @@ _global_script_class_icons={
 "Deck": "",
 "Event": "",
 "EventQueue": "",
+"EventQueueBuilder": "",
 "Hand": "",
 "HandCardSelector": "",
 "MoveCardEvent": "",
@@ -117,6 +128,7 @@ _global_script_class_icons={
 "PlayerController": "",
 "PlayerHandCardSelector": "",
 "PlayerPileCardSelector": "",
+"RevealCardEvent": "",
 "SelectCardEvent": ""
 }
 

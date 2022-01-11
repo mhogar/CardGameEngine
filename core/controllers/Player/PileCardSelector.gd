@@ -10,7 +10,9 @@ func _process(delta):
 		emit_signal("select_card", pile.get_top_card_index())
 
 
-func start_select():
+func start_select(deck : Deck):
+	.start_select(deck)
+	
 	top_card = pile.get_top_card()
 	top_card.set_show_outline(true)
 	
