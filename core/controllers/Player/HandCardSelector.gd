@@ -1,5 +1,5 @@
-extends CardSelector
-class_name PlayerCardSelector
+extends HandCardSelector
+class_name PlayerHandCardSelector
 
 var can_select := false
 var hovered_card_indices := []

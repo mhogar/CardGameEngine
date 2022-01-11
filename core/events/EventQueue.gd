@@ -1,13 +1,15 @@
 extends Event
 class_name EventQueue
 
+onready var events_node := $Events
+
 var events := []
 var current_event_index : int
 
 
 func add_event(event : Event):
 	events.append(event)
-	sub_events_node.add_child(event)
+	events_node.add_child(event)
 
 
 func execute(inputs : Array):

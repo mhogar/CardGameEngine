@@ -13,23 +13,22 @@ onready var anim_player := $AnimationPlayer
 const NUM_VALUES := 13
 const NUM_SUITS := 4
 
+var face_up := false
+
 
 func _ready():
-	var atlas : Texture = preload("res://assets/cards.png")
-	var card_width := atlas.get_width() / NUM_VALUES
-	var card_height := atlas.get_height() / NUM_SUITS
-	
-	var tex := AtlasTexture.new()
-	tex.atlas = atlas
-	tex.region = Rect2(value * card_width, suit * card_height, card_width, card_height)
-	
-	sprite.texture = tex
+	sprite.create_front_texture(value, suit)
 
 
 func reset():
 	sprite.position = Vector2()
 	anim_player.stop()
-	
+
+
+func set_face_up(val : bool):
+	face_up = val
+	sprite.set_face_up(val)
+
 
 func get_sprite_relative_position() -> Vector2:
 	return transform.xform(sprite.position)

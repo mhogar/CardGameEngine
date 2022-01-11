@@ -21,14 +21,17 @@ hand_node_path = NodePath("../../Table/PlayerHand")
 hand_node_path = NodePath("../../Table/AIHand")
 
 [node name="Table" type="Node2D" parent="."]
-z_index = -1
+z_index = -4096
 
 [node name="PlayerHand" parent="Table" instance=ExtResource( 1 )]
 position = Vector2( 497.81, 511.779 )
 
-[node name="PlayPile" parent="Table" instance=ExtResource( 3 )]
-position = Vector2( 496.54, 292.082 )
-
 [node name="AIHand" parent="Table" instance=ExtResource( 1 )]
 position = Vector2( 492.73, 81.91 )
 rotation = 3.14159
+
+[node name="PlayPile" parent="Table" instance=ExtResource( 3 )]
+position = Vector2( 375.897, 292.717 )
+
+[node name="DrawPile" parent="Table" instance=ExtResource( 3 )]
+position = Vector2( 577.814, 294.622 )

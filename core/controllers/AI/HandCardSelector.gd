@@ -1,4 +1,5 @@
-extends CardSelector
+extends HandCardSelector
+class_name AIHandCardSelector
 
 
 func get_rng() -> RandomNumberGenerator:
