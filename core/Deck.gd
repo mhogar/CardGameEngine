@@ -11,6 +11,16 @@ func _ready():
 	uid = UidManager.next_uid()
 
 
+func build(num_cards : int, face_up : bool = false):
+	for i in num_cards:
+		var card : Card = preload("res://core/card/Card.tscn").instance()
+		card.value = randi() % Card.NUM_VALUES
+		card.suit = randi() % Card.NUM_SUITS
+		card.face_up = face_up
+
+		add_card(card)
+
+
 func num_cards() -> int:
 	return cards_node.get_child_count()
 
