@@ -16,11 +16,12 @@ onready var event_queue := $EventQueue
 #			deck.add_card(card)
 
 
-func create_deck(deck : Deck, num_cards : int):
+func create_deck(deck : Deck, num_cards : int, face_up : bool = false):
 	for i in num_cards:
 		var card : Card = preload("res://core/card/Card.tscn").instance()
 		card.value = randi() % Card.NUM_VALUES
 		card.suit = randi() % Card.NUM_SUITS
+		card.face_up = face_up
 
 		deck.add_card(card)
 
@@ -29,15 +30,15 @@ func shuffle_deck():
 	pass
 
 
-func draw_card(controller : Controller, pile : Pile):
-	merge(select_card(), { "controller": controller, "source_deck": pile })
-	if controller is PlayerController:
+func draw_card(player : Player, pile : Pile):
+	merge(select_card(), { "player": player, "source_deck": pile })
+	if player is HumanPlayer:
 		merge(reveal_card())
-	map(move_card(), { "dest_deck": controller.hand })
+	map(move_card(), { "dest_deck": player.hand })
 
 
-func play_card(controller : Controller, pile : Pile):
-	merge(select_card(), { "controller": controller, "source_deck": controller.hand })
+func play_card(player : Player, pile : Pile):
+	merge(select_card(), { "player": player, "source_deck": player.hand })
 	merge(reveal_card())
 	map(move_card(), { "dest_deck": pile })
 

@@ -18,6 +18,7 @@ var face_up := false
 
 func _ready():
 	sprite.create_front_texture(value, suit)
+	sprite.set_face_up(face_up)
 
 
 func reset():

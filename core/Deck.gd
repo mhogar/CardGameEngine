@@ -50,7 +50,7 @@ func remove_card(index : int) -> Card:
 	get_tree().call_group("Deck", "_on_deck_card_removed", uid, index, card)
 	
 	return card
-	
+
 
 func get_card_relative_position(card : Card) -> Vector2:
 	return transform.xform(card.get_sprite_relative_position())
