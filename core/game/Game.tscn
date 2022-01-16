@@ -2,11 +2,11 @@
 
 [ext_resource path="res://core/game/Table.tscn" type="PackedScene" id=1]
 [ext_resource path="res://core/game/Game.gd" type="Script" id=2]
-[ext_resource path="res://core/events/EventQueue.tscn" type="PackedScene" id=3]
+[ext_resource path="res://core/game/GameEventQueue.tscn" type="PackedScene" id=3]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 2 )
 
-[node name="EventQueue" parent="." instance=ExtResource( 3 )]
+[node name="GameLoop" parent="." instance=ExtResource( 3 )]
 
 [node name="Table" parent="." instance=ExtResource( 1 )]
