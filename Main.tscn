@@ -10,3 +10,5 @@ script = ExtResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+
+[connection signal="queue_finished" from="Game" to="." method="_on_Game_queue_finished"]

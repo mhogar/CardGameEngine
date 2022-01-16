@@ -37,7 +37,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "EventQueueBuilder",
 "language": "GDScript",
-"path": "res://core/game/EventQueueBuilder.gd"
+"path": "res://core/events/EventQueueBuilder.gd"
 }, {
 "base": "Node",
 "class": "Game",

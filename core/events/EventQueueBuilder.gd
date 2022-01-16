@@ -1,7 +1,7 @@
 extends Node
 class_name EventQueueBuilder
 
-onready var event_queue : EventQueue = $EventQueue
+onready var event_queue : EventQueue = get_parent()
 
 
 func shuffle_deck():
@@ -35,7 +35,19 @@ func move_card() -> Node:
 
 func map(event : Event, inputs : Dictionary = {}):
 	event_queue.add_event(event, Event.EventType.MAP, inputs)
-	
+
+
+func map_sub_queue(inputs : Dictionary = {}) -> EventQueue:
+	var sub_queue : EventQueue = load("res://core/events/EventQueue.tscn").instance()
+	map(sub_queue, inputs)
+	return sub_queue
+
 	
 func merge(event : Event, inputs : Dictionary = {}):
 	event_queue.add_event(event, Event.EventType.MERGE, inputs)
+	
+
+func merge_sub_queue(inputs : Dictionary = {}) -> EventQueue:
+	var sub_queue : EventQueue = load("res://core/events/EventQueue.tscn").instance()
+	merge(sub_queue, inputs)
+	return sub_queue

@@ -23,13 +23,14 @@ func create_game():
 	
 	table.finalize(get_viewport().size)
 
-	var builder := game.builder
-	for i in 5:
-		builder.draw_card(human, draw_pile)
-		builder.play_card(human, play_pile)
+	var play_loop : EventQueue = game.event_queue.builder.map_sub_queue({ "num_iter": 5 })
+	var builder := play_loop.builder
+	
+	builder.draw_card(human, draw_pile)
+	builder.play_card(human, play_pile)
 		
-		builder.draw_card(ai, draw_pile)
-		builder.play_card(ai, play_pile)	
+	builder.draw_card(ai, draw_pile)
+	builder.play_card(ai, play_pile)
 
 
 func _on_Game_queue_finished():

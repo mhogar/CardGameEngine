@@ -3,13 +3,13 @@ class_name Game
 
 signal queue_finished
 
-onready var builder : EventQueueBuilder = $EventQueueBuilder
+onready var event_queue : EventQueue = $EventQueue
 onready var table : Table = $Table
 	
 
 func start(inputs : Dictionary = {}):
-	builder.event_queue.connect("completed", self, "_on_EventQueue_completed", [], CONNECT_ONESHOT)
-	builder.event_queue.execute(inputs)
+	event_queue.connect("completed", self, "_on_EventQueue_completed", [], CONNECT_ONESHOT)
+	event_queue.execute(inputs)
 
 
 func _on_EventQueue_completed(event, outputs):
