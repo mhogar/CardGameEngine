@@ -17,11 +17,11 @@ func create_game():
 	var ai := table.add_new_AI_player()
 	ai.hand.build(10)
 	
-	var play_pile := table.add_new_pile()
-	var draw_pile := table.add_new_pile()
+	var play_pile := table.add_new_pile(Vector2(-0.5, 0.0))
+	var draw_pile := table.add_new_pile(Vector2(0.5, 0.0))
 	draw_pile.build(30)
 	
-	table.finalize()
+	table.finalize(get_viewport().size)
 
 	var builder := game.builder
 	for i in 5:

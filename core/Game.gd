@@ -8,6 +8,7 @@ onready var table : Table = $Table
 	
 
 func start(inputs : Dictionary = {}):
+	builder.event_queue.connect("completed", self, "_on_EventQueue_completed", [], CONNECT_ONESHOT)
 	builder.event_queue.execute(inputs)
 
 

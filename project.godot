@@ -172,6 +172,10 @@ config/icon="res://icon.png"
 
 UidManager="*res://core/UIDManager.gd"
 
+[display]
+
+window/size/height=800
+
 [input]
 
 confirm_card={
