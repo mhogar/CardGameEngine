@@ -6,6 +6,10 @@ onready var tween := $Tween
 const MAX_WIDTH := 500.0
 
 
+func _ready():
+	pass
+
+
 func adjust_spacing():
 	tween.remove_all()
 	

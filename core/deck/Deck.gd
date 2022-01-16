@@ -1,7 +1,11 @@
 extends Node2D
 class_name Deck
 
+signal selected_card_changed(deck, card_index)
+
 onready var cards_node := $Cards
+#onready var area : Area2D = $Area2D
+#onready var collision_shape : CollisionShape2D = $Area2D/CollisionShape2D
 
 var uid : int
 
@@ -64,3 +68,7 @@ func remove_card(index : int) -> Card:
 
 func get_card_relative_position(card : Card) -> Vector2:
 	return transform.xform(card.get_sprite_relative_position())
+
+
+func _on_Controller_selected_card_changed(card_index : int):
+	emit_signal("selected_card_changed", card_index)

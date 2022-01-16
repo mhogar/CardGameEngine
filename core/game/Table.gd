@@ -22,7 +22,7 @@ func add_player(player : Player):
 
 
 func add_new_pile(pos : Vector2) -> Pile:
-	var pile : Pile = preload("res://core/Pile.tscn").instance()
+	var pile : Pile = preload("res://core/deck/pile/Pile.tscn").instance()
 	pile.position = pos
 	piles.append(pile)
 	add_child(pile)

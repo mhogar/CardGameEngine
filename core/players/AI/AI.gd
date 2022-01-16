@@ -9,9 +9,8 @@ func _ready():
 	rng.randomize()
 
 
-func select_card_hand(hand : Hand):
-	emit_signal("select_card", rng.randi() % hand.num_cards())
-	
-
-func select_card_pile(pile : Pile):
-	emit_signal("select_card", pile.get_top_card_index())
+func select_card(deck : Deck):
+	if deck is Hand:
+		emit_signal("select_card", rng.randi() % deck.num_cards())
+	else:
+		emit_signal("select_card", deck.get_top_card_index())
