@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://core/card/Card.gd" type="Script" id=1]
 [ext_resource path="res://core/card/outline_shader.shader" type="Shader" id=2]
@@ -28,6 +28,9 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, -25 ) ]
 }
 
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 34.8503, 47.3598 )
+
 [node name="Card" type="Node2D"]
 material = SubResource( 1 )
 scale = Vector2( 1.5, 1.5 )
@@ -40,3 +43,11 @@ script = ExtResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Hover = SubResource( 3 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 4 )
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_Area2D_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_Area2D_mouse_exited"]

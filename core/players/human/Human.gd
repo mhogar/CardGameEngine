@@ -10,24 +10,27 @@ func _process(delta):
 		var index := selected_card_index
 		reset()
 		
-		emit_signal("select_card", selected_card_index)
+		emit_signal("select_card", index)
 
 
 func reset():
-	if selected_deck is Pile:
-		selected_deck.disconnect("selected_card_changed", self, "_on_selected_card_changed")
-		selected_deck.get_top_card().set_show_outline(false)
-		selected_deck = null
-		
+	set_show_outline(selected_deck, false)
+	selected_deck.disconnect("selected_card_changed", self, "_on_selected_card_changed")
 	selected_card_index = -1
 
 
 func select_card(deck : Deck):
+	set_show_outline(deck, true)
+	deck.connect("selected_card_changed", self, "_on_selected_card_changed")
+	selected_card_index = deck.selected_card_index
+	
+
+func set_show_outline(deck : Deck, val : bool):
 	if deck is Hand:
-		selected_card_index = randi() % deck.num_cards()
+		for card in deck.get_cards():
+			card.set_show_outline(val)
 	else:
-		deck.get_top_card().set_show_outline(true)
-		deck.connect("selected_card_changed", self, "_on_selected_card_changed")
+		deck.get_top_card().set_show_outline(val)
 
 
 func _on_selected_card_changed(deck : Deck, card_index : int):

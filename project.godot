@@ -84,11 +84,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://core/controllers/HandCardSelector.gd"
 }, {
-"base": "DeckController",
-"class": "HandController",
-"language": "GDScript",
-"path": "res://core/deck/hand/Controller.gd"
-}, {
 "base": "Player",
 "class": "HumanPlayer",
 "language": "GDScript",
@@ -108,11 +103,6 @@ _global_script_classes=[ {
 "class": "PileCardSelector",
 "language": "GDScript",
 "path": "res://core/controllers/PileCardSelector.gd"
-}, {
-"base": "DeckController",
-"class": "PileController",
-"language": "GDScript",
-"path": "res://core/deck/pile/Controller.gd"
 }, {
 "base": "Node2D",
 "class": "Player",
@@ -165,12 +155,10 @@ _global_script_class_icons={
 "Game": "",
 "Hand": "",
 "HandCardSelector": "",
-"HandController": "",
 "HumanPlayer": "",
 "MoveCardEvent": "",
 "Pile": "",
 "PileCardSelector": "",
-"PileController": "",
 "Player": "",
 "PlayerController": "",
 "PlayerHandCardSelector": "",

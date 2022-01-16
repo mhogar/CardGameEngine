@@ -1,14 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://core/deck/pile/Pile.gd" type="Script" id=1]
 [ext_resource path="res://core/deck/Deck.tscn" type="PackedScene" id=2]
-[ext_resource path="res://core/deck/pile/Controller.gd" type="Script" id=3]
 
 [node name="Pile" instance=ExtResource( 2 )]
 script = ExtResource( 1 )
-
-[node name="Controller" parent="." index="0"]
-script = ExtResource( 3 )
-
-[connection signal="mouse_entered" from="Area2D" to="." method="_on_Area2D_mouse_entered"]
-[connection signal="mouse_exited" from="Area2D" to="." method="_on_Area2D_mouse_exited"]

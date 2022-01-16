@@ -5,9 +5,7 @@ onready var tween := $Tween
 
 const MAX_WIDTH := 500.0
 
-
-func _ready():
-	pass
+var hovered_card_indices := []
 
 
 func adjust_spacing():
@@ -25,12 +23,49 @@ func adjust_spacing():
 	tween.start()
 
 
-func add_card(card : Card):
-	.add_card(card)
+func on_card_added(card : Card):
 	adjust_spacing()
+	card.connect("card_mouse_entered", self, "_on_card_mouse_entered", [card])
+	card.connect("card_mouse_exited", self, "_on_card_mouse_exited", [card])
 
 
-func remove_card(index : int) -> Card:
-	var card := .remove_card(index)
+func on_card_removed(index : int, card : Card):
 	adjust_spacing()
-	return card
+	unselect_card(index)
+	card.disconnect("card_mouse_entered", self, "_on_card_mouse_entered")
+	card.disconnect("card_mouse_exited", self, "_on_card_mouse_exited")
+
+
+func select_card(index : int):
+	var old_index := selected_card_index
+	selected_card_index = index
+	
+	if old_index >= 0 && old_index < num_cards():
+		get_card(old_index).play_hover_anim(true)
+	
+	if selected_card_index >= 0:
+		get_card(index).play_hover_anim()
+		emit_signal("selected_card_changed", self, selected_card_index)
+
+
+func unselect_card(index : int):
+	hovered_card_indices.erase(index)
+	if index != selected_card_index:
+		return
+		
+	if hovered_card_indices.empty():
+		select_card(-1)
+	else:
+		select_card(hovered_card_indices.max())
+
+		
+func _on_card_mouse_entered(card : Card):
+	var index := get_card_index(card)
+	hovered_card_indices.append(index)
+	
+	if index > selected_card_index:
+		select_card(index)
+	
+
+func _on_card_mouse_exited(card : Card):
+	unselect_card(get_card_index(card))

@@ -4,10 +4,9 @@ class_name Deck
 signal selected_card_changed(deck, card_index)
 
 onready var cards_node := $Cards
-#onready var area : Area2D = $Area2D
-#onready var collision_shape : CollisionShape2D = $Area2D/CollisionShape2D
 
 var uid : int
+var selected_card_index : int = -1
 
 
 func _ready():
@@ -35,7 +34,10 @@ func get_cards() -> Array:
 
 
 func get_card(index : int) -> Card:
-	return get_cards()[index]
+	if num_cards() > 0:
+		return get_cards()[index]
+	else:
+		return null
 
 
 func get_top_card_index() -> int:
@@ -53,7 +55,13 @@ func get_card_index(card : Card) -> int:
 func add_card(card : Card):
 	card.z_index = num_cards()
 	cards_node.add_child(card)
+	
+	on_card_added(card)
 	get_tree().call_group("Deck", "_on_deck_card_added", uid, card)
+
+
+func on_card_added(card : Card):
+	pass
 
 
 func remove_card(index : int) -> Card:
@@ -61,9 +69,13 @@ func remove_card(index : int) -> Card:
 	card.z_index = 0
 	cards_node.remove_child(card)
 	
+	on_card_removed(index, card)
 	get_tree().call_group("Deck", "_on_deck_card_removed", uid, index, card)
-	
 	return card
+
+
+func on_card_removed(index : int, card : Card):
+	pass
 
 
 func get_card_relative_position(card : Card) -> Vector2:
