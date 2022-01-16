@@ -65,6 +65,8 @@ func on_card_added(card : Card):
 
 
 func remove_card(index : int) -> Card:
+	recalculate_z_indices(index)
+	
 	var card := get_card(index)
 	card.z_index = 0
 	cards_node.remove_child(card)
@@ -76,6 +78,11 @@ func remove_card(index : int) -> Card:
 
 func on_card_removed(index : int, card : Card):
 	pass
+	
+
+func recalculate_z_indices(index : int):
+	for i in range(index + 1, num_cards()):
+		get_card(i).z_index = i - 1
 
 
 func get_card_relative_position(card : Card) -> Vector2:
