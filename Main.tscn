@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://core/Game.tscn" type="PackedScene" id=1]
+[ext_resource path="res://core/game/Game.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Main.gd" type="Script" id=2]
 
 [node name="Main" type="Node2D"]
@@ -10,5 +10,3 @@ script = ExtResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
-
-[connection signal="queue_finished" from="Game" to="." method="_on_Game_queue_finished"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://core/deck/pile/Pile.gd" type="Script" id=1]
+[ext_resource path="res://core/deck/Pile.gd" type="Script" id=1]
 [ext_resource path="res://core/deck/Deck.tscn" type="PackedScene" id=2]
 
 [node name="Pile" instance=ExtResource( 2 )]
