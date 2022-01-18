@@ -79,6 +79,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://core/events/SelectCard.gd"
 }, {
+"base": "Event",
+"class": "SelectTopCardEvent",
+"language": "GDScript",
+"path": "res://core/events/SelectTopCard.gd"
+}, {
 "base": "Node2D",
 "class": "Table",
 "language": "GDScript",
@@ -99,6 +104,7 @@ _global_script_class_icons={
 "Player": "",
 "RevealCardEvent": "",
 "SelectCardEvent": "",
+"SelectTopCardEvent": "",
 "Table": ""
 }
 
