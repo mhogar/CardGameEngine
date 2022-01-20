@@ -11,18 +11,26 @@ var selected_card_index : int = -1
 
 
 func _ready():
-	randomize()
 	uid = UidManager.next_uid()
 
 
-func build(num_cards : int, face_up : bool = false):
-	for i in num_cards:
-		var card : Card = preload("res://core/card/Card.tscn").instance()
-		card.value = randi() % Card.NUM_VALUES
-		card.suit = randi() % Card.NUM_SUITS
-		card.face_up = face_up
+func build():
+	for suit in Card.NUM_SUITS:
+		for val in Card.NUM_VALUES:
+			var card : Card = preload("res://core/card/Card.tscn").instance()
+			card.suit = suit
+			card.value = val
+			add_card(card)
+			
 
-		add_card(card)
+func shuffle():
+	cards.shuffle()
+	recalculate_z_indices()
+	
+
+func recalculate_z_indices():
+	for i in cards.size():
+		cards[i].z_index = i
 
 
 func get_card(index : int) -> Card:
@@ -63,13 +71,12 @@ func on_card_added(card : Card):
 
 
 func remove_card(index : int) -> Card:
-	recalculate_z_indices(index)
-	
 	var card : Card = cards[index]
 	card.z_index = 0
 	
 	cards.erase(card)
 	cards_node.remove_child(card)
+	recalculate_z_indices()
 	
 	on_card_removed(index, card)
 	get_tree().call_group("Deck", "_on_deck_card_removed", uid, index, card)
@@ -78,11 +85,6 @@ func remove_card(index : int) -> Card:
 
 func on_card_removed(index : int, card : Card):
 	pass
-	
-
-func recalculate_z_indices(removed_index : int):
-	for i in range(removed_index + 1, cards.size()):
-		cards[i].z_index = i - 1
 
 
 func get_card_relative_position(card : Card) -> Vector2:
