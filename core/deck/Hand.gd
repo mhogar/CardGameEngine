@@ -11,9 +11,9 @@ var hovered_card_indices := []
 func adjust_spacing():
 	tween.remove_all()
 	
-	var spacing := MAX_WIDTH / (num_cards() + 1)
-	for i in num_cards():
-		var card := get_card(i)
+	var spacing := MAX_WIDTH / (cards.size() + 1)
+	for i in cards.size():
+		var card : Card = cards[i]
 		
 		var start_pos := card.position.x
 		var new_pos : float = spacing * (i + 1) - (MAX_WIDTH / 2.0)
@@ -40,11 +40,11 @@ func select_card(index : int):
 	var old_index := selected_card_index
 	selected_card_index = index
 	
-	if old_index >= 0 && old_index < num_cards():
-		get_card(old_index).play_hover_anim(true)
+	if old_index >= 0 && old_index < cards.size():
+		cards[old_index].play_hover_anim(true)
 	
 	if selected_card_index >= 0:
-		get_card(index).play_hover_anim()
+		cards[index].play_hover_anim()
 		emit_signal("selected_card_changed", self, selected_card_index)
 
 

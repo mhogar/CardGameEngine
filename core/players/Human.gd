@@ -27,7 +27,7 @@ func select_card(deck : Deck):
 
 func set_show_outline(deck : Deck, val : bool):
 	if deck is Hand:
-		for card in deck.get_cards():
+		for card in deck.cards:
 			card.set_show_outline(val)
 	else:
 		deck.get_top_card().set_show_outline(val)

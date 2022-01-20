@@ -6,6 +6,7 @@ signal selected_card_changed(deck, card_index)
 onready var cards_node := $Cards
 
 var uid : int
+var cards := []
 var selected_card_index : int = -1
 
 
@@ -24,36 +25,33 @@ func build(num_cards : int, face_up : bool = false):
 		add_card(card)
 
 
-func num_cards() -> int:
-	return cards_node.get_child_count()
-
-
-func get_cards() -> Array:
-	var foo := cards_node.get_children()
-	return foo
-
-
 func get_card(index : int) -> Card:
-	if num_cards() > 0:
-		return get_cards()[index]
-	else:
+	if index >= cards.size():
 		return null
+		
+	return cards[index]
+	
+
+func num_cards() -> int:
+	return cards.size()
 
 
 func get_top_card_index() -> int:
-	return num_cards() - 1
+	return cards.size() - 1
 
 
 func get_top_card() -> Card:
-	return get_card(get_top_card_index())
+	return cards[get_top_card_index()]
 
 
 func get_card_index(card : Card) -> int:
-	return get_cards().find(card)
+	return cards.find(card)
 
 
 func add_card(card : Card):
-	card.z_index = num_cards()
+	card.z_index = cards.size()
+	
+	cards.append(card)
 	cards_node.add_child(card)
 	
 	on_card_added(card)
@@ -67,8 +65,10 @@ func on_card_added(card : Card):
 func remove_card(index : int) -> Card:
 	recalculate_z_indices(index)
 	
-	var card := get_card(index)
+	var card : Card = cards[index]
 	card.z_index = 0
+	
+	cards.erase(card)
 	cards_node.remove_child(card)
 	
 	on_card_removed(index, card)
@@ -80,9 +80,9 @@ func on_card_removed(index : int, card : Card):
 	pass
 	
 
-func recalculate_z_indices(index : int):
-	for i in range(index + 1, num_cards()):
-		get_card(i).z_index = i - 1
+func recalculate_z_indices(removed_index : int):
+	for i in range(removed_index + 1, cards.size()):
+		cards[i].z_index = i - 1
 
 
 func get_card_relative_position(card : Card) -> Vector2:
