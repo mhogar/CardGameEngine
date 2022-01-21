@@ -9,6 +9,7 @@ export(int, 3) var suit : int
 
 onready var sprite := $Sprite
 onready var anim_player := $AnimationPlayer
+onready var collision_shape : RectangleShape2D = $Area2D/CollisionShape2D.shape
 
 const NUM_VALUES := 13
 const NUM_SUITS := 4
@@ -47,6 +48,11 @@ func play_hover_anim(backwards : bool = false):
 
 func set_show_outline(val : bool):
 	sprite.material.set_shader_param("show_outline", val)
+
+
+func is_mouse_hovering():
+	var mouse_pos := get_local_mouse_position()
+	return abs(mouse_pos.x) <= collision_shape.extents.x && abs(mouse_pos.y) <= collision_shape.extents.y
 
 
 func _on_Area2D_mouse_entered():

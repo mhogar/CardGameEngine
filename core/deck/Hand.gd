@@ -45,7 +45,6 @@ func select_card(index : int):
 	
 	if selected_card_index >= 0:
 		cards[index].play_hover_anim()
-		emit_signal("selected_card_changed", self, selected_card_index)
 
 
 func unselect_card(index : int):

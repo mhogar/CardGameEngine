@@ -1,8 +1,6 @@
 extends Node2D
 class_name Deck
 
-signal selected_card_changed(deck, card_index)
-
 onready var cards_node := $Cards
 
 var uid : int
@@ -12,6 +10,10 @@ var selected_card_index : int = -1
 
 func _ready():
 	uid = UidManager.next_uid()
+
+
+func get_selected_card() -> int:
+	return selected_card_index
 
 
 func build():
