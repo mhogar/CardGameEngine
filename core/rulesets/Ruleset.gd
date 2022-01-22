@@ -2,5 +2,5 @@ extends Node
 class_name Ruleset
 	
 
-func selectable_indices(deck : Deck) -> Array:
-	return range(deck.size())
+func calc_selectable_indices(deck : Deck) -> Array:
+	return range(deck.num_cards())

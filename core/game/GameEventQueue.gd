@@ -28,6 +28,10 @@ func move_card_event() -> Node:
 
 func shuffle_deck_event() -> Node:
 	return preload("res://core/events/ShuffleDeck.tscn").instance()
+	
+
+func apply_ruleset_event() -> Node:
+	return preload("res://core/events/ApplyRuleset.tscn").instance()
 
 
 func sub_queue(name : String, type : int, num_iter : int = 1, inputs : Dictionary = {}) -> GameEventQueue:
@@ -64,14 +68,16 @@ func deal_cards(players : Array, pile : Pile, num_cards : int, event_type : int 
 
 
 func draw_cards(player : Player, pile : Pile, num_cards : int = 1, event_type : int = EventType.MAP):
-	var queue := sub_queue("DrawCards", event_type, num_cards, { "player": player })
+	var queue := sub_queue("DrawCards", event_type, num_cards, { "source_deck": pile })
 	
-	queue.merge(select_card_event(), { "source_deck": pile, "ruleset": top_card_ruleset() })
+	queue.merge(apply_ruleset_event(), { "ruleset": top_card_ruleset() })
+	queue.merge(select_card_event(), { "player": player })
 	queue.move_card(player.hand, player.reveal)
 
 
 func play_cards(player : Player, pile : Pile, num_cards : int = 1, event_type : int = EventType.MAP):
-	var queue := sub_queue("PlayCards", event_type, num_cards, { "player": player })
+	var queue := sub_queue("PlayCards", event_type, num_cards, { "source_deck": player.hand })
 	
-	queue.merge(select_card_event(), { "source_deck": player.hand, "ruleset": una_ruleset() })
+	queue.merge(apply_ruleset_event(), { "ruleset": una_ruleset() })
+	queue.merge(select_card_event(), { "player": player })
 	queue.move_card(pile, true)

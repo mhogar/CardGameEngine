@@ -2,7 +2,7 @@ extends Ruleset
 class_name UnaRuleset
 
 
-func selectable_indices(deck : Deck) -> Array:
+func calc_selectable_indices(deck : Deck) -> Array:
 	var indices := []
 	var top_card : Card = GameState.piles["play"].get_top_card()
 	
