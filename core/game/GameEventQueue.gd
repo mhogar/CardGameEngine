@@ -2,6 +2,14 @@ extends EventQueue
 class_name GameEventQueue
 
 
+func top_card_ruleset() -> Node:
+	return preload("res://core/rulesets/TopCardRuleset.tscn").instance()
+
+
+func una_ruleset() -> Node:
+	return preload("res://core/rulesets/UnaRuleset.tscn").instance()
+
+
 func select_card_event() -> Node:
 	return preload("res://core/events/SelectCard.tscn").instance()
 
@@ -52,18 +60,18 @@ func deal_cards(players : Array, pile : Pile, num_cards : int, event_type : int 
 	var queue := sub_queue("DealCards", event_type, num_cards, { "source_deck": pile })
 	
 	for player in players:
-		queue.move_top_card(player.hand, player is HumanPlayer, EventType.MERGE)
+		queue.move_top_card(player.hand, player.reveal, EventType.MERGE)
 
 
 func draw_cards(player : Player, pile : Pile, num_cards : int = 1, event_type : int = EventType.MAP):
 	var queue := sub_queue("DrawCards", event_type, num_cards, { "player": player })
 	
-	queue.merge(select_card_event(), { "source_deck": pile })
-	queue.move_card(player.hand, player is HumanPlayer)
+	queue.merge(select_card_event(), { "source_deck": pile, "ruleset": top_card_ruleset() })
+	queue.move_card(player.hand, player.reveal)
 
 
 func play_cards(player : Player, pile : Pile, num_cards : int = 1, event_type : int = EventType.MAP):
 	var queue := sub_queue("PlayCards", event_type, num_cards, { "player": player })
 	
-	queue.merge(select_card_event(), { "source_deck": player.hand })
+	queue.merge(select_card_event(), { "source_deck": player.hand, "ruleset": una_ruleset() })
 	queue.move_card(pile, true)

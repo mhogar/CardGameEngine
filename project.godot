@@ -77,7 +77,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "Ruleset",
 "language": "GDScript",
-"path": "res://core/events/Ruleset.gd"
+"path": "res://core/rulesets/Ruleset.gd"
 }, {
 "base": "Event",
 "class": "SelectCardEvent",
@@ -98,6 +98,16 @@ _global_script_classes=[ {
 "class": "Table",
 "language": "GDScript",
 "path": "res://core/game/Table.gd"
+}, {
+"base": "Ruleset",
+"class": "TopCardRuleset",
+"language": "GDScript",
+"path": "res://core/rulesets/TopCardRuleset.gd"
+}, {
+"base": "Ruleset",
+"class": "UnaRuleset",
+"language": "GDScript",
+"path": "res://core/rulesets/UnaRuleset.gd"
 } ]
 _global_script_class_icons={
 "AIPlayer": "",
@@ -117,7 +127,9 @@ _global_script_class_icons={
 "SelectCardEvent": "",
 "SelectTopCardEvent": "",
 "ShuffleDeckEvent": "",
-"Table": ""
+"Table": "",
+"TopCardRuleset": "",
+"UnaRuleset": ""
 }
 
 [application]
