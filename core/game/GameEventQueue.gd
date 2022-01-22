@@ -30,11 +30,18 @@ func sub_queue(name : String, type : int, num_iter : int = 1, inputs : Dictionar
 	return queue
 	
 
-func take_from_pile(player : Player, pile : Pile, event_type : int = EventType.MAP):
-	var queue := sub_queue("TakeFromPile", event_type, 1, { "source_deck": pile })
+func move_card(dest : Deck, reveal : bool = false, event_type : int = EventType.MAP):
+	var queue := sub_queue("MoveCard", event_type, 1)
 	
-	if player is HumanPlayer: queue.merge(reveal_card_event())
-	queue.map(move_card_event(), { "dest_deck": player.hand })
+	if reveal: queue.merge(reveal_card_event())
+	queue.map(move_card_event(), { "dest_deck": dest })
+
+
+func move_top_card(dest : Deck, reveal : bool = false, event_type : int = EventType.MAP):
+	var queue := sub_queue("MoveTopCard", event_type, 1)
+	
+	queue.merge(select_top_card_event())
+	queue.move_card(dest, reveal)
 
 
 func shuffle_pile(pile : Pile, event_type : int = EventType.MAP):
@@ -45,20 +52,18 @@ func deal_cards(players : Array, pile : Pile, num_cards : int, event_type : int 
 	var queue := sub_queue("DealCards", event_type, num_cards, { "source_deck": pile })
 	
 	for player in players:
-		queue.merge(select_top_card_event())
-		queue.take_from_pile(player, pile, EventType.MERGE)
+		queue.move_top_card(player.hand, player is HumanPlayer, EventType.MERGE)
 
 
 func draw_cards(player : Player, pile : Pile, num_cards : int = 1, event_type : int = EventType.MAP):
 	var queue := sub_queue("DrawCards", event_type, num_cards, { "player": player })
 	
 	queue.merge(select_card_event(), { "source_deck": pile })
-	queue.take_from_pile(player, pile)
+	queue.move_card(player.hand, player is HumanPlayer)
 
 
 func play_cards(player : Player, pile : Pile, num_cards : int = 1, event_type : int = EventType.MAP):
 	var queue := sub_queue("PlayCards", event_type, num_cards, { "player": player })
 	
 	queue.merge(select_card_event(), { "source_deck": player.hand })
-	queue.merge(reveal_card_event())
-	queue.map(move_card_event(), { "dest_deck": pile })
+	queue.move_card(pile, true)

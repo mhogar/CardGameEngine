@@ -74,6 +74,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://core/events/RevealCard.gd"
 }, {
+"base": "Node",
+"class": "Ruleset",
+"language": "GDScript",
+"path": "res://core/events/Ruleset.gd"
+}, {
 "base": "Event",
 "class": "SelectCardEvent",
 "language": "GDScript",
@@ -108,6 +113,7 @@ _global_script_class_icons={
 "Pile": "",
 "Player": "",
 "RevealCardEvent": "",
+"Ruleset": "",
 "SelectCardEvent": "",
 "SelectTopCardEvent": "",
 "ShuffleDeckEvent": "",
@@ -123,6 +129,7 @@ config/icon="res://icon.png"
 [autoload]
 
 UidManager="*res://core/UIDManager.gd"
+GameState="*res://core/GameState.gd"
 
 [display]
 
