@@ -10,7 +10,7 @@
 [sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
 shader = ExtResource( 2 )
-shader_param/line_color = Color( 1, 0, 1, 1 )
+shader_param/line_color = Color( 1, 1, 0, 1 )
 shader_param/show_outline = false
 
 [sub_resource type="Animation" id=3]
@@ -29,7 +29,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 34.8503, 47.3598 )
+extents = Vector2( 35.9811, 48.617 )
 
 [node name="Card" type="Node2D"]
 material = SubResource( 1 )

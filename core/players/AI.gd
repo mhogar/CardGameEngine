@@ -7,8 +7,6 @@ var rng : RandomNumberGenerator
 func _ready():
 	rng = RandomNumberGenerator.new()
 	rng.randomize()
-	
-	reveal = true
 
 
 func select_card(deck : Deck, indices : Array):
