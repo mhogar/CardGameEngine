@@ -5,5 +5,3 @@
 
 [node name="EventQueue" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-
-[node name="Events" type="Node" parent="." index="0"]

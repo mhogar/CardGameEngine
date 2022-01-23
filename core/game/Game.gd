@@ -3,7 +3,7 @@ class_name Game
 
 signal queue_finished
 
-onready var event_queue : GameEventQueue = $GameLoop
+onready var event_queue : EventQueue = $GameLoop
 onready var table : Table = $Table
 	
 
