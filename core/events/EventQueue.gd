@@ -2,6 +2,7 @@ extends Event
 class_name EventQueue
 
 var num_iterations : int
+var break_triggered := false
 
 var current_event_index : int
 var current_iter : int
@@ -40,7 +41,7 @@ func execute(inputs : Dictionary):
 func execute_next(inputs : Dictionary):
 	current_event_index += 1
 	
-	if current_event_index >= get_child_count():
+	if break_triggered || current_event_index >= get_child_count():
 		end_pipeline(inputs)
 		return
 		
@@ -54,11 +55,12 @@ func execute_next(inputs : Dictionary):
 func end_pipeline(outputs : Dictionary):
 	current_iter += 1
 	
-	if current_iter >= num_iterations:
-		current_iter = 0
-		emit_signal("completed", self, outputs)
-	else:
+	if !break_triggered && (num_iterations < 1 || current_iter < num_iterations):
 		execute(init_inputs)
+	else:
+		current_iter = 0
+		break_triggered = false
+		emit_signal("completed", self, outputs)
 
 
 func _on_event_completed(event : Event, outputs : Dictionary):

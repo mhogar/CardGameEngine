@@ -10,7 +10,7 @@ export(Dictionary) var static_args : Dictionary
 
 
 func execute(inputs : Dictionary):
-	pass
+	emit_signal("completed", self, {})
 	
 
 func merge_inputs(inputs1 : Dictionary, inputs2 : Dictionary):

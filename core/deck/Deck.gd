@@ -44,6 +44,10 @@ func get_card(index : int) -> Card:
 
 func num_cards() -> int:
 	return cards.size()
+	
+
+func is_empty() -> bool:
+	return cards.empty()
 
 
 func get_top_card_index() -> int:
@@ -65,7 +69,6 @@ func add_card(card : Card):
 	cards_node.add_child(card)
 	
 	on_card_added(card)
-	get_tree().call_group("Deck", "_on_deck_card_added", uid, card)
 
 
 func on_card_added(card : Card):
@@ -81,7 +84,6 @@ func remove_card(index : int) -> Card:
 	recalculate_z_indices()
 	
 	on_card_removed(index, card)
-	get_tree().call_group("Deck", "_on_deck_card_removed", uid, index, card)
 	return card
 
 

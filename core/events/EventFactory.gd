@@ -2,13 +2,12 @@ extends Node
 class_name EventFactory
 
 
-func merge_inputs(inputs1 : Dictionary, inputs2 : Dictionary):
-	var new_inputs = inputs1.duplicate()
-	
-	for key in inputs2:
-		new_inputs[key] = inputs2[key]
-		
-	return new_inputs
+func top_card_ruleset() -> Node:
+	return preload("res://core/rulesets/TopCardRuleset.tscn").instance()
+
+
+func una_ruleset() -> Node:
+	return preload("res://core/rulesets/UnaRuleset.tscn").instance()
 
 
 func create_event(event : Event, args : Dictionary = {}) -> Event:
@@ -16,12 +15,8 @@ func create_event(event : Event, args : Dictionary = {}) -> Event:
 	return event
 
 
-func top_card_ruleset() -> Node:
-	return preload("res://core/rulesets/TopCardRuleset.tscn").instance()
-
-
-func una_ruleset() -> Node:
-	return preload("res://core/rulesets/UnaRuleset.tscn").instance()
+func null_event() -> Event:
+	return create_event(preload("res://core/events/Event.tscn").instance())
 
 
 func select_card_event(args : Dictionary = {}) -> Event:
@@ -52,10 +47,21 @@ func has_selectable_indices_condition(args : Dictionary = {}) -> Event:
 	return create_event(preload("res://core/events/conditional/HasSelectableIndices.tscn").instance(), args)
 
 
+func deck_empty_condition(args : Dictionary = {}) -> Event:
+	return create_event(preload("res://core/events/conditional/EmptyDeck.tscn").instance(), args)
+
+
 func event_queue(name : String, num_iter : int = 1, args : Dictionary = {}) -> EventQueue:
-	var queue : EventQueue = create_event(load("res://core/events/EventQueue.tscn").instance(), merge_inputs({ "num_iter": num_iter }, args))
+	var queue : EventQueue = load("res://core/events/EventQueue.tscn").instance()
 	queue.name = name
+	queue.static_args = queue.merge_inputs({ "num_iter": num_iter }, args)
 	return queue
+	
+
+func break_queue(target_queue : EventQueue) -> Event:
+	var event : Event = preload("res://core/events/BreakQueue.tscn").instance()
+	event.target_queue = target_queue
+	return event
 
 
 func move_card(dest : Deck, reveal : bool = false) -> EventQueue:
@@ -112,3 +118,9 @@ func play_cards(player : Player, pile : Pile, cant_play_event : Event, num_cards
 	queue.map(event)
 	
 	return queue
+	
+
+func check_deck_empty(deck : Deck, is_empty_event : Event) -> Event:
+	var event := deck_empty_condition({ "source_deck": deck })
+	event.init(is_empty_event, null_event())
+	return event
