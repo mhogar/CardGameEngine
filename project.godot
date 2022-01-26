@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://core/events/BreakQueue.gd"
 }, {
+"base": "Event",
+"class": "BuildDeckEvent",
+"language": "GDScript",
+"path": "res://core/events/BuildDeck.gd"
+}, {
 "base": "Node2D",
 "class": "Card",
 "language": "GDScript",
@@ -63,6 +68,11 @@ _global_script_classes=[ {
 "class": "Game",
 "language": "GDScript",
 "path": "res://core/game/Game.gd"
+}, {
+"base": "Resource",
+"class": "GameSchematic",
+"language": "GDScript",
+"path": "res://core/schematics/game_schematic.gd"
 }, {
 "base": "Deck",
 "class": "Hand",
@@ -138,6 +148,7 @@ _global_script_class_icons={
 "AIPlayer": "",
 "ApplyRulesetEvent": "",
 "BreakQueueEvent": "",
+"BuildDeckEvent": "",
 "Card": "",
 "ConditionalEvent": "",
 "Deck": "",
@@ -146,6 +157,7 @@ _global_script_class_icons={
 "EventFactory": "",
 "EventQueue": "",
 "Game": "",
+"GameSchematic": "",
 "Hand": "",
 "HasSelectableIndicesCondition": "",
 "HumanPlayer": "",

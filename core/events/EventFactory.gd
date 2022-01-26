@@ -39,6 +39,10 @@ func shuffle_deck_event(args : Dictionary = {}) -> Event:
 	return create_event(preload("res://core/events/ShuffleDeck.tscn").instance(), args)
 	
 
+func build_deck_event(args : Dictionary = {}) -> Event:
+	return create_event(preload("res://core/events/BuildDeck.tscn").instance(), args)
+	
+
 func apply_ruleset_event(args : Dictionary = {}) -> Event:
 	return create_event(preload("res://core/events/ApplyRuleset.tscn").instance(), args)
 	
@@ -84,6 +88,10 @@ func move_top_card(dest : Deck, reveal : bool = false) -> EventQueue:
 
 func shuffle_pile(pile : Pile) -> Event:
 	return shuffle_deck_event({ "source_deck": pile })
+	
+
+func build_pile(pile : Pile) -> Event:
+	return build_deck_event({ "source_deck": pile })
 
 
 func deal_cards(players : Array, pile : Pile, num_cards : int) -> EventQueue:

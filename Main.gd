@@ -3,6 +3,8 @@ extends Node2D
 onready var game : Game = $Game
 onready var factory : EventFactory = $EventFactory
 
+var schematic : GameSchematic = preload("res://core/schematics/Una.tres")
+
 
 func _ready():
 	randomize()
@@ -11,15 +13,16 @@ func _ready():
 
 
 func create_game():
-	setup_table(game.table)
+	setup_table(game.table, 2)
 	build_event_queue(game.event_queue)
 	
 
-func setup_table(table : Table):
-	table.add_new_AI_player()
+func setup_table(table : Table, num_players : int):
+	for i in range(1, num_players):
+		table.add_new_AI_player()
 	
-	table.add_new_pile("play", Vector2(-0.5, 0.0))
-	table.add_new_pile("draw", Vector2(0.5, 0.0)).build()
+	for key in schematic.table:
+		table.add_new_pile(key, schematic.table[key])
 	
 	table.finalize(get_viewport().size)
 	
@@ -29,6 +32,7 @@ func build_event_queue(queue : EventQueue):
 	var play_pile : Pile = GameState.piles["play"]
 	var draw_pile : Pile = GameState.piles["draw"]
 	
+	queue.map(factory.build_pile(draw_pile))
 	queue.map(factory.shuffle_pile(draw_pile))
 	queue.map(factory.deal_cards(players, draw_pile, 5))
 	queue.map(factory.move_top_card(play_pile, true))
