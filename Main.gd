@@ -13,19 +13,12 @@ func _ready():
 
 
 func create_game():
-	setup_table(game.table, 2)
-	build_event_queue(game.event_queue)
+	schematic.setup_table(game.table, 2)
+	game.table.finalize(get_viewport().size)
 	
+	schematic.build_event_queue(game.event_queue)
+	#build_event_queue(game.event_queue)
 
-func setup_table(table : Table, num_players : int):
-	for i in range(1, num_players):
-		table.add_new_AI_player()
-	
-	for key in schematic.table:
-		table.add_new_pile(key, schematic.table[key])
-	
-	table.finalize(get_viewport().size)
-	
 
 func build_event_queue(queue : EventQueue):
 	var players := GameState.players
@@ -35,7 +28,7 @@ func build_event_queue(queue : EventQueue):
 	queue.map(factory.build_pile(draw_pile))
 	queue.map(factory.shuffle_pile(draw_pile))
 	queue.map(factory.deal_cards(players, draw_pile, 5))
-	queue.map(factory.move_top_card(play_pile, true))
+	queue.map(factory.move_top_card(draw_pile, play_pile, true))
 
 	var play_loop := factory.event_queue("PlayLoop", 0)
 	queue.map(play_loop)

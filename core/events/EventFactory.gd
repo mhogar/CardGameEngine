@@ -77,10 +77,10 @@ func move_card(dest : Deck, reveal : bool = false) -> EventQueue:
 	return queue
 
 
-func move_top_card(dest : Deck, reveal : bool = false) -> EventQueue:
+func move_top_card(src : Deck, dest : Deck, reveal : bool = false) -> EventQueue:
 	var queue := event_queue("MoveTopCard", 1)
 	
-	queue.merge(select_top_card_event())
+	queue.merge(select_top_card_event({ "source_deck": src }))
 	queue.map(move_card(dest, reveal))
 	
 	return queue
