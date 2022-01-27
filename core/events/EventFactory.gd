@@ -94,11 +94,11 @@ func build_pile(pile : Pile) -> Event:
 	return build_deck_event({ "source_deck": pile })
 
 
-func deal_cards(players : Array, pile : Pile, num_cards : int) -> EventQueue:
-	var queue := event_queue("DealCards", num_cards, { "source_deck": pile })
+func deal_cards(pile : Pile, num_cards : int) -> EventQueue:
+	var queue := event_queue("DealCards", num_cards)
 	
-	for player in players:
-		queue.merge(move_top_card(player.hand, player.reveal))
+	for player in GameState.players:
+		queue.merge(move_top_card(pile, player.hand, player.reveal))
 		
 	return queue
 

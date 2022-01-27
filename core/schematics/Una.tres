@@ -10,7 +10,15 @@ table_layout = {
 "draw": Vector2( 0.5, 0 ),
 "play": Vector2( -0.5, 0 )
 }
-event_script = "build_pile : draw
+event_script = "queue : $draw_card
+	draw_cards : ~, draw
+	
+queue : $play_loop
+	play_cards : ~, play, $draw_card
+	check_empty_hand : ~, break
+
+build_pile : draw
 shuffle_pile : draw
-#deal_cards : draw, 5
-move_top_card : draw, play, true"
+deal_cards : draw, 5
+move_top_card : draw, play, true	
+run : $play_loop, 0"
