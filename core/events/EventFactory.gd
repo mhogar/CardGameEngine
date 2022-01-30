@@ -58,6 +58,10 @@ func select_player_hand_event(deck_type : int, args : Dictionary = {}) -> Event:
 	return event 
 
 
+func next_turn_event(args : Dictionary = {}) -> Event:
+	return init_event(preload("res://core/events/player/NextTurn.tscn").instance(), args)
+
+
 func apply_ruleset_event(args : Dictionary = {}) -> Event:
 	return init_event(preload("res://core/events/ApplyRuleset.tscn").instance(), args)
 	
@@ -116,6 +120,10 @@ func deal_cards(pile : Pile, num_cards : int) -> EventQueue:
 		queue.merge(move_top_card(pile, player.hand, player.reveal))
 		
 	return queue
+	
+
+func next_turn() -> Event:
+	return next_turn_event()
 
 
 func draw_cards(player_index : int, pile : Pile, num_cards : int = 1) -> EventQueue:

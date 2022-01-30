@@ -34,3 +34,5 @@ func build_event_queue(queue : EventQueue):
 	
 	var break_queue := factory.break_queue(play_loop)
 	play_loop.map(factory.check_player_hand_empty(0, break_queue))
+
+	play_loop.map(factory.next_turn())
