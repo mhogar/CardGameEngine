@@ -9,7 +9,7 @@ func _ready():
 	reveal = true
 
 
-func _process(delta):
+func _process(_delta):
 	if target_deck != null && Input.is_action_just_pressed("confirm_card"):
 		var index := target_deck.get_selected_card()
 		if index in selectable_indices:

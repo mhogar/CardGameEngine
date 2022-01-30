@@ -71,7 +71,7 @@ func add_card(card : Card):
 	on_card_added(card)
 
 
-func on_card_added(card : Card):
+func on_card_added(_card : Card):
 	pass
 
 
@@ -87,7 +87,7 @@ func remove_card(index : int) -> Card:
 	return card
 
 
-func on_card_removed(index : int, card : Card):
+func on_card_removed(_index : int, _card : Card):
 	pass
 
 

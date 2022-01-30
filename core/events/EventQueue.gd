@@ -48,7 +48,7 @@ func execute_next(inputs : Dictionary):
 	var event : Event = get_child(current_event_index)
 	next_inputs = merge_inputs(inputs, event.static_args)
 	
-	event.connect("completed", self, "_on_event_completed", [], CONNECT_ONESHOT)
+	event.connect("completed", self, "_on_event_completed", [], CONNECT_DEFERRED | CONNECT_ONESHOT)
 	event.execute(next_inputs)
 
 

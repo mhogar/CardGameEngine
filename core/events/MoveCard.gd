@@ -25,7 +25,7 @@ func execute(inputs : Dictionary):
 	card.z_index = 1000
 	
 	tween.interpolate_property(card, "position", relative_pos, get_deck_relative_position(dest_deck), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.connect("tween_all_completed", self, "_on_Tween_tween_all_completed", [table, dest_deck, card], CONNECT_ONESHOT)
+	tween.connect("tween_all_completed", self, "_on_Tween_tween_all_completed", [table, dest_deck, card], CONNECT_DEFERRED | CONNECT_ONESHOT)
 	tween.start()
 
 

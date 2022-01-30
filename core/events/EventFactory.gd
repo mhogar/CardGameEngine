@@ -10,49 +10,64 @@ func una_ruleset() -> Node:
 	return preload("res://core/rulesets/UnaRuleset.tscn").instance()
 
 
-func create_event(event : Event, args : Dictionary = {}) -> Event:
+func init_event(event : Event, args : Dictionary = {}) -> Event:
 	event.static_args = args
 	return event
 
 
+func init_conditional_event(event : ConditionalEvent, true_event : Event, false_event : Event, args : Dictionary = {}) -> Event:
+	event.init(true_event, false_event)
+	return init_event(event, args)
+
+
 func null_event() -> Event:
-	return create_event(preload("res://core/events/Event.tscn").instance())
+	return init_event(preload("res://core/events/Event.tscn").instance())
 
 
 func select_card_event(args : Dictionary = {}) -> Event:
-	return create_event(preload("res://core/events/SelectCard.tscn").instance(), args)
+	return init_event(preload("res://core/events/SelectCard.tscn").instance(), args)
 
 
 func select_top_card_event(args : Dictionary = {}) -> Event:
-	return create_event(preload("res://core/events/SelectTopCard.tscn").instance(), args)
+	return init_event(preload("res://core/events/SelectTopCard.tscn").instance(), args)
 
 
 func reveal_card_event(args : Dictionary = {}) -> Event:
-	return create_event(preload("res://core/events/RevealCard.tscn").instance(), args)
+	return init_event(preload("res://core/events/RevealCard.tscn").instance(), args)
 	
 
 func move_card_event(args : Dictionary = {}) -> Event:
-	return create_event(preload("res://core/events/MoveCard.tscn").instance(), args)
+	return init_event(preload("res://core/events/MoveCard.tscn").instance(), args)
 	
 
 func shuffle_deck_event(args : Dictionary = {}) -> Event:
-	return create_event(preload("res://core/events/ShuffleDeck.tscn").instance(), args)
+	return init_event(preload("res://core/events/ShuffleDeck.tscn").instance(), args)
 	
 
 func build_deck_event(args : Dictionary = {}) -> Event:
-	return create_event(preload("res://core/events/BuildDeck.tscn").instance(), args)
+	return init_event(preload("res://core/events/BuildDeck.tscn").instance(), args)
+
+
+func select_player_event(args : Dictionary = {}) -> Event:
+	return init_event(preload("res://core/events/player/SelectPlayer.tscn").instance(), args)
 	
+
+func select_player_hand_event(deck_type : int, args : Dictionary = {}) -> Event:
+	var event := init_event(preload("res://core/events/player/SelectPlayerHand.tscn").instance(), args)
+	event.deck_type = deck_type
+	return event 
+
 
 func apply_ruleset_event(args : Dictionary = {}) -> Event:
-	return create_event(preload("res://core/events/ApplyRuleset.tscn").instance(), args)
+	return init_event(preload("res://core/events/ApplyRuleset.tscn").instance(), args)
 	
 
-func has_selectable_indices_condition(args : Dictionary = {}) -> Event:
-	return create_event(preload("res://core/events/conditional/HasSelectableIndices.tscn").instance(), args)
+func has_selectable_indices_condition(has_indices_event : Event, no_indices_event : Event, args : Dictionary = {}) -> Event:
+	return init_conditional_event(preload("res://core/events/conditional/HasSelectableIndices.tscn").instance(), has_indices_event, no_indices_event, args)
 
 
-func deck_empty_condition(args : Dictionary = {}) -> Event:
-	return create_event(preload("res://core/events/conditional/EmptyDeck.tscn").instance(), args)
+func deck_empty_condition(is_empty_event : Event, args : Dictionary = {}) -> Event:
+	return init_conditional_event(preload("res://core/events/conditional/EmptyDeck.tscn").instance(), is_empty_event, null_event(), args)
 
 
 func event_queue(name : String, num_iter : int = 1, args : Dictionary = {}) -> EventQueue:
@@ -103,32 +118,44 @@ func deal_cards(pile : Pile, num_cards : int) -> EventQueue:
 	return queue
 
 
-func draw_cards(player : Player, pile : Pile, num_cards : int = 1) -> EventQueue:
+func draw_cards(player_index : int, pile : Pile, num_cards : int = 1) -> EventQueue:
 	var queue := event_queue("DrawCards", num_cards, { "source_deck": pile })
 	
 	queue.merge(apply_ruleset_event({ "ruleset": top_card_ruleset() }))
-	queue.merge(select_card_event({ "player": player }))
-	queue.map(move_card(player.hand, player.reveal))
+	queue.merge(select_player_event({ "player_index": player_index }))
+	queue.merge(select_card_event())
+	queue.merge(reveal_card_event())
+	queue.merge(select_player_hand_event(SelectDeckEvent.DECK_TYPE.DEST))
+	queue.map(move_card_event())
 	
 	return queue
 	
 
-func play_cards(player : Player, pile : Pile, cant_play_event : Event, num_cards : int = 1) -> EventQueue:
-	var queue := event_queue("TryPlayCards", num_cards, { "source_deck": player.hand })
+func play_cards(player_index : int, pile : Pile, cant_play_event : Event) -> EventQueue:
+	var queue := event_queue("TryPlayCards")
+	
+	queue.merge(select_player_event({ "player_index": player_index }))
+	queue.merge(select_player_hand_event(SelectDeckEvent.DECK_TYPE.SOURCE))
 	queue.merge(apply_ruleset_event({ "ruleset": una_ruleset() }))
 	
 	var play_queue := event_queue("PlayCards")
-	play_queue.merge(select_card_event({ "player": player }))
+	play_queue.merge(select_card_event())
 	play_queue.map(move_card(pile, true))
 	
-	var event := has_selectable_indices_condition()
-	event.init(play_queue, cant_play_event)
-	queue.map(event)
+	queue.map(has_selectable_indices_condition(play_queue, cant_play_event))
 	
 	return queue
 	
 
 func check_deck_empty(deck : Deck, is_empty_event : Event) -> Event:
-	var event := deck_empty_condition({ "source_deck": deck })
-	event.init(is_empty_event, null_event())
-	return event
+	return deck_empty_condition(is_empty_event, { "source_deck": deck })
+	
+
+func check_player_hand_empty(player_index : int, is_empty_event : Event) -> EventQueue:
+	var queue := event_queue("CheckPlayerHandEmpty")
+	
+	queue.merge(select_player_event({ "player_index": player_index }))
+	queue.merge(select_player_hand_event(SelectDeckEvent.DECK_TYPE.SOURCE))
+	queue.map(deck_empty_condition(is_empty_event))
+	
+	return queue

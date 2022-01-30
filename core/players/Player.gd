@@ -8,5 +8,5 @@ onready var hand : Hand = $Hand
 var reveal := false
 
 
-func select_card(deck : Deck, indices : Array):
+func select_card(_deck : Deck, _indices : Array):
 	pass

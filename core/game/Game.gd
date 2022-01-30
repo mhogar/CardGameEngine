@@ -27,11 +27,11 @@ func start():
 
 func build_game(schematic : GameSchematic, num_players : int):	
 	setup_table(schematic.table_layout, num_players)
-	build_event_queue(schematic.event_script)
+	#build_event_queue(schematic.event_script)
 
 
 func setup_table(table_layout : Dictionary, num_players : int):
-	for i in range(1, num_players):
+	for _i in range(1, num_players):
 		table.add_new_AI_player()
 	
 	for key in table_layout:
@@ -113,5 +113,5 @@ func parse_bool(val : String):
 		return false
 
 
-func _on_GameLoop_completed(event, outputs):
+func _on_GameLoop_completed(_event, _outputs):
 	emit_signal("queue_finished")
