@@ -27,7 +27,7 @@ func start():
 
 func build_game(schematic : GameSchematic, num_players : int):	
 	setup_table(schematic.table_layout, num_players)
-	#build_event_queue(schematic.event_script)
+	build_event_queue(schematic.event_script)
 
 
 func setup_table(table_layout : Dictionary, num_players : int):

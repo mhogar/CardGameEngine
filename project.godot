@@ -109,11 +109,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://core/players/Player.gd"
 }, {
-"base": "Event",
-"class": "RevealCardEvent",
-"language": "GDScript",
-"path": "res://core/events/RevealCard.gd"
-}, {
 "base": "Node",
 "class": "Ruleset",
 "language": "GDScript",
@@ -185,7 +180,6 @@ _global_script_class_icons={
 "NextTurnEvent": "",
 "Pile": "",
 "Player": "",
-"RevealCardEvent": "",
 "Ruleset": "",
 "SelectCardEvent": "",
 "SelectDeckEvent": "",

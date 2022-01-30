@@ -22,11 +22,14 @@ func add_player(player : Player):
 	add_child(player)
 
 
-func add_new_pile(name : String, pos : Vector2) -> Pile:
+func add_new_pile(name : String, pos : Vector2, is_face_up : bool = false) -> Pile:
 	var pile : Pile = preload("res://core/deck/Pile.tscn").instance()
 	pile.position = pos
+	pile.is_face_up = is_face_up
+	
 	GameState.piles[name] = pile
 	add_child(pile)
+	
 	return pile
 	
 

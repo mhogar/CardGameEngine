@@ -30,10 +30,6 @@ func select_card_event(args : Dictionary = {}) -> Event:
 
 func select_top_card_event(args : Dictionary = {}) -> Event:
 	return init_event(preload("res://core/events/SelectTopCard.tscn").instance(), args)
-
-
-func reveal_card_event(args : Dictionary = {}) -> Event:
-	return init_event(preload("res://core/events/RevealCard.tscn").instance(), args)
 	
 
 func move_card_event(args : Dictionary = {}) -> Event:
@@ -87,20 +83,15 @@ func break_queue(target_queue : EventQueue) -> Event:
 	return event
 
 
-func move_card(dest : Deck, reveal : bool = false) -> EventQueue:
-	var queue := event_queue("MoveCard", 1)
-	
-	if reveal: queue.merge(reveal_card_event())
-	queue.map(move_card_event({ "dest_deck": dest }))
-	
-	return queue
+func move_card(dest : Deck) -> Event:
+	return move_card_event({ "dest_deck": dest })
 
 
-func move_top_card(src : Deck, dest : Deck, reveal : bool = false) -> EventQueue:
+func move_top_card(src : Deck, dest : Deck) -> EventQueue:
 	var queue := event_queue("MoveTopCard", 1)
 	
 	queue.merge(select_top_card_event({ "source_deck": src }))
-	queue.map(move_card(dest, reveal))
+	queue.map(move_card(dest))
 	
 	return queue
 	
@@ -117,7 +108,7 @@ func deal_cards(pile : Pile, num_cards : int) -> EventQueue:
 	var queue := event_queue("DealCards", num_cards)
 	
 	for player in GameState.players:
-		queue.merge(move_top_card(pile, player.hand, player.reveal))
+		queue.merge(move_top_card(pile, player.hand))
 		
 	return queue
 	
@@ -132,7 +123,6 @@ func draw_cards(player_index : int, pile : Pile, num_cards : int = 1) -> EventQu
 	queue.merge(apply_ruleset_event({ "ruleset": top_card_ruleset() }))
 	queue.merge(select_player_event({ "player_index": player_index }))
 	queue.merge(select_card_event())
-	queue.merge(reveal_card_event())
 	queue.merge(select_player_hand_event(SelectDeckEvent.DECK_TYPE.DEST))
 	queue.map(move_card_event())
 	
@@ -148,7 +138,7 @@ func play_cards(player_index : int, pile : Pile, cant_play_event : Event) -> Eve
 	
 	var play_queue := event_queue("PlayCards")
 	play_queue.merge(select_card_event())
-	play_queue.map(move_card(pile, true))
+	play_queue.map(move_card(pile))
 	
 	queue.map(has_selectable_indices_condition(play_queue, cant_play_event))
 	

@@ -3,6 +3,8 @@ class_name Deck
 
 onready var cards_node := $Cards
 
+export var is_face_up := false
+
 var uid : int
 var cards := []
 var selected_card_index : int = -1

@@ -23,6 +23,7 @@ func execute(inputs : Dictionary):
 	card.reset()
 	card.position = relative_pos
 	card.z_index = 1000
+	card.set_face_up(dest_deck.is_face_up)
 	
 	tween.interpolate_property(card, "position", relative_pos, get_deck_relative_position(dest_deck), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.connect("tween_all_completed", self, "_on_Tween_tween_all_completed", [table, dest_deck, card], CONNECT_DEFERRED | CONNECT_ONESHOT)
