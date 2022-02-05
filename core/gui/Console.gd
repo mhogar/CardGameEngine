@@ -3,6 +3,7 @@ class_name Console
 
 onready var label := $RichTextLabel
 
+const PLAYER_COLOR := "teal"
 const BLACK_SUIT_COLOR := "silver"
 const RED_SUIT_COLOR := "red"
 
@@ -14,7 +15,12 @@ func colored_text(color : String, text : String) -> String:
 # Console group
 func log_message(message : String):
 	label.bbcode_text += "> %s\n" % message
-	
+
+
+# Console group
+func log_card_drawn(player : Player):
+	log_message("%s drew a card" % colored_text(PLAYER_COLOR, player.player_name))
+
 	
 # Console group
 func log_card_played(player : Player, card : Card):
@@ -50,4 +56,4 @@ func log_card_played(player : Player, card : Card):
 			color = BLACK_SUIT_COLOR
 			suit = "Spades"
 		
-	log_message("%s played %s" % [colored_text("teal", player.player_name), colored_text(color, "%s of %s" % [value, suit])])
+	log_message("%s played %s" % [colored_text(PLAYER_COLOR, player.player_name), colored_text(color, "%s of %s" % [value, suit])])

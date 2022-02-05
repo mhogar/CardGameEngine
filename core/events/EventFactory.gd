@@ -39,6 +39,10 @@ func move_card_event(args : Dictionary = {}) -> Event:
 func log_card_played_event(args : Dictionary = {}) -> Event:
 	return init_event(preload("res://core/events/card/LogCardPlayed.tscn").instance(), args)
 	
+	
+func log_card_drawn_event(args : Dictionary = {}) -> Event:
+	return init_event(preload("res://core/events/card/LogCardDrawn.tscn").instance(), args)
+	
 
 func shuffle_deck_event(args : Dictionary = {}) -> Event:
 	return init_event(preload("res://core/events/deck/ShuffleDeck.tscn").instance(), args)
@@ -128,6 +132,7 @@ func draw_cards(player_index : int, pile : Pile, num_cards : int = 1) -> EventQu
 	queue.merge(select_player_event({ "player_index": player_index }))
 	queue.merge(select_card_event())
 	queue.merge(select_player_hand_event(SelectDeckEvent.DECK_TYPE.DEST))
+	queue.merge(log_card_drawn_event())
 	queue.map(move_card_event())
 	
 	return queue

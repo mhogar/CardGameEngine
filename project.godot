@@ -95,6 +95,11 @@ _global_script_classes=[ {
 "path": "res://core/players/Human.gd"
 }, {
 "base": "Event",
+"class": "LogCardDrawnEvent",
+"language": "GDScript",
+"path": "res://core/events/card/LogCardDrawn.gd"
+}, {
+"base": "Event",
 "class": "LogCardEvent",
 "language": "GDScript",
 "path": "res://core/events/card/LogCardPlayed.gd"
@@ -187,6 +192,7 @@ _global_script_class_icons={
 "Hand": "",
 "HasSelectableIndicesCondition": "",
 "HumanPlayer": "",
+"LogCardDrawnEvent": "",
 "LogCardEvent": "",
 "MoveCardEvent": "",
 "NextTurnEvent": "",
