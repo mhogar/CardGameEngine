@@ -5,3 +5,4 @@
 
 [node name="AI" instance=ExtResource( 2 )]
 script = ExtResource( 1 )
+player_name = "AI"

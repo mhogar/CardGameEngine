@@ -39,6 +39,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://core/events/conditional/ConditionalEvent.gd"
 }, {
+"base": "NinePatchRect",
+"class": "Console",
+"language": "GDScript",
+"path": "res://core/gui/Console.gd"
+}, {
 "base": "Node2D",
 "class": "Deck",
 "language": "GDScript",
@@ -88,6 +93,11 @@ _global_script_classes=[ {
 "class": "HumanPlayer",
 "language": "GDScript",
 "path": "res://core/players/Human.gd"
+}, {
+"base": "Event",
+"class": "LogCardEvent",
+"language": "GDScript",
+"path": "res://core/events/card/LogCardPlayed.gd"
 }, {
 "base": "Event",
 "class": "MoveCardEvent",
@@ -166,6 +176,7 @@ _global_script_class_icons={
 "BuildDeckEvent": "",
 "Card": "",
 "ConditionalEvent": "",
+"Console": "",
 "Deck": "",
 "EmptyDeckCondition": "",
 "Event": "",
@@ -176,6 +187,7 @@ _global_script_class_icons={
 "Hand": "",
 "HasSelectableIndicesCondition": "",
 "HumanPlayer": "",
+"LogCardEvent": "",
 "MoveCardEvent": "",
 "NextTurnEvent": "",
 "Pile": "",
@@ -205,6 +217,7 @@ GameState="*res://core/GameState.gd"
 
 [display]
 
+window/size/width=1440
 window/size/height=800
 
 [input]

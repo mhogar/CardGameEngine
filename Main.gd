@@ -7,7 +7,7 @@ func _ready():
 	randomize()
 
 	#game.build_game(preload("res://core/schematics/Una.tres"), 2)
-	setup_table(game.table, 2)
+	setup_table(game.table, 4)
 	build_event_queue(game.event_queue)
 	game.start()
 

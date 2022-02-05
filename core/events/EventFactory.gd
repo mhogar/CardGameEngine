@@ -36,6 +36,10 @@ func move_card_event(args : Dictionary = {}) -> Event:
 	return init_event(preload("res://core/events/card/MoveCard.tscn").instance(), args)
 	
 
+func log_card_played_event(args : Dictionary = {}) -> Event:
+	return init_event(preload("res://core/events/card/LogCardPlayed.tscn").instance(), args)
+	
+
 func shuffle_deck_event(args : Dictionary = {}) -> Event:
 	return init_event(preload("res://core/events/deck/ShuffleDeck.tscn").instance(), args)
 	
@@ -138,6 +142,7 @@ func play_cards(player_index : int, pile : Pile, cant_play_event : Event) -> Eve
 	
 	var play_queue := event_queue("PlayCards")
 	play_queue.merge(select_card_event())
+	play_queue.merge(log_card_played_event())
 	play_queue.map(move_card(pile))
 	
 	queue.map(has_selectable_indices_condition(play_queue, cant_play_event))

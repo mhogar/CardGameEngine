@@ -13,6 +13,8 @@ func _ready():
 
 func add_new_AI_player() -> AIPlayer:
 	var ai : AIPlayer = preload("res://core/players/AI.tscn").instance()
+	ai.player_name += "%d" % GameState.players.size()
+	
 	add_player(ai)
 	return ai
 

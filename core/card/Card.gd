@@ -50,7 +50,7 @@ func set_show_outline(val : bool):
 	sprite.material.set_shader_param("show_outline", val)
 
 
-func is_mouse_hovering():
+func is_mouse_hovering() -> bool:
 	var mouse_pos := get_local_mouse_position()
 	return abs(mouse_pos.x) <= collision_shape.extents.x && abs(mouse_pos.y) <= collision_shape.extents.y
 
