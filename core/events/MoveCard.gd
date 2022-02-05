@@ -2,6 +2,16 @@ extends Event
 class_name MoveCardEvent
 
 onready var tween := $Tween
+onready var stream_player := $AudioStreamPlayer
+
+var sounds := []
+
+
+func _ready():
+	sounds.append(preload("res://assets/sounds/card/play1.wav"))
+	sounds.append(preload("res://assets/sounds/card/play2.wav"))
+	sounds.append(preload("res://assets/sounds/card/play3.wav"))
+	sounds.append(preload("res://assets/sounds/card/play4.wav"))
 
 
 func execute(inputs : Dictionary):
@@ -28,6 +38,9 @@ func execute(inputs : Dictionary):
 	tween.interpolate_property(card, "position", relative_pos, get_deck_relative_position(dest_deck), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.connect("tween_all_completed", self, "_on_Tween_tween_all_completed", [table, dest_deck, card], CONNECT_DEFERRED | CONNECT_ONESHOT)
 	tween.start()
+	
+	stream_player.stream = sounds[randi() % sounds.size()]
+	stream_player.play()
 
 
 func get_player(deck : Deck) -> Player:
