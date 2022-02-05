@@ -25,23 +25,23 @@ func null_event() -> Event:
 
 
 func select_card_event(args : Dictionary = {}) -> Event:
-	return init_event(preload("res://core/events/SelectCard.tscn").instance(), args)
+	return init_event(preload("res://core/events/card/SelectCard.tscn").instance(), args)
 
 
 func select_top_card_event(args : Dictionary = {}) -> Event:
-	return init_event(preload("res://core/events/SelectTopCard.tscn").instance(), args)
+	return init_event(preload("res://core/events/card/SelectTopCard.tscn").instance(), args)
 	
 
 func move_card_event(args : Dictionary = {}) -> Event:
-	return init_event(preload("res://core/events/MoveCard.tscn").instance(), args)
+	return init_event(preload("res://core/events/card/MoveCard.tscn").instance(), args)
 	
 
 func shuffle_deck_event(args : Dictionary = {}) -> Event:
-	return init_event(preload("res://core/events/ShuffleDeck.tscn").instance(), args)
+	return init_event(preload("res://core/events/deck/ShuffleDeck.tscn").instance(), args)
 	
 
 func build_deck_event(args : Dictionary = {}) -> Event:
-	return init_event(preload("res://core/events/BuildDeck.tscn").instance(), args)
+	return init_event(preload("res://core/events/deck/BuildDeck.tscn").instance(), args)
 
 
 func select_player_event(args : Dictionary = {}) -> Event:
@@ -59,7 +59,7 @@ func next_turn_event(args : Dictionary = {}) -> Event:
 
 
 func apply_ruleset_event(args : Dictionary = {}) -> Event:
-	return init_event(preload("res://core/events/ApplyRuleset.tscn").instance(), args)
+	return init_event(preload("res://core/events/ruleset/ApplyRuleset.tscn").instance(), args)
 	
 
 func has_selectable_indices_condition(has_indices_event : Event, no_indices_event : Event, args : Dictionary = {}) -> Event:
@@ -71,14 +71,14 @@ func deck_empty_condition(is_empty_event : Event, args : Dictionary = {}) -> Eve
 
 
 func event_queue(name : String, num_iter : int = 1, args : Dictionary = {}) -> EventQueue:
-	var queue : EventQueue = load("res://core/events/EventQueue.tscn").instance()
+	var queue : EventQueue = load("res://core/events/queue/EventQueue.tscn").instance()
 	queue.name = name
 	queue.static_args = queue.merge_inputs({ "num_iter": num_iter }, args)
 	return queue
 	
 
 func break_queue(target_queue : EventQueue) -> Event:
-	var event : Event = preload("res://core/events/BreakQueue.tscn").instance()
+	var event : Event = preload("res://core/events/queue/BreakQueue.tscn").instance()
 	event.target_queue = target_queue
 	return event
 
