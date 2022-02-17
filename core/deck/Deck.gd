@@ -4,6 +4,7 @@ class_name Deck
 onready var cards_node := $Cards
 
 export var is_face_up := false
+export var deck_name := "Deck"
 
 var uid : int
 var cards := []

@@ -1,17 +1,41 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://core/game/Table.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/light.png" type="Texture" id=1]
 [ext_resource path="res://core/game/Game.gd" type="Script" id=2]
 [ext_resource path="res://core/events/queue/EventQueue.tscn" type="PackedScene" id=3]
 [ext_resource path="res://core/events/EventFactory.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/table_tile.png" type="Texture" id=5]
+[ext_resource path="res://assets/table_tile_n.png" type="Texture" id=6]
+[ext_resource path="res://core/players/Human.tscn" type="PackedScene" id=7]
+[ext_resource path="res://core/game/GameState.tscn" type="PackedScene" id=8]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="EventFactory" parent="." instance=ExtResource( 4 )]
 
+[node name="GameState" parent="." instance=ExtResource( 8 )]
+
 [node name="GameLoop" parent="." instance=ExtResource( 3 )]
 
-[node name="Table" parent="." instance=ExtResource( 1 )]
+[node name="Table" type="Node2D" parent="."]
+
+[node name="Background" type="Sprite" parent="Table"]
+texture = ExtResource( 5 )
+normal_map = ExtResource( 6 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 2000, 1000 )
+
+[node name="Players" type="Node2D" parent="Table"]
+
+[node name="HumanPlayer" parent="Table/Players" instance=ExtResource( 7 )]
+
+[node name="Piles" type="Node2D" parent="Table"]
+
+[node name="Light2D" type="Light2D" parent="Table"]
+scale = Vector2( 1, 0.5 )
+texture = ExtResource( 1 )
+energy = 0.8
+range_height = 50.0
 
 [connection signal="completed" from="GameLoop" to="." method="_on_GameLoop_completed"]

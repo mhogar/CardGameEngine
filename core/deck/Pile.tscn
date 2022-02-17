@@ -5,3 +5,4 @@
 
 [node name="Pile" instance=ExtResource( 2 )]
 script = ExtResource( 1 )
+deck_name = "Pile"

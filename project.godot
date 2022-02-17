@@ -169,6 +169,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://core/rulesets/TopCardRuleset.gd"
 }, {
+"base": "Game",
+"class": "UnaGame",
+"language": "GDScript",
+"path": "res://core/game/Una.gd"
+}, {
 "base": "Ruleset",
 "class": "UnaRuleset",
 "language": "GDScript",
@@ -207,6 +212,7 @@ _global_script_class_icons={
 "ShuffleDeckEvent": "",
 "Table": "",
 "TopCardRuleset": "",
+"UnaGame": "",
 "UnaRuleset": ""
 }
 
