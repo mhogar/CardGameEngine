@@ -6,13 +6,8 @@ onready var cards_node := $Cards
 export var is_face_up := false
 export var deck_name := "Deck"
 
-var uid : int
 var cards := []
 var selected_card_index : int = -1
-
-
-func _ready():
-	uid = UidManager.next_uid()
 
 
 func get_selected_card() -> int:

@@ -1,20 +1,14 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/light.png" type="Texture" id=1]
 [ext_resource path="res://core/game/Game.gd" type="Script" id=2]
 [ext_resource path="res://core/events/queue/EventQueue.tscn" type="PackedScene" id=3]
-[ext_resource path="res://core/events/EventFactory.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/table_tile.png" type="Texture" id=5]
 [ext_resource path="res://assets/table_tile_n.png" type="Texture" id=6]
 [ext_resource path="res://core/players/Human.tscn" type="PackedScene" id=7]
-[ext_resource path="res://core/game/GameState.tscn" type="PackedScene" id=8]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 2 )
-
-[node name="EventFactory" parent="." instance=ExtResource( 4 )]
-
-[node name="GameState" parent="." instance=ExtResource( 8 )]
 
 [node name="GameLoop" parent="." instance=ExtResource( 3 )]
 

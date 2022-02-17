@@ -159,11 +159,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://core/events/deck/ShuffleDeck.gd"
 }, {
-"base": "Node2D",
-"class": "Table",
-"language": "GDScript",
-"path": "res://core/game/Table.gd"
-}, {
 "base": "Ruleset",
 "class": "TopCardRuleset",
 "language": "GDScript",
@@ -172,7 +167,7 @@ _global_script_classes=[ {
 "base": "Game",
 "class": "UnaGame",
 "language": "GDScript",
-"path": "res://core/game/Una.gd"
+"path": "res://core/game/una/Una.gd"
 }, {
 "base": "Ruleset",
 "class": "UnaRuleset",
@@ -210,7 +205,6 @@ _global_script_class_icons={
 "SelectPlayerHandEvent": "",
 "SelectTopCardEvent": "",
 "ShuffleDeckEvent": "",
-"Table": "",
 "TopCardRuleset": "",
 "UnaGame": "",
 "UnaRuleset": ""
@@ -224,7 +218,6 @@ config/icon="res://icon.png"
 
 [autoload]
 
-UidManager="*res://core/UIDManager.gd"
 GameState="*res://core/GameState.gd"
 
 [display]

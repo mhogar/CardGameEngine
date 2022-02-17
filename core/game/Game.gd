@@ -3,10 +3,7 @@ class_name Game
 
 signal queue_finished
 
-onready var factory := $EventFactory
-onready var game_state := $GameState
 onready var game_loop : EventQueue = $GameLoop
-
 onready var players := $Table/Players
 onready var piles := $Table/Piles
 
