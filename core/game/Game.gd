@@ -20,6 +20,14 @@ func init_game_context():
 		game_ctx.piles[pile.deck_name] = pile
 
 
+func reset():
+	for player in game_ctx.players:
+		player.hand.clear()
+	
+	for key in game_ctx.piles:
+		game_ctx.piles[key].clear()	
+
+
 func start():
 	game_loop.execute(game_ctx, { "num_iter": 1})
 

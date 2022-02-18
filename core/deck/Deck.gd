@@ -87,6 +87,13 @@ func remove_card(index : int) -> Card:
 
 func on_card_removed(_index : int, _card : Card):
 	pass
+	
+
+func clear():
+	for card in cards:
+		card.queue_free()
+	
+	cards.clear()
 
 
 func get_card_relative_position(card : Card) -> Vector2:

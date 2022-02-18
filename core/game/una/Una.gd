@@ -15,7 +15,7 @@ func build_event_queue():
 	
 	game_loop.map(factory.build_pile(draw_pile))
 	game_loop.map(factory.shuffle_pile(draw_pile))
-	game_loop.map(factory.deal_cards(game_ctx.players, draw_pile, 5))
+	game_loop.map(factory.deal_cards(game_ctx.players, draw_pile, 3))
 	game_loop.map(factory.move_top_card(draw_pile, play_pile))
 
 	var play_loop := factory.event_queue("PlayLoop", 0)
