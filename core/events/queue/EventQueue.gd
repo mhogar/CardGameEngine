@@ -7,6 +7,7 @@ var break_triggered := false
 var current_event_index : int
 var current_iter : int
 
+var game_ctx : GameContext
 var init_inputs := {}
 var next_inputs := {}
 
@@ -29,10 +30,11 @@ func merge(event : Event):
 	add_event(event, Event.EventType.MERGE)
 
 
-func execute(inputs : Dictionary):
+func execute(ctx : GameContext, inputs : Dictionary):
 	num_iterations = inputs["num_iter"]
 	
 	current_event_index = -1
+	game_ctx = ctx
 	init_inputs = inputs
 	
 	execute_next(init_inputs)
@@ -49,14 +51,14 @@ func execute_next(inputs : Dictionary):
 	next_inputs = merge_inputs(inputs, event.static_args)
 	
 	event.connect("completed", self, "_on_event_completed", [], CONNECT_DEFERRED | CONNECT_ONESHOT)
-	event.execute(next_inputs)
+	event.execute(game_ctx, next_inputs)
 
 
 func end_pipeline(outputs : Dictionary):
 	current_iter += 1
 	
 	if !break_triggered && (num_iterations < 1 || current_iter < num_iterations):
-		execute(init_inputs)
+		execute(game_ctx, init_inputs)
 	else:
 		current_iter = 0
 		break_triggered = false

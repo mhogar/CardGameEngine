@@ -9,7 +9,7 @@ export(EventType) var type : int = EventType.MAP
 export(Dictionary) var static_args : Dictionary
 
 
-func execute(_inputs : Dictionary):
+func execute(_ctx : GameContext, _inputs : Dictionary):
 	emit_signal("completed", self, {})
 	
 

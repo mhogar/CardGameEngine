@@ -14,7 +14,7 @@ func _ready():
 	sounds.append(preload("res://assets/sounds/card/play4.wav"))
 
 
-func execute(inputs : Dictionary):
+func execute(_ctx : GameContext, inputs : Dictionary):
 	var source_deck : Deck = inputs["source_deck"]
 	var dest_deck : Deck = inputs["dest_deck"]
 	

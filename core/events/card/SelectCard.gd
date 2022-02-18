@@ -2,7 +2,7 @@ extends Event
 class_name SelectCardEvent
 
 
-func execute(inputs : Dictionary):
+func execute(_ctx : GameContext, inputs : Dictionary):
 	var deck : Deck = inputs["source_deck"]
 	var player : Player = inputs["player"]
 	var selectable_indices : Array = inputs["selectable_indices"]

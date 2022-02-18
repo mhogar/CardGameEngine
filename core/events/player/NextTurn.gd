@@ -2,6 +2,6 @@ extends Event
 class_name NextTurnEvent
 
 
-func execute(inputs : Dictionary):
-	GameState.next_turn()
+func execute(ctx : GameContext, inputs : Dictionary):
+	ctx.next_turn()
 	emit_signal("completed", self, {})

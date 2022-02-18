@@ -3,19 +3,19 @@ class_name UnaGame
 
 
 func _ready():
-	init_game_state()
+	init_game_context()
 	build_event_queue()
 
 
 func build_event_queue():
 	var factory := EventFactory.new()
 	
-	var play_pile : Pile = GameState.piles["play"]
-	var draw_pile : Pile = GameState.piles["draw"]
+	var play_pile : Pile = game_ctx.piles["play"]
+	var draw_pile : Pile = game_ctx.piles["draw"]
 	
 	game_loop.map(factory.build_pile(draw_pile))
 	game_loop.map(factory.shuffle_pile(draw_pile))
-	game_loop.map(factory.deal_cards(draw_pile, 5))
+	game_loop.map(factory.deal_cards(game_ctx.players, draw_pile, 5))
 	game_loop.map(factory.move_top_card(draw_pile, play_pile))
 
 	var play_loop := factory.event_queue("PlayLoop", 0)

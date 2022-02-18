@@ -2,7 +2,7 @@ extends Event
 class_name LogCardEvent
 
 
-func execute(inputs : Dictionary):
+func execute(_ctx : GameContext, inputs : Dictionary):
 	var deck : Deck = inputs["source_deck"]
 	var index : int = inputs["card_index"]
 	var player : Player = inputs["player"]

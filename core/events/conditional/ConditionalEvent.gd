@@ -7,21 +7,21 @@ func init(true_event : Event, false_event : Event):
 	add_child(false_event)
 
 
-func execute(inputs : Dictionary):
-	if apply_condition(inputs):
-		execute_event(get_child(0), inputs)
+func execute(ctx : GameContext, inputs : Dictionary):
+	if apply_condition(ctx, inputs):
+		execute_event(ctx, get_child(0), inputs)
 	else:
-		execute_event(get_child(1), inputs)
+		execute_event(ctx, get_child(1), inputs)
 
 
-func execute_event(event : Event, inputs : Dictionary):
+func execute_event(ctx : GameContext, event : Event, inputs : Dictionary):
 	event.connect("completed", self, "_on_event_completed", [], CONNECT_DEFERRED | CONNECT_ONESHOT)
-	event.execute(merge_inputs(inputs, event.static_args))
+	event.execute(ctx, merge_inputs(inputs, event.static_args))
 
 
 func _on_event_completed(_event : Event, outputs : Dictionary):
 	emit_signal("completed", self, outputs)
 	
 
-func apply_condition(_inputs : Dictionary) -> bool:
+func apply_condition(_ctx : GameContext, _inputs : Dictionary) -> bool:
 	return false

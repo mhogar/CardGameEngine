@@ -2,7 +2,7 @@ extends Event
 class_name BuildDeckEvent
 
 
-func execute(inputs : Dictionary):
+func execute(_ctx : GameContext, inputs : Dictionary):
 	var deck : Deck = inputs["source_deck"]
 	deck.build()
 	

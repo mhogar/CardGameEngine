@@ -1,5 +1,5 @@
 extends Node
-#class_name GameState
+class_name GameContext
 
 var players := []
 var piles := {}
