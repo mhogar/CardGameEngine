@@ -22,7 +22,7 @@ func build_event_queue():
 	game_loop.map(play_loop)
 	
 	var draw_cards := factory.draw_cards(0, draw_pile)
-	play_loop.map(factory.play_cards(0, play_pile, draw_cards))
+	play_loop.map(factory.play_cards(0, play_pile, UnaRuleset.new(), draw_cards))
 	
 	var break_queue := factory.break_queue(play_loop)
 	play_loop.map(factory.check_player_hand_empty(0, break_queue))

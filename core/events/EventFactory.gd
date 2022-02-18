@@ -2,14 +2,6 @@ extends Node
 class_name EventFactory
 
 
-func top_card_ruleset() -> Node:
-	return preload("res://core/rulesets/TopCardRuleset.tscn").instance()
-
-
-func una_ruleset() -> Node:
-	return preload("res://core/rulesets/UnaRuleset.tscn").instance()
-
-
 func init_event(event : Event, args : Dictionary = {}) -> Event:
 	event.static_args = args
 	return event
@@ -128,7 +120,7 @@ func next_turn() -> Event:
 func draw_cards(player_index : int, pile : Pile, num_cards : int = 1) -> EventQueue:
 	var queue := event_queue("DrawCards", num_cards, { "source_deck": pile })
 	
-	queue.merge(apply_ruleset_event({ "ruleset": top_card_ruleset() }))
+	queue.merge(apply_ruleset_event({ "ruleset": TopCardRuleset.new() }))
 	queue.merge(select_player_event({ "player_index": player_index }))
 	queue.merge(select_card_event())
 	queue.merge(select_player_hand_event(SelectDeckEvent.DECK_TYPE.DEST))
@@ -138,12 +130,12 @@ func draw_cards(player_index : int, pile : Pile, num_cards : int = 1) -> EventQu
 	return queue
 	
 
-func play_cards(player_index : int, pile : Pile, cant_play_event : Event) -> EventQueue:
+func play_cards(player_index : int, pile : Pile, ruleset : Ruleset, cant_play_event : Event) -> EventQueue:
 	var queue := event_queue("TryPlayCards")
 	
 	queue.merge(select_player_event({ "player_index": player_index }))
 	queue.merge(select_player_hand_event(SelectDeckEvent.DECK_TYPE.SOURCE))
-	queue.merge(apply_ruleset_event({ "ruleset": una_ruleset() }))
+	queue.merge(apply_ruleset_event({ "ruleset": ruleset }))
 	
 	var play_queue := event_queue("PlayCards")
 	play_queue.merge(select_card_event())

@@ -132,7 +132,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "Ruleset",
 "language": "GDScript",
-"path": "res://core/rulesets/Ruleset.gd"
+"path": "res://core/game/rulesets/Ruleset.gd"
 }, {
 "base": "Event",
 "class": "SelectCardEvent",
@@ -167,7 +167,7 @@ _global_script_classes=[ {
 "base": "Ruleset",
 "class": "TopCardRuleset",
 "language": "GDScript",
-"path": "res://core/rulesets/TopCardRuleset.gd"
+"path": "res://core/game/rulesets/TopCardRuleset.gd"
 }, {
 "base": "Game",
 "class": "UnaGame",
@@ -177,7 +177,7 @@ _global_script_classes=[ {
 "base": "Ruleset",
 "class": "UnaRuleset",
 "language": "GDScript",
-"path": "res://core/rulesets/UnaRuleset.gd"
+"path": "res://core/game/una/UnaRuleset.gd"
 } ]
 _global_script_class_icons={
 "AIPlayer": "",
