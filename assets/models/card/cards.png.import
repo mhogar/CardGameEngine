@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/cards.png-21f78aac1038cb68f786208e14a77869.s3tc.stex"
-path.etc2="res://.import/cards.png-21f78aac1038cb68f786208e14a77869.etc2.stex"
+path.s3tc="res://.import/cards.png-d8b49f46665444b716e4bf1b75ee1ec4.s3tc.stex"
+path.etc2="res://.import/cards.png-d8b49f46665444b716e4bf1b75ee1ec4.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/cards.png"
-dest_files=[ "res://.import/cards.png-21f78aac1038cb68f786208e14a77869.s3tc.stex", "res://.import/cards.png-21f78aac1038cb68f786208e14a77869.etc2.stex" ]
+source_file="res://assets/models/card/cards.png"
+dest_files=[ "res://.import/cards.png-d8b49f46665444b716e4bf1b75ee1ec4.s3tc.stex", "res://.import/cards.png-d8b49f46665444b716e4bf1b75ee1ec4.etc2.stex" ]
 
 [params]
 
@@ -24,7 +24,7 @@ compress/normal_map=0
 flags/repeat=true
 flags/filter=true
 flags/mipmaps=true
-flags/anisotropic=true
+flags/anisotropic=false
 flags/srgb=1
 process/fix_alpha_border=true
 process/premult_alpha=false

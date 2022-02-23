@@ -1,8 +1,16 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/models/card/Card.glb" type="PackedScene" id=1]
 [ext_resource path="res://core/card/Card3D.gd" type="Script" id=2]
+[ext_resource path="res://assets/models/card/cards.png" type="Texture" id=3]
+
+[sub_resource type="SpatialMaterial" id=1]
+resource_local_to_scene = true
+albedo_texture = ExtResource( 3 )
 
 [node name="Card" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+
+[node name="Card" parent="." index="0"]
+material/0 = SubResource( 1 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
