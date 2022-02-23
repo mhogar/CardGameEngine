@@ -5,18 +5,15 @@ onready var pile : Pile3D = $Pile
 
 
 func _ready():
+	card.set_data(CardData.new(7, 2))
 	card.flip()
 	
 	for i in range(52):
-		var new_card : Card3D = preload("res://core/card/Card3D.tscn").instance()
-		new_card.value = randi() % 13
-		new_card.suit = randi() % 4
-		
-		pile.add_to_top(new_card)
+		pile.add_to_top(CardData.new(randi() % CardData.NUM_VALUES, randi() % CardData.NUM_SUITS))
 
 
-func _physics_process(_delta):
-	print(Performance.get_monitor(Performance.TIME_FPS))
+#func _physics_process(_delta):
+#	print(Performance.get_monitor(Performance.TIME_FPS))
 
 
 func _on_Card_flip_finished():

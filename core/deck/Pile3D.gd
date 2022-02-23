@@ -1,34 +1,32 @@
 extends Spatial
 class_name Pile3D
 
+onready var card : Card3D = $Card
+
 var cards := []
 
 
-func add_to_top(card : Card3D):
-	unset_top_card()
-	cards.push_back(card)
-	set_top_card()
+func _ready():
+	card.hide()
+
+
+func add_to_top(data : CardData):
+	cards.push_back(data)
+	update_card(data)
+	card.show()
 	
 
-func remove_top() -> Card3D:
-	unset_top_card()
-	var card : Card3D = cards.pop_back()
-	set_top_card()
+func remove_top() -> CardData:
+	var data : CardData = cards.pop_back()
 	
-	return card
+	if cards.empty():
+		card.hide()
+	else:
+		update_card(cards.back())
+	
+	return data
 	
 
-func set_top_card():
-	if cards.empty(): return
-	
-	var card : Card3D = cards.back()
-	add_child(card)
+func update_card(data : CardData):
+	card.set_data(data)
 	card.set_vertical_scale(cards.size())
-	
-
-func unset_top_card():
-	if cards.empty(): return null
-	
-	var card : Card3D = cards.back()
-	remove_child(card)
-	card.scale.y = 1.0

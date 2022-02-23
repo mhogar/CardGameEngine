@@ -3,19 +3,15 @@ class_name Card3D
 
 signal flip_finished
 
-export(int, 12) var value : int
-export(int, 3) var suit : int
 export var face_up := true
 
 onready var anim_player : AnimationPlayer = $AnimationPlayer
 onready var mesh : MeshInstance = $Card
 
-const NUM_VALUES := 13
-const NUM_SUITS := 4
+var data : CardData
 
 
 func _ready():
-	assign_front_texture(value, suit)
 	set_initial_face_up(face_up)
 	set_vertical_scale(scale.y)
 
@@ -30,15 +26,16 @@ func set_vertical_scale(val : float):
 	translation.y = get_mesh_size().y * scale.y / 2.0
 
 
+func set_data(val : CardData):
+	data = val
+	mesh["material/0"].uv1_offset = Vector3(float(data.value) / CardData.NUM_VALUES, float(data.suit) / CardData.NUM_SUITS, 1.0)
+
+
 func flip():
 	if face_up:
 		anim_player.play("Flip")
 	else:
 		anim_player.play_backwards("Flip")
-
-
-func assign_front_texture(col : int, row : int):
-	mesh["material/0"].uv1_offset = Vector3(float(col) / NUM_VALUES, float(row) / NUM_SUITS, 1.0)
 
 
 func get_mesh_size() -> Vector3:

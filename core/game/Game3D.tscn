@@ -21,8 +21,6 @@ fov = 30.0
 
 [node name="Card" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.145, 0, 0 )
-value = 7
-suit = 2
 
 [node name="Pile" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.106484, 0, 0 )
