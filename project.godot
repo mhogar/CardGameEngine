@@ -34,6 +34,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://core/card/Card.gd"
 }, {
+"base": "Spatial",
+"class": "Card3D",
+"language": "GDScript",
+"path": "res://core/card/Card3D.gd"
+}, {
 "base": "Event",
 "class": "ConditionalEvent",
 "language": "GDScript",
@@ -185,6 +190,7 @@ _global_script_class_icons={
 "BreakQueueEvent": "",
 "BuildDeckEvent": "",
 "Card": "",
+"Card3D": "",
 "ConditionalEvent": "",
 "Console": "",
 "Deck": "",
@@ -219,7 +225,7 @@ _global_script_class_icons={
 [application]
 
 config/name="CardGameEngine"
-run/main_scene="res://Main.tscn"
+run/main_scene="res://core/game/Game3D.tscn"
 config/icon="res://icon.png"
 
 [display]
