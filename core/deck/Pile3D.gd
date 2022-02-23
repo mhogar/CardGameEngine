@@ -23,7 +23,7 @@ func set_top_card():
 	
 	var card : Card3D = cards.back()
 	add_child(card)
-	card.set_vertical_scale(cards.size() * 2.0)
+	card.set_vertical_scale(cards.size())
 	
 
 func unset_top_card():

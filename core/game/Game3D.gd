@@ -15,6 +15,10 @@ func _ready():
 		pile.add_to_top(new_card)
 
 
+func _physics_process(_delta):
+	print(Performance.get_monitor(Performance.TIME_FPS))
+
+
 func _on_Card_flip_finished():
 	card.flip()
 	#pile.remove_top().queue_free()
