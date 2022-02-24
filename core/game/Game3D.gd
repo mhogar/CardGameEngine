@@ -8,7 +8,7 @@ func _ready():
 	card.set_data(CardData.new(7, 2))
 	card.flip()
 	
-	for i in range(52):
+	for i in range(32):
 		pile.add_to_top(CardData.new(randi() % CardData.NUM_VALUES, randi() % CardData.NUM_SUITS))
 
 

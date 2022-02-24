@@ -44,6 +44,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://core/card/CardData.gd"
 }, {
+"base": "TextureRect",
+"class": "CardUI",
+"language": "GDScript",
+"path": "res://core/gui/CardUI.gd"
+}, {
 "base": "Event",
 "class": "ConditionalEvent",
 "language": "GDScript",
@@ -98,6 +103,11 @@ _global_script_classes=[ {
 "class": "Hand",
 "language": "GDScript",
 "path": "res://core/deck/Hand.gd"
+}, {
+"base": "HBoxContainer",
+"class": "HandUI",
+"language": "GDScript",
+"path": "res://core/gui/HandUI.gd"
 }, {
 "base": "ConditionalEvent",
 "class": "HasSelectableIndicesCondition",
@@ -202,6 +212,7 @@ _global_script_class_icons={
 "Card": "",
 "Card3D": "",
 "CardData": "",
+"CardUI": "",
 "ConditionalEvent": "",
 "Console": "",
 "Deck": "",
@@ -213,6 +224,7 @@ _global_script_class_icons={
 "GameContext": "",
 "GameSchematic": "",
 "Hand": "",
+"HandUI": "",
 "HasSelectableIndicesCondition": "",
 "HumanPlayer": "",
 "LogCardDrawnEvent": "",
@@ -237,7 +249,7 @@ _global_script_class_icons={
 [application]
 
 config/name="CardGameEngine"
-run/main_scene="res://core/game/Game3D.tscn"
+run/main_scene="res://core/Main3D.tscn"
 config/icon="res://icon.png"
 
 [display]

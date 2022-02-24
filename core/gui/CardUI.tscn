@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/models/card/blank_card.png" type="Texture" id=1]
+[ext_resource path="res://core/gui/CardUI.gd" type="Script" id=2]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Hover"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -40.0 ]
+}
+
+[node name="CardUI" type="TextureRect"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -35.5
+margin_top = -96.0
+margin_right = 35.5
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Hover = SubResource( 1 )
+
+[connection signal="mouse_entered" from="." to="." method="_on_CardUI_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_CardUI_mouse_exited"]
