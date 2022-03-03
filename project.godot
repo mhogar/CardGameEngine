@@ -231,7 +231,7 @@ _global_script_class_icons={
 [application]
 
 config/name="CardGameEngine"
-run/main_scene="res://core/gui/menu/TitleScreen.tscn"
+run/main_scene="res://core/game/una/Una.tscn"
 config/icon="res://icon.png"
 
 [display]

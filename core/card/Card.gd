@@ -55,6 +55,13 @@ func is_mouse_hovering() -> bool:
 	return abs(mouse_pos.x) <= collision_shape.extents.x && abs(mouse_pos.y) <= collision_shape.extents.y
 
 
+func compare(other : Card) -> bool:
+	if suit != other.suit:
+		return suit < other.suit
+	
+	return value < other.value
+
+
 func _on_Area2D_mouse_entered():
 	emit_signal("card_mouse_entered")
 

@@ -5,6 +5,7 @@
 
 [node name="Hand" instance=ExtResource( 2 )]
 script = ExtResource( 1 )
+is_sorted = true
 deck_name = "Hand"
 
 [node name="Tween" type="Tween" parent="." index="1"]

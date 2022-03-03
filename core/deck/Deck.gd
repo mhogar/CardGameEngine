@@ -3,6 +3,7 @@ class_name Deck
 
 onready var cards_node := $Cards
 
+export var is_sorted := false
 export var is_face_up := false
 export var deck_name := "Deck"
 
@@ -60,12 +61,30 @@ func get_card_index(card : Card) -> int:
 	return cards.find(card)
 
 
-func add_card(card : Card):
+func _insert_sorted(card : Card):
+	var index := cards.size() - 1
+	
+	for i in cards.size():
+		if card.compare(cards[i]):
+			index = i
+			break
+	
+	cards.insert(index, card)
+	recalculate_z_indices()
+	
+
+func _insert_end(card : Card):
 	card.z_index = cards.size()
-	
 	cards.append(card)
-	cards_node.add_child(card)
+
+
+func add_card(card : Card):
+	if is_sorted && !cards.empty():
+		_insert_sorted(card)
+	else:
+		_insert_end(card)
 	
+	cards_node.add_child(card)
 	on_card_added(card)
 
 
