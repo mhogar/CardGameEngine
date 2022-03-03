@@ -5,6 +5,7 @@ class_name UnaGame
 func _ready():
 	init_game_context()
 	build_event_queue()
+	start()
 
 
 func build_event_queue():

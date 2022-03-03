@@ -1,9 +1,8 @@
 extends Node
 class_name Game
 
-signal game_finished
-
 onready var game_loop : EventQueue = $GameLoop
+onready var replay_menu := $CanvasLayer/ReplayMenu
 onready var players := $Table/Players
 onready var piles := $Table/Piles
 
@@ -29,8 +28,16 @@ func reset():
 
 
 func start():
+	randomize()
 	game_loop.execute(game_ctx, { "num_iter": 1})
 
 
 func _on_GameLoop_completed(_event, _outputs):
-	emit_signal("game_finished")
+	replay_menu.show()
+	
+
+func _on_ReplayMenu_play_again():
+	replay_menu.hide()
+	
+	reset()
+	start()
