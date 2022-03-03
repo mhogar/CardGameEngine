@@ -42,7 +42,7 @@ _global_script_classes=[ {
 "base": "NinePatchRect",
 "class": "Console",
 "language": "GDScript",
-"path": "res://core/gui/Console.gd"
+"path": "res://core/gui/game/Console.gd"
 }, {
 "base": "Node2D",
 "class": "Deck",
@@ -87,7 +87,7 @@ _global_script_classes=[ {
 "base": "Button",
 "class": "GameSelectButton",
 "language": "GDScript",
-"path": "res://core/gui/GameSelectButton.gd"
+"path": "res://core/gui/menu/GameSelectButton.gd"
 }, {
 "base": "Deck",
 "class": "Hand",
@@ -172,7 +172,7 @@ _global_script_classes=[ {
 "base": "CenterContainer",
 "class": "TitleScreen",
 "language": "GDScript",
-"path": "res://core/gui/TitleScreen.gd"
+"path": "res://core/gui/menu/TitleScreen.gd"
 }, {
 "base": "Ruleset",
 "class": "TopCardRuleset",
@@ -231,7 +231,7 @@ _global_script_class_icons={
 [application]
 
 config/name="CardGameEngine"
-run/main_scene="res://core/gui/TitleScreen.tscn"
+run/main_scene="res://core/gui/menu/TitleScreen.tscn"
 config/icon="res://icon.png"
 
 [display]

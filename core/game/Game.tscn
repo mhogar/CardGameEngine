@@ -3,11 +3,11 @@
 [ext_resource path="res://assets/light.png" type="Texture" id=1]
 [ext_resource path="res://core/game/Game.gd" type="Script" id=2]
 [ext_resource path="res://core/events/queue/EventQueue.tscn" type="PackedScene" id=3]
-[ext_resource path="res://core/gui/GUI.tscn" type="PackedScene" id=4]
+[ext_resource path="res://core/gui/game/GUI.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/table_tile.png" type="Texture" id=5]
 [ext_resource path="res://assets/table_tile_n.png" type="Texture" id=6]
 [ext_resource path="res://core/players/Human.tscn" type="PackedScene" id=7]
-[ext_resource path="res://core/gui/ReplayMenu.tscn" type="PackedScene" id=8]
+[ext_resource path="res://core/gui/menu/ReplayMenu.tscn" type="PackedScene" id=8]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 2 )
