@@ -62,7 +62,7 @@ func get_card_index(card : Card) -> int:
 
 
 func _insert_sorted(card : Card):
-	var index := cards.size() - 1
+	var index := cards.size()
 	
 	for i in cards.size():
 		if card.compare(cards[i]):
@@ -79,7 +79,7 @@ func _insert_end(card : Card):
 
 
 func add_card(card : Card):
-	if is_sorted && !cards.empty():
+	if is_sorted:
 		_insert_sorted(card)
 	else:
 		_insert_end(card)
