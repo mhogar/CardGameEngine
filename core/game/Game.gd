@@ -10,6 +10,7 @@ var game_ctx : GameContext
 
 
 func init_game_context():
+	randomize()
 	game_ctx = GameContext.new()
 	
 	for player in players.get_children():
@@ -28,7 +29,6 @@ func reset():
 
 
 func start():
-	randomize()
 	game_loop.execute(game_ctx, { "num_iter": 1})
 
 
