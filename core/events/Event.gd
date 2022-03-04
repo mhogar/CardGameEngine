@@ -11,7 +11,7 @@ export(Dictionary) var static_args : Dictionary
 
 func execute(_ctx : GameContext, _inputs : Dictionary):
 	emit_signal("completed", self, {})
-	
+
 
 func merge_inputs(inputs1 : Dictionary, inputs2 : Dictionary):
 	var new_inputs = inputs1.duplicate()

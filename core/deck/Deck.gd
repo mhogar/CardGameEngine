@@ -13,15 +13,6 @@ var selected_card_index : int = -1
 
 func get_selected_card() -> int:
 	return selected_card_index
-
-
-func build():
-	for suit in Card.NUM_SUITS:
-		for val in Card.NUM_VALUES:
-			var card : Card = preload("res://core/card/Card.tscn").instance()
-			card.suit = suit
-			card.value = val
-			add_card(card)
 			
 
 func shuffle():
@@ -116,7 +107,7 @@ func clear():
 
 
 func get_card_relative_position(card : Card) -> Vector2:
-	return transform.xform(card.get_sprite_relative_position())
+	return transform.xform(card.get_sprite_relative_position())	
 
 
 func _on_Controller_selected_card_changed(card_index : int):

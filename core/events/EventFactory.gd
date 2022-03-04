@@ -27,6 +27,9 @@ func select_top_card_event(args : Dictionary = {}) -> Event:
 func move_card_event(args : Dictionary = {}) -> Event:
 	return init_event(preload("res://core/events/card/MoveCard.tscn").instance(), args)
 	
+func move_cards_event(args : Dictionary = {}) -> Event:
+	return init_event(preload("res://core/events/card/MoveCards.tscn").instance(), args)
+	
 
 func log_card_played_event(args : Dictionary = {}) -> Event:
 	return init_event(preload("res://core/events/card/LogCardPlayed.tscn").instance(), args)
@@ -79,6 +82,7 @@ func event_queue(name : String, num_iter : int = 1, args : Dictionary = {}) -> E
 
 func break_queue(target_queue : EventQueue) -> Event:
 	var event : Event = preload("res://core/events/queue/BreakQueue.tscn").instance()
+	event.name = "BreakQueue"
 	event.target_queue = target_queue
 	return event
 
@@ -100,8 +104,8 @@ func shuffle_pile(pile : Pile) -> Event:
 	return shuffle_deck_event({ "source_deck": pile })
 	
 
-func build_pile(pile : Pile) -> Event:
-	return build_deck_event({ "source_deck": pile })
+func build_pile(pile : Pile, builder : DeckBuilder) -> Event:
+	return build_deck_event({ "source_deck": pile, "deck_builder": builder })
 
 
 func deal_cards(players : Array, pile : Pile, num_cards : int) -> EventQueue:
@@ -117,7 +121,7 @@ func next_turn() -> Event:
 	return next_turn_event()
 
 
-func draw_cards(player_index : int, pile : Pile, num_cards : int = 1) -> EventQueue:
+func draw_cards(player_index : int, pile : Pile, deck_emptied_event : Event, num_cards : int = 1) -> EventQueue:
 	var queue := event_queue("DrawCards", num_cards, { "source_deck": pile })
 	
 	queue.merge(apply_ruleset_event({ "ruleset": TopCardRuleset.new() }))
@@ -125,12 +129,13 @@ func draw_cards(player_index : int, pile : Pile, num_cards : int = 1) -> EventQu
 	queue.merge(select_card_event())
 	queue.merge(select_player_hand_event(SelectDeckEvent.DECK_TYPE.DEST))
 	queue.merge(log_card_drawn_event())
-	queue.map(move_card_event())
+	queue.merge(move_card_event())
+	queue.map(deck_empty_condition(deck_emptied_event))
 	
 	return queue
 	
 
-func play_cards(player_index : int, pile : Pile, ruleset : Ruleset, cant_play_event : Event) -> EventQueue:
+func play_cards(player_index : int, pile : Pile, ruleset : Ruleset, cant_play_event : Event, hand_emptied_event : Event) -> EventQueue:
 	var queue := event_queue("TryPlayCards")
 	
 	queue.merge(select_player_event({ "player_index": player_index }))
@@ -140,22 +145,17 @@ func play_cards(player_index : int, pile : Pile, ruleset : Ruleset, cant_play_ev
 	var play_queue := event_queue("PlayCards")
 	play_queue.merge(select_card_event())
 	play_queue.merge(log_card_played_event())
-	play_queue.map(move_card(pile))
+	play_queue.merge(move_card(pile))
+	play_queue.map(deck_empty_condition(hand_emptied_event))
 	
 	queue.map(has_selectable_indices_condition(play_queue, cant_play_event))
 	
 	return queue
 	
-
-func check_deck_empty(deck : Deck, is_empty_event : Event) -> Event:
-	return deck_empty_condition(is_empty_event, { "source_deck": deck })
+func reshuffle_pile(pile : Pile, source : Pile) -> EventQueue:
+	var queue := event_queue("ReshufflePile")
 	
-
-func check_player_hand_empty(player_index : int, is_empty_event : Event) -> EventQueue:
-	var queue := event_queue("CheckPlayerHandEmpty")
-	
-	queue.merge(select_player_event({ "player_index": player_index }))
-	queue.merge(select_player_hand_event(SelectDeckEvent.DECK_TYPE.SOURCE))
-	queue.map(deck_empty_condition(is_empty_event))
+	queue.merge(move_cards_event({ "source_deck": source, "dest_deck": pile }))
+	queue.map(shuffle_pile(pile))
 	
 	return queue
