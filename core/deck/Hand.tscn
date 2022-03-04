@@ -1,11 +1,18 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://core/deck/Hand.gd" type="Script" id=1]
 [ext_resource path="res://core/deck/Deck.tscn" type="PackedScene" id=2]
+[ext_resource path="res://EditorOutline.tscn" type="PackedScene" id=3]
 
 [node name="Hand" instance=ExtResource( 2 )]
 script = ExtResource( 1 )
 is_sorted = true
 deck_name = "Hand"
+
+[node name="EditorOutline" parent="." index="0" instance=ExtResource( 3 )]
+margin_left = -349.974
+margin_top = -73.8743
+margin_right = 350.026
+margin_bottom = 70.1257
 
 [node name="Tween" type="Tween" parent="." index="1"]

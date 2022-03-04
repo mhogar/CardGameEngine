@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 class_name Game
 
 onready var game_loop : EventQueue = $GameLoop
@@ -7,6 +7,10 @@ onready var players := $Table/Players
 onready var piles := $Table/Piles
 
 var game_ctx : GameContext
+
+
+func _ready():
+	position = Vector2()
 
 
 func init_game():

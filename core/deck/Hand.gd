@@ -3,9 +3,10 @@ class_name Hand
 
 onready var tween := $Tween
 
-const MAX_WIDTH := 500.0
+const MAX_WIDTH := 700.0
 
 var hovered_card_indices := []
+
 
 
 func adjust_spacing():

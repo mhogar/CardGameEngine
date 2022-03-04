@@ -13,4 +13,4 @@ script = ExtResource( 2 )
 scale = Vector2( 1, 0.5 )
 texture = ExtResource( 3 )
 energy = 0.7
-range_height = 50.0
+range_height = 150.0
