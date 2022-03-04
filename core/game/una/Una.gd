@@ -3,7 +3,7 @@ class_name UnaGame
 
 
 func _ready():
-	init_game_context()
+	init_game()
 	build_event_queue()
 	start()
 

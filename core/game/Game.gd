@@ -9,23 +9,18 @@ onready var piles := $Table/Piles
 var game_ctx : GameContext
 
 
-func init_game_context():
+func init_game():
 	randomize()
+	get_tree().call_group("Console", "clear_logs")
 	game_ctx = GameContext.new()
 	
 	for player in players.get_children():
+		player.hand.clear()
 		game_ctx.players.append(player)
 		
 	for pile in piles.get_children():
+		pile.clear()
 		game_ctx.piles[pile.deck_name] = pile
-
-
-func reset():
-	for player in game_ctx.players:
-		player.hand.clear()
-	
-	for key in game_ctx.piles:
-		game_ctx.piles[key].clear()	
 
 
 func start():
@@ -39,5 +34,5 @@ func _on_GameLoop_completed(_event, _outputs):
 func _on_ReplayMenu_play_again():
 	replay_menu.hide()
 	
-	reset()
+	init_game()
 	start()

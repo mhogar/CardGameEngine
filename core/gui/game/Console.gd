@@ -13,6 +13,11 @@ func colored_text(color : String, text : String) -> String:
 
 
 # Console group
+func clear_logs():
+	label.bbcode_text = ""
+
+
+# Console group
 func log_message(message : String):
 	label.bbcode_text += "> %s\n" % message
 
