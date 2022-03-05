@@ -26,6 +26,12 @@ func init_game():
 		pile.clear()
 		game_ctx.piles[pile.deck_name] = pile
 
+	init_scoreboard()
+
+
+func init_scoreboard():
+	pass
+
 
 func start():
 	game_loop.execute(game_ctx, { "num_iter": 1})

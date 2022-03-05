@@ -8,6 +8,10 @@ func _ready():
 	start()
 
 
+func init_scoreboard():
+	game_ctx.add_player_score("Score")
+
+
 func build_event_queue():
 	var factory := EventFactory.new()
 	

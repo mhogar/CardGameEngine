@@ -4,8 +4,14 @@ class_name GameContext
 var players := []
 var piles := {}
 
+var scoreboard : ScoreboardData
+
 var current_player_index := 0
 var turn_dir := 1
+
+
+func _init():
+	scoreboard = ScoreboardData.new()
 
 
 func get_relative_player_index(index : int) -> int:
@@ -24,3 +30,7 @@ func remove_player(index : int) -> Player:
 	var player : Player = get_relative_player(index)
 	players.erase(player)
 	return player
+	
+
+func add_player_score(name : String):
+	scoreboard.add_player_score(name, players)
