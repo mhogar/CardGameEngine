@@ -62,3 +62,8 @@ func log_card_played(player : Player, card : Card):
 			suit = "Spades"
 		
 	log_message("%s played %s" % [colored_text(PLAYER_COLOR, player.player_name), colored_text(color, "%s of %s" % [value, suit])])
+
+
+# Console group
+func log_player_out(player : Player):
+	log_message("%s is out!" % colored_text(PLAYER_COLOR, player.player_name))

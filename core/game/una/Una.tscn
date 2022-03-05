@@ -15,9 +15,15 @@ texture = ExtResource( 5 )
 energy = 0.7
 range_height = 150.0
 
-[node name="AI" parent="Table/Players" index="1" instance=ExtResource( 3 )]
+[node name="AI1" parent="Table/Players" index="1" instance=ExtResource( 3 )]
+position = Vector2( -790, 0 )
+rotation = 1.5708
+player_name = "AI1"
+
+[node name="AI2" parent="Table/Players" index="2" instance=ExtResource( 3 )]
 position = Vector2( 0, -435 )
 rotation = 3.14159
+player_name = "AI2"
 
 [node name="PlayPile" parent="Table/Piles" index="0" instance=ExtResource( 2 )]
 position = Vector2( -110, 0 )

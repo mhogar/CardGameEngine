@@ -25,7 +25,10 @@ func build_event_queue():
 	var reshuffle_draw_pile := factory.reshuffle_pile(draw_pile, play_pile)
 	var draw_cards := factory.draw_cards(0, draw_pile, reshuffle_draw_pile)
 	
+	var remove_player := factory.remove_player(0)
+	play_loop.map(factory.play_cards(0, play_pile, UnaRuleset.new(), draw_cards, remove_player))
+
 	var break_queue := factory.break_queue(play_loop)
-	play_loop.map(factory.play_cards(0, play_pile, UnaRuleset.new(), draw_cards, break_queue))
+	play_loop.map(factory.players_left_condition(break_queue, 1))
 
 	play_loop.map(factory.next_turn())

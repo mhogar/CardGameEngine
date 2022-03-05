@@ -57,6 +57,10 @@ func select_player_hand_event(deck_type : int, args : Dictionary = {}) -> Event:
 	return event 
 
 
+func remove_player_event(args : Dictionary = {}) -> Event:
+	return init_event(preload("res://core/events/player/RemovePlayer.tscn").instance(), args)
+	
+
 func next_turn_event(args : Dictionary = {}) -> Event:
 	return init_event(preload("res://core/events/player/NextTurn.tscn").instance(), args)
 
@@ -71,6 +75,10 @@ func has_selectable_indices_condition(has_indices_event : Event, no_indices_even
 
 func deck_empty_condition(is_empty_event : Event, args : Dictionary = {}) -> Event:
 	return init_conditional_event(preload("res://core/events/conditional/EmptyDeck.tscn").instance(), is_empty_event, null_event(), args)
+	
+
+func players_left_condition(players_left_event : Event, num_players : int) -> Event:
+	return init_conditional_event(preload("res://core/events/conditional/PlayersLeft.tscn").instance(), players_left_event, null_event(), { "num_players": num_players })
 
 
 func event_queue(name : String, num_iter : int = 1, args : Dictionary = {}) -> EventQueue:
@@ -152,6 +160,7 @@ func play_cards(player_index : int, pile : Pile, ruleset : Ruleset, cant_play_ev
 	
 	return queue
 	
+	
 func reshuffle_pile(pile : Pile, source : Pile) -> EventQueue:
 	var queue := event_queue("ReshufflePile")
 	
@@ -159,3 +168,7 @@ func reshuffle_pile(pile : Pile, source : Pile) -> EventQueue:
 	queue.map(shuffle_pile(pile))
 	
 	return queue
+
+
+func remove_player(index : int) -> Event:
+	return remove_player_event({ "player_index": index })

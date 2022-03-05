@@ -149,6 +149,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://core/players/Player.gd"
 }, {
+"base": "ConditionalEvent",
+"class": "PlayersLeftCondition",
+"language": "GDScript",
+"path": "res://core/events/conditional/PlayersLeft.gd"
+}, {
+"base": "Event",
+"class": "RemovePlayerEvent",
+"language": "GDScript",
+"path": "res://core/events/player/RemovePlayer.gd"
+}, {
 "base": "Node",
 "class": "Ruleset",
 "language": "GDScript",
@@ -238,6 +248,8 @@ _global_script_class_icons={
 "NextTurnEvent": "",
 "Pile": "",
 "Player": "",
+"PlayersLeftCondition": "",
+"RemovePlayerEvent": "",
 "Ruleset": "",
 "SelectCardEvent": "",
 "SelectDeckEvent": "",
