@@ -27,7 +27,7 @@ func init_game():
 		game_ctx.piles[pile.deck_name] = pile
 
 	init_scoreboard()
-	game_ctx.scoreboard.update_scoreboard()
+	get_tree().call_group("Scoreboard", "update_scoreboard", game_ctx.scoreboard.to_string())
 
 
 func init_scoreboard():

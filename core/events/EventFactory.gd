@@ -12,15 +12,14 @@ func init_conditional_event(event : ConditionalEvent, true_event : Event, false_
 	return init_event(event, args)
 
 
-func null_event() -> Event:
-	return init_event(preload("res://core/events/Event.tscn").instance())
-
-
-func script_event(object : Node, func_name : String, args : Dictionary = {}) -> ScriptEvent:
-	var event : ScriptEvent = init_event(preload("res://core/events/ScriptEvent.tscn").instance(), args)
+func init_script_event(event : ScriptEvent, object : Node, func_name : String, args : Dictionary = {}) -> Event:
 	event.object = object
 	event.func_name = func_name
-	return event
+	return init_event(event, args)
+
+
+func null_event() -> Event:
+	return init_event(preload("res://core/events/Event.tscn").instance())
 
 
 func select_card_event(args : Dictionary = {}) -> Event:
@@ -86,6 +85,14 @@ func deck_empty_condition(is_empty_event : Event, args : Dictionary = {}) -> Eve
 
 func players_left_condition(players_left_event : Event, num_players : int) -> Event:
 	return init_conditional_event(preload("res://core/events/conditional/PlayersLeft.tscn").instance(), players_left_event, null_event(), { "num_players": num_players })
+
+
+func script_event(object : Node, func_name : String, args : Dictionary = {}) -> Event:
+	return init_script_event(preload("res://core/events/script/ScriptEvent.tscn").instance(), object, func_name, args)
+
+
+func scoreboard_script_event(object : Node, func_name : String, args : Dictionary = {}) -> Event:
+	return init_script_event(preload("res://core/events/script/ScoreboardScript.tscn").instance(), object, func_name, args)
 
 
 func event_queue(name : String, num_iter : int = 1, args : Dictionary = {}) -> EventQueue:

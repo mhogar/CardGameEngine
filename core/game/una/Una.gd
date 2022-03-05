@@ -14,13 +14,14 @@ func init_scoreboard():
 
 func build_event_queue():
 	var factory := EventFactory.new()
+	var scripts := UnaScripts.new()
 	
 	var play_pile : Pile = game_ctx.piles["play"]
 	var draw_pile : Pile = game_ctx.piles["draw"]
 	
 	game_loop.map(factory.build_pile(draw_pile, StandardDeckBuilder.new()))
 	game_loop.map(factory.shuffle_pile(draw_pile))
-	game_loop.map(factory.deal_cards(game_ctx.players, draw_pile, 5))
+	game_loop.map(factory.deal_cards(game_ctx.players, draw_pile, 1))
 	game_loop.map(factory.move_top_card(draw_pile, play_pile))
 
 	var play_loop := factory.event_queue("PlayLoop", 0)
@@ -30,7 +31,7 @@ func build_event_queue():
 	var draw_cards := factory.draw_cards(0, draw_pile, reshuffle_draw_pile)
 	
 	var player_out := factory.event_queue("PlayerOut")
-	player_out.merge(factory.script_event(UnaScripts.new(), "player_out_score", { "player_index": 0 }))
+	player_out.merge(factory.scoreboard_script_event(scripts, "player_out_score", { "player_index": 0 }))
 	player_out.map(factory.remove_player_event())
 	
 	play_loop.map(factory.play_cards(0, play_pile, UnaRuleset.new(), draw_cards, player_out))

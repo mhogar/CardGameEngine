@@ -19,12 +19,13 @@ func increment(player : String, amount : int = 1):
 
 func decrement(player : String, amount : int = 1):
 	increment(player, -amount)
-	
 
-func to_string() -> String:
-	var string := ""
-	
-	for player in scores:
-		string += "%s\t%s\n" % [player, scores[player]]
-		
-	return string
+
+func compare_descending(player1 : String, player2 : String):
+	return scores[player1] > scores[player2]
+
+
+func get_sorted_keys() -> Array:
+	var keys := scores.keys()
+	keys.sort_custom(self, "compare_descending")
+	return keys

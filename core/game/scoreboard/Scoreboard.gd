@@ -16,8 +16,6 @@ func set_score(name : String, value : int):
 		scores[score].set_value(tokens[1], value)
 	else:
 		scores[score] = value
-		
-	update_scoreboard()
 	
 		
 func increment_score(name : String, amount : int = 1):
@@ -28,19 +26,26 @@ func increment_score(name : String, amount : int = 1):
 		scores[score].increment(tokens[1], amount)
 	else:
 		scores[score] += amount
-		
-	update_scoreboard()
 
 
 func decrement_score(name : String, amount : int = 1):
 	increment_score(name, -amount)
 
 
-func update_scoreboard():
+func to_string() -> String:
 	var string := ""
 	
 	for name in scores:
-		string += "[u]%s[/u]\n\n%s\n" % [name, scores[name].to_string()]
+		string += "[color=red][u]%s[/u][/color]\n\n" % name
 		
-	print(string)
-	
+		var cells := ""
+		var color := "yellow"
+		var sorted_keys : Array = scores[name].get_sorted_keys()
+		
+		for key in sorted_keys:
+			cells += "[cell][color=%s]%s[/color][/cell][cell][color=%s]\t%s[/color][/cell]" % [color, key, color, scores[name].scores[key]]
+			color = "white"
+		
+		string += "[table=2]%s[/table]\n" % cells
+		
+	return string
