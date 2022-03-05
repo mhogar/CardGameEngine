@@ -16,6 +16,13 @@ func null_event() -> Event:
 	return init_event(preload("res://core/events/Event.tscn").instance())
 
 
+func script_event(object : Node, func_name : String, args : Dictionary = {}) -> ScriptEvent:
+	var event : ScriptEvent = init_event(preload("res://core/events/ScriptEvent.tscn").instance(), args)
+	event.object = object
+	event.func_name = func_name
+	return event
+
+
 func select_card_event(args : Dictionary = {}) -> Event:
 	return init_event(preload("res://core/events/card/SelectCard.tscn").instance(), args)
 

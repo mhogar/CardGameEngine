@@ -9,15 +9,15 @@ func _init(players : Array):
 		scores[player.player_name] = 0
 		
 
-func set_value(player : Player, score : int):
-	scores[player.player_name] = score
+func set_value(player : String, score : int):
+	scores[player] = score
 
 
-func increment(player : Player, amount : int = 1):
-	scores[player.player_name] += amount
+func increment(player : String, amount : int = 1):
+	scores[player] += amount
 
 
-func decrement(player : Player, amount : int = 1):
+func decrement(player : String, amount : int = 1):
 	increment(player, -amount)
 	
 

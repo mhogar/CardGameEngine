@@ -175,6 +175,11 @@ _global_script_classes=[ {
 "path": "res://core/game/scoreboard/Scoreboard.gd"
 }, {
 "base": "Event",
+"class": "ScriptEvent",
+"language": "GDScript",
+"path": "res://core/events/ScriptEvent.gd"
+}, {
+"base": "Event",
 "class": "SelectCardEvent",
 "language": "GDScript",
 "path": "res://core/events/card/SelectCard.gd"
@@ -228,6 +233,11 @@ _global_script_classes=[ {
 "class": "UnaRuleset",
 "language": "GDScript",
 "path": "res://core/game/una/UnaRuleset.gd"
+}, {
+"base": "Node",
+"class": "UnaScripts",
+"language": "GDScript",
+"path": "res://core/game/una/UnaScripts.gd"
 } ]
 _global_script_class_icons={
 "AIPlayer": "",
@@ -263,6 +273,7 @@ _global_script_class_icons={
 "RemovePlayerEvent": "",
 "Ruleset": "",
 "ScoreboardData": "",
+"ScriptEvent": "",
 "SelectCardEvent": "",
 "SelectDeckEvent": "",
 "SelectPlayerEvent": "",
@@ -273,7 +284,8 @@ _global_script_class_icons={
 "TitleScreen": "",
 "TopCardRuleset": "",
 "UnaGame": "",
-"UnaRuleset": ""
+"UnaRuleset": "",
+"UnaScripts": ""
 }
 
 [application]

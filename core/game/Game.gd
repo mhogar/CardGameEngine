@@ -27,6 +27,7 @@ func init_game():
 		game_ctx.piles[pile.deck_name] = pile
 
 	init_scoreboard()
+	game_ctx.scoreboard.update_scoreboard()
 
 
 func init_scoreboard():

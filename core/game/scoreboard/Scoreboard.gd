@@ -17,6 +17,8 @@ func set_score(name : String, value : int):
 	else:
 		scores[score] = value
 		
+	update_scoreboard()
+	
 		
 func increment_score(name : String, amount : int = 1):
 	var tokens := name.split(":", true, 1)
@@ -26,6 +28,8 @@ func increment_score(name : String, amount : int = 1):
 		scores[score].increment(tokens[1], amount)
 	else:
 		scores[score] += amount
+		
+	update_scoreboard()
 
 
 func decrement_score(name : String, amount : int = 1):

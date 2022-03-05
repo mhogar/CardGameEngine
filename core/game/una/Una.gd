@@ -29,8 +29,11 @@ func build_event_queue():
 	var reshuffle_draw_pile := factory.reshuffle_pile(draw_pile, play_pile)
 	var draw_cards := factory.draw_cards(0, draw_pile, reshuffle_draw_pile)
 	
-	var remove_player := factory.remove_player(0)
-	play_loop.map(factory.play_cards(0, play_pile, UnaRuleset.new(), draw_cards, remove_player))
+	var player_out := factory.event_queue("PlayerOut")
+	player_out.merge(factory.script_event(UnaScripts.new(), "player_out_score", { "player_index": 0 }))
+	player_out.map(factory.remove_player_event())
+	
+	play_loop.map(factory.play_cards(0, play_pile, UnaRuleset.new(), draw_cards, player_out))
 
 	var break_queue := factory.break_queue(play_loop)
 	play_loop.map(factory.players_left_condition(break_queue, 1))
