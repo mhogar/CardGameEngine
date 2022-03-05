@@ -15,16 +15,9 @@ func _ready():
 
 func init_game():
 	randomize()
-	get_tree().call_group("Console", "clear_logs")
 	game_ctx = GameContext.new()
 	
-	for player in players.get_children():
-		player.hand.clear()
-		game_ctx.players.append(player)
-		
-	for pile in piles.get_children():
-		pile.clear()
-		game_ctx.piles[pile.deck_name] = pile
+	reset()
 
 	init_scoreboard()
 	get_tree().call_group("Scoreboard", "update_scoreboard", game_ctx.scoreboard.to_string())
@@ -32,6 +25,20 @@ func init_game():
 
 func init_scoreboard():
 	pass
+
+
+func reset():
+	get_tree().call_group("Console", "clear_logs")
+	
+	game_ctx.players.clear()
+	for player in players.get_children():
+		player.hand.clear()
+		game_ctx.players.append(player)
+		
+	game_ctx.piles.clear()
+	for pile in piles.get_children():
+		pile.clear()
+		game_ctx.piles[pile.deck_name] = pile
 
 
 func start():
@@ -45,5 +52,5 @@ func _on_GameLoop_completed(_event, _outputs):
 func _on_ReplayMenu_play_again():
 	replay_menu.hide()
 	
-	init_game()
+	reset()
 	start()
