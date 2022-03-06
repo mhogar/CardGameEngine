@@ -28,8 +28,8 @@ player_name = "AI2"
 [node name="PlayPile" parent="Table/Piles" index="0" instance=ExtResource( 2 )]
 position = Vector2( -110, 0 )
 is_face_up = true
-deck_name = "play"
+deck_name = "Play Pile"
 
 [node name="DrawPile" parent="Table/Piles" index="1" instance=ExtResource( 2 )]
 position = Vector2( 110, 0 )
-deck_name = "draw"
+deck_name = "Draw Pile"

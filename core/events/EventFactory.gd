@@ -22,6 +22,10 @@ func null_event() -> Event:
 	return init_event(preload("res://core/events/Event.tscn").instance())
 
 
+func log_message_event(args : Dictionary = {}) -> Event:
+	return init_event(preload("res://core/events/console/LogMessage.tscn").instance(), args)
+
+
 func select_card_event(args : Dictionary = {}) -> Event:
 	return init_event(preload("res://core/events/card/SelectCard.tscn").instance(), args)
 
@@ -109,6 +113,10 @@ func break_queue(target_queue : EventQueue) -> Event:
 	return event
 
 
+func log_message(message : String) -> Event:
+	return log_message_event({ "log_message": message })
+
+
 func move_card(dest : Deck) -> Event:
 	return move_card_event({ "dest_deck": dest })
 
@@ -180,6 +188,7 @@ func reshuffle_pile(pile : Pile, source : Pile) -> EventQueue:
 	
 	queue.merge(move_cards_event({ "source_deck": source, "dest_deck": pile }))
 	queue.map(shuffle_pile(pile))
+	queue.map(log_message("Reshuffled " + pile.deck_name))
 	
 	return queue
 

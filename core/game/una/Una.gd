@@ -16,12 +16,12 @@ func build_event_queue():
 	var factory := EventFactory.new()
 	var scripts := UnaScripts.new()
 	
-	var play_pile : Pile = game_ctx.piles["play"]
-	var draw_pile : Pile = game_ctx.piles["draw"]
+	var play_pile : Pile = game_ctx.piles["Play Pile"]
+	var draw_pile : Pile = game_ctx.piles["Draw Pile"]
 	
 	game_loop.map(factory.build_pile(draw_pile, StandardDeckBuilder.new()))
 	game_loop.map(factory.shuffle_pile(draw_pile))
-	game_loop.map(factory.deal_cards(game_ctx.players, draw_pile, 1))
+	game_loop.map(factory.deal_cards(game_ctx.players, draw_pile, 3))
 	game_loop.map(factory.move_top_card(draw_pile, play_pile))
 
 	var play_loop := factory.event_queue("PlayLoop", 0)
