@@ -7,5 +7,5 @@
 script = ExtResource( 1 )
 player_name = "You"
 
-[node name="Hand" parent="." index="0"]
+[node name="Hand" parent="Decks" index="0"]
 is_face_up = true

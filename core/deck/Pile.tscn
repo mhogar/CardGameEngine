@@ -1,15 +1,18 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://core/deck/Pile.gd" type="Script" id=1]
-[ext_resource path="res://core/deck/Deck.tscn" type="PackedScene" id=2]
-[ext_resource path="res://EditorOutline.tscn" type="PackedScene" id=3]
+[ext_resource path="res://core/card/Card.tscn" type="PackedScene" id=2]
+[ext_resource path="res://core/deck/Deck.tscn" type="PackedScene" id=3]
+[ext_resource path="res://core/EditorOutline.tscn" type="PackedScene" id=4]
 
-[node name="Pile" instance=ExtResource( 2 )]
+[node name="Pile" instance=ExtResource( 3 )]
 script = ExtResource( 1 )
-deck_name = "Pile"
 
-[node name="EditorOutline" parent="." index="0" instance=ExtResource( 3 )]
+[node name="EditorOutline" parent="." index="0" instance=ExtResource( 4 )]
 margin_left = -53.0
 margin_top = -72.0
 margin_right = 53.0
 margin_bottom = 72.0
+
+[node name="TopCard" parent="." index="1" instance=ExtResource( 2 )]
+visible = false

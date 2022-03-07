@@ -5,6 +5,8 @@
 
 [node name="MoveCard" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+static_args = {
+}
 
 [node name="Tween" type="Tween" parent="." index="0"]
 

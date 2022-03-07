@@ -22,4 +22,4 @@ func select_card(deck : Deck, indices : Array):
 
 func set_show_outline(val : bool):
 	for index in selectable_indices:
-		target_deck.get_card(index).set_show_outline(val)
+		target_deck.set_show_card_outline(index, val)

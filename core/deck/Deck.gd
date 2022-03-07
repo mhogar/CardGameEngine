@@ -1,11 +1,9 @@
 extends Node2D
 class_name Deck
 
-onready var cards_node := $Cards
-
+export var deck_name := "Deck"
 export var is_sorted := false
 export var is_face_up := false
-export var deck_name := "Deck"
 
 var cards := []
 var selected_card_index : int = -1
@@ -13,19 +11,18 @@ var selected_card_index : int = -1
 
 func get_selected_card() -> int:
 	return selected_card_index
-			
+
 
 func shuffle():
 	cards.shuffle()
-	recalculate_z_indices()
+	cards_shuffled()
 	
 
-func recalculate_z_indices():
-	for i in cards.size():
-		cards[i].z_index = i
+func cards_shuffled():
+	pass
 
 
-func get_card(index : int) -> Card:
+func get_card(index : int) -> CardData:
 	if index >= cards.size():
 		return null
 		
@@ -44,15 +41,56 @@ func get_top_card_index() -> int:
 	return cards.size() - 1
 
 
-func get_top_card() -> Card:
+func get_top_card() -> CardData:
 	return cards[get_top_card_index()]
 
 
-func get_card_index(card : Card) -> int:
+func get_card_index(card : CardData) -> int:
 	return cards.find(card)
 
 
-func _insert_sorted(card : Card):
+func add_card(card : CardData):
+	var index : int
+	
+	if is_sorted:
+		index = _insert_sorted(card)
+	else:
+		index = _insert_end(card)
+	
+	card_added(index, card)
+	
+
+func card_added(index : int, card : CardData):
+	pass
+
+
+func remove_card(index : int) -> CardData:
+	var card : CardData = cards[index]	
+	
+	cards.erase(card)
+	card_removed(index, card)
+	
+	return card
+	
+
+func card_removed(index : int, card : CardData):
+	pass
+	
+
+func clear():
+	for _index in num_cards():
+		remove_card(0)
+
+
+func get_card_global_position(_index : int) -> Vector2:
+	return get_global_position()
+	
+
+func set_show_card_outline(_index : int, _val : bool):
+	pass
+
+
+func _insert_sorted(card : CardData) -> int:
 	var index := cards.size()
 	
 	for i in cards.size():
@@ -61,53 +99,12 @@ func _insert_sorted(card : Card):
 			break
 	
 	cards.insert(index, card)
-	recalculate_z_indices()
+	return index
 	
 
-func _insert_end(card : Card):
-	card.z_index = cards.size()
+func _insert_end(card : CardData) -> int:
 	cards.append(card)
-
-
-func add_card(card : Card):
-	if is_sorted:
-		_insert_sorted(card)
-	else:
-		_insert_end(card)
-	
-	cards_node.add_child(card)
-	on_card_added(card)
-
-
-func on_card_added(_card : Card):
-	pass
-
-
-func remove_card(index : int) -> Card:
-	var card : Card = cards[index]
-	card.z_index = 0
-	
-	cards.erase(card)
-	cards_node.remove_child(card)
-	recalculate_z_indices()
-	
-	on_card_removed(index, card)
-	return card
-
-
-func on_card_removed(_index : int, _card : Card):
-	pass
-	
-
-func clear():
-	for card in cards:
-		card.queue_free()
-	
-	cards.clear()
-
-
-func get_card_relative_position(card : Card) -> Vector2:
-	return transform.xform(card.get_sprite_relative_position())	
+	return get_top_card_index()
 
 
 func _on_Controller_selected_card_changed(card_index : int):

@@ -3,6 +3,8 @@ class_name Game
 
 onready var game_loop : EventQueue = $GameLoop
 onready var replay_menu := $CanvasLayer/ReplayMenu
+
+onready var table := $Table
 onready var players := $Table/Players
 onready var piles := $Table/Piles
 
@@ -15,10 +17,9 @@ func _ready():
 
 func init_game():
 	randomize()
-	game_ctx = GameContext.new()
+	game_ctx = GameContext.new(table)
 	
 	reset()
-
 	init_scoreboard()
 	get_tree().call_group("Scoreboard", "update_scoreboard", game_ctx.scoreboard.to_string())
 
@@ -32,7 +33,7 @@ func reset():
 	
 	game_ctx.players.clear()
 	for player in players.get_children():
-		player.hand.clear()
+		player.clear_decks()
 		game_ctx.players.append(player)
 		
 	game_ctx.piles.clear()

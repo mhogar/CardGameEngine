@@ -1,17 +1,19 @@
-extends Node
+extends Resource
 class_name GameContext
 
 var players := []
 var piles := {}
 
+var table : Node2D
 var scoreboard : ScoreboardData
 
 var current_player_index := 0
 var turn_dir := 1
 
 
-func _init():
+func _init(table : Node2D):
 	scoreboard = ScoreboardData.new()
+	self.table = table
 
 
 func get_relative_player_index(relative_index : int) -> int:

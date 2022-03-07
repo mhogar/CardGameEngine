@@ -4,22 +4,21 @@ class_name Card
 signal card_mouse_entered
 signal card_mouse_exited
 
-export(int, 12) var value : int
-export(int, 3) var suit : int
-
 onready var sprite := $Sprite
 onready var anim_player := $AnimationPlayer
 onready var collision_shape : RectangleShape2D = $Area2D/CollisionShape2D.shape
 
-const NUM_VALUES := 13
-const NUM_SUITS := 4
-
-var face_up := false
+var data : CardData
 
 
 func _ready():
-	sprite.create_front_texture(value, suit)
-	sprite.set_face_up(face_up)
+	set_data(CardData.new())
+
+
+func set_data(val : CardData):
+	data = val
+	sprite.create_front_texture(val.value, val.suit)
+	sprite.set_face_up(val.face_up)
 
 
 func reset():
@@ -28,7 +27,7 @@ func reset():
 
 
 func set_face_up(val : bool):
-	face_up = val
+	data.face_up = val
 	sprite.set_face_up(val)
 
 
@@ -53,13 +52,6 @@ func set_show_outline(val : bool):
 func is_mouse_hovering() -> bool:
 	var mouse_pos := get_local_mouse_position()
 	return abs(mouse_pos.x) <= collision_shape.extents.x && abs(mouse_pos.y) <= collision_shape.extents.y
-
-
-func compare(other : Card) -> bool:
-	if suit != other.suit:
-		return suit < other.suit
-	
-	return value < other.value
 
 
 func _on_Area2D_mouse_entered():

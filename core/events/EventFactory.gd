@@ -61,8 +61,8 @@ func select_player_event(args : Dictionary = {}) -> Event:
 	return init_event(preload("res://core/events/player/SelectPlayer.tscn").instance(), args)
 	
 
-func select_player_hand_event(deck_type : int, args : Dictionary = {}) -> Event:
-	var event := init_event(preload("res://core/events/player/SelectPlayerHand.tscn").instance(), args)
+func select_player_deck_event(deck_type : int, args : Dictionary = {}) -> Event:
+	var event := init_event(preload("res://core/events/player/SelectPlayerDeck.tscn").instance(), args)
 	event.deck_type = deck_type
 	return event 
 
@@ -138,11 +138,11 @@ func build_pile(pile : Pile, builder : DeckBuilder) -> Event:
 	return build_deck_event({ "source_deck": pile, "deck_builder": builder })
 
 
-func deal_cards(players : Array, pile : Pile, num_cards : int) -> EventQueue:
+func deal_cards(players : Array, deck_name : String, pile : Pile, num_cards : int) -> EventQueue:
 	var queue := event_queue("DealCards", num_cards)
 	
 	for player in players:
-		queue.merge(move_top_card(pile, player.hand))
+		queue.merge(move_top_card(pile, player.decks[deck_name]))
 		
 	return queue
 	
@@ -151,13 +151,13 @@ func next_turn() -> Event:
 	return next_turn_event()
 
 
-func draw_cards(player_index : int, pile : Pile, deck_emptied_event : Event, num_cards : int = 1) -> EventQueue:
+func draw_cards(player_index : int, deck_name : String, pile : Pile, deck_emptied_event : Event, num_cards : int = 1) -> EventQueue:
 	var queue := event_queue("DrawCards", num_cards, { "source_deck": pile })
 	
 	queue.merge(apply_ruleset_event({ "ruleset": TopCardRuleset.new() }))
 	queue.merge(select_player_event({ "player_index": player_index }))
 	queue.merge(select_card_event())
-	queue.merge(select_player_hand_event(SelectDeckEvent.DECK_TYPE.DEST))
+	queue.merge(select_player_deck_event(SelectDeckEvent.DECK_TYPE.DEST, { "deck_name" : deck_name }))
 	queue.merge(log_card_drawn_event())
 	queue.merge(move_card_event())
 	queue.map(deck_empty_condition(deck_emptied_event))
@@ -165,11 +165,11 @@ func draw_cards(player_index : int, pile : Pile, deck_emptied_event : Event, num
 	return queue
 	
 
-func play_cards(player_index : int, pile : Pile, ruleset : Ruleset, cant_play_event : Event, hand_emptied_event : Event) -> EventQueue:
+func play_cards(player_index : int, deck_name : String, pile : Pile, ruleset : Ruleset, cant_play_event : Event, hand_emptied_event : Event) -> EventQueue:
 	var queue := event_queue("TryPlayCards")
 	
 	queue.merge(select_player_event({ "player_index": player_index }))
-	queue.merge(select_player_hand_event(SelectDeckEvent.DECK_TYPE.SOURCE))
+	queue.merge(select_player_deck_event(SelectDeckEvent.DECK_TYPE.SOURCE, { "deck_name" : deck_name }))
 	queue.merge(apply_ruleset_event({ "ruleset": ruleset }))
 	
 	var play_queue := event_queue("PlayCards")
