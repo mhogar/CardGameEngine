@@ -24,14 +24,14 @@ func log_message(message : String):
 
 # Console group
 func log_card_drawn(player : Player):
-	log_message("%s drew a card" % colored_text(PLAYER_COLOR, player.player_name))
+	log_message("%s drew a card" % colored_text(PLAYER_COLOR, player.name))
 
 	
 # Console group
 func log_card_played(player : Player, card : CardData):	
-	log_message("%s played %s" % [colored_text(PLAYER_COLOR, player.player_name), card.to_bb_text()])
+	log_message("%s played %s" % [colored_text(PLAYER_COLOR, player.name), card.to_bb_text()])
 
 
 # Console group
 func log_player_out(player : Player):
-	log_message("%s is out!" % colored_text(PLAYER_COLOR, player.player_name))
+	log_message("%s is out!" % colored_text(PLAYER_COLOR, player.name))

@@ -9,10 +9,10 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Player",
-"class": "AIPlayer",
+"base": "PlayerController",
+"class": "AIController",
 "language": "GDScript",
-"path": "res://core/players/AI.gd"
+"path": "res://core/players/AIController.gd"
 }, {
 "base": "Event",
 "class": "ApplyRulesetEvent",
@@ -114,10 +114,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://core/events/conditional/HasSelectableIndices.gd"
 }, {
-"base": "Player",
-"class": "HumanPlayer",
+"base": "PlayerController",
+"class": "HumanController",
 "language": "GDScript",
-"path": "res://core/players/Human.gd"
+"path": "res://core/players/HumanController.gd"
 }, {
 "base": "Event",
 "class": "LogCardDrawnEvent",
@@ -158,6 +158,11 @@ _global_script_classes=[ {
 "class": "Player",
 "language": "GDScript",
 "path": "res://core/players/Player.gd"
+}, {
+"base": "Node",
+"class": "PlayerController",
+"language": "GDScript",
+"path": "res://core/players/PlayerController.gd"
 }, {
 "base": "Resource",
 "class": "PlayerScore",
@@ -260,7 +265,7 @@ _global_script_classes=[ {
 "path": "res://core/game/una/UnaScripts.gd"
 } ]
 _global_script_class_icons={
-"AIPlayer": "",
+"AIController": "",
 "ApplyRulesetEvent": "",
 "BreakQueueEvent": "",
 "BuildDeckEvent": "",
@@ -281,7 +286,7 @@ _global_script_class_icons={
 "GameSelectButton": "",
 "Hand": "",
 "HasSelectableIndicesCondition": "",
-"HumanPlayer": "",
+"HumanController": "",
 "LogCardDrawnEvent": "",
 "LogCardEvent": "",
 "LogMessageEvent": "",
@@ -290,6 +295,7 @@ _global_script_class_icons={
 "NextTurnEvent": "",
 "Pile": "",
 "Player": "",
+"PlayerController": "",
 "PlayerScore": "",
 "PlayersLeftCondition": "",
 "RemovePlayerEvent": "",

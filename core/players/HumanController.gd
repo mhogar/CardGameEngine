@@ -1,11 +1,11 @@
-extends Player
-class_name HumanPlayer
+extends PlayerController
+class_name HumanController
 
 var target_deck : Deck
 var selectable_indices : Array
 
 
-func _process(_delta):
+func _physics_process(delta):
 	if target_deck != null && Input.is_action_just_pressed("confirm_card"):
 		var index := target_deck.get_selected_card()
 		if index in selectable_indices:

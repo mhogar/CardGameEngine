@@ -1,6 +1,5 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://core/deck/Hand.tscn" type="PackedScene" id=1]
 [ext_resource path="res://core/players/Player.gd" type="Script" id=2]
 [ext_resource path="res://assets/light.png" type="Texture" id=3]
 
@@ -8,9 +7,6 @@
 script = ExtResource( 2 )
 
 [node name="Decks" type="Node2D" parent="."]
-
-[node name="Hand" parent="Decks" instance=ExtResource( 1 )]
-deck_name = "Hand"
 
 [node name="Light2D" type="Light2D" parent="."]
 scale = Vector2( 1, 0.5 )

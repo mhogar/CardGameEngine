@@ -188,7 +188,7 @@ func reshuffle_pile(pile : Pile, source : Pile) -> EventQueue:
 	
 	queue.merge(move_cards_event({ "source_deck": source, "dest_deck": pile }))
 	queue.map(shuffle_pile(pile))
-	queue.map(log_message("Reshuffled " + pile.deck_name))
+	queue.map(log_message("Reshuffled " + pile.name))
 	
 	return queue
 

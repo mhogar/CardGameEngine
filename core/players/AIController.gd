@@ -1,5 +1,5 @@
-extends Player
-class_name AIPlayer
+extends PlayerController
+class_name AIController
 
 var rng : RandomNumberGenerator
 

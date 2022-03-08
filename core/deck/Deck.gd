@@ -1,7 +1,6 @@
 extends Node2D
 class_name Deck
 
-export var deck_name := "Deck"
 export var is_sorted := false
 export var is_face_up := false
 

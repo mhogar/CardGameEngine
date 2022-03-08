@@ -36,14 +36,20 @@ func reset():
 		player.clear_decks()
 		game_ctx.players.append(player)
 		
+	game_ctx.players.sort_custom(self, "_compare_players")
+		
 	game_ctx.piles.clear()
 	for pile in piles.get_children():
 		pile.clear()
-		game_ctx.piles[pile.deck_name] = pile
+		game_ctx.piles[pile.name] = pile
 
 
 func start():
 	game_loop.execute(game_ctx, { "num_iter": 1})
+
+
+func _compare_players(a : Player, b : Player):
+	return a.table_index < b.table_index
 
 
 func _on_GameLoop_completed(_event, _outputs):
