@@ -29,7 +29,7 @@ func to_text() -> String:
 	
 
 func to_bb_text() -> String:
-	return "%s [color=%s]%s[/color]" % [_value_to_string(), _get_suit_color(), _suit_to_string()]
+	return "[color=%s]%s %s[/color]" % [_get_suit_color(), _value_to_string(), _suit_to_string()]
 
 
 func _value_to_string() -> String:
