@@ -18,11 +18,11 @@ func card_added(index : int, card : CardData):
 	
 
 func card_removed(index : int, _card : CardData):
-	if index == get_top_card_index():
-		if num_cards() > 1:
-			top_card.set_data(get_top_card())
-		else:
+	if index > get_top_card_index():
+		if is_empty():
 			top_card.hide()	
+		else:
+			top_card.set_data(get_top_card())
 			
 
 func set_show_card_outline(index : int, val : bool):
