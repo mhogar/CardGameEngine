@@ -66,7 +66,6 @@ is_face_up = true
 
 [node name="Piles" type="Node2D" parent="Table"]
 
-[connection signal="completed" from="GameLoop" to="." method="_on_GameLoop_completed"]
 [connection signal="play_again" from="CanvasLayer/ReplayMenu" to="." method="_on_ReplayMenu_play_again"]
 
 [editable path="Table/Players/You"]

@@ -8,6 +8,7 @@
 
 [node name="Una" instance=ExtResource( 4 )]
 script = ExtResource( 1 )
+num_players = 3
 
 [node name="Light2D" type="Light2D" parent="." index="4"]
 scale = Vector2( 1.87505, 0.42024 )

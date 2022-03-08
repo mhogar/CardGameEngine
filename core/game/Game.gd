@@ -16,6 +16,7 @@ var game_ctx : GameContext
 
 func _ready():
 	position = Vector2()
+	game_loop.connect("completed", self, "_on_GameLoop_completed")
 
 
 func init_game():
@@ -77,6 +78,7 @@ func _compare_players(a : Player, b : Player):
 
 
 func _on_GameLoop_completed(_event, _outputs):
+	get_tree().call_group("Console", "log_message", "Game Over!")
 	replay_menu.show()
 	
 

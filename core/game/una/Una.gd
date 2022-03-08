@@ -10,6 +10,10 @@ func _ready():
 
 func init_scoreboard():
 	game_ctx.add_player_score("Score")
+	
+
+func create_ai_controller() -> Node:
+	return preload("res://core/game/una/UnaAIController.tscn").instance()
 
 
 func build_event_queue():

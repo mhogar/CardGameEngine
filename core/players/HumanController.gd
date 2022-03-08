@@ -14,7 +14,7 @@ func _physics_process(delta):
 			emit_signal("select_card", index)
 			
 
-func select_card(deck : Deck, indices : Array):
+func select_card(_ctx : GameContext, deck : Deck, indices : Array):
 	target_deck = deck
 	selectable_indices = indices
 	set_show_outline(true)

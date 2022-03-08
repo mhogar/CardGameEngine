@@ -22,6 +22,5 @@ func clear_decks():
 		decks[key].clear()
 
 
-func get_controller() -> PlayerController:
-	var controller : PlayerController = $Controller
-	return controller
+func get_controller() -> Node:
+	return $Controller
