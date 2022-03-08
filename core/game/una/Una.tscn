@@ -1,12 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://core/game/una/Una.gd" type="Script" id=1]
 [ext_resource path="res://core/deck/Pile.tscn" type="PackedScene" id=2]
 [ext_resource path="res://core/game/una/UnaPlayer.tscn" type="PackedScene" id=3]
 [ext_resource path="res://core/game/Game.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/light.png" type="Texture" id=5]
-[ext_resource path="res://core/players/HumanController.tscn" type="PackedScene" id=6]
-[ext_resource path="res://core/players/AIController.tscn" type="PackedScene" id=7]
 
 [node name="Una" instance=ExtResource( 4 )]
 script = ExtResource( 1 )
@@ -17,27 +15,15 @@ texture = ExtResource( 5 )
 energy = 0.7
 range_height = 150.0
 
-[node name="You" parent="Table/Players" index="0" instance=ExtResource( 3 )]
-position = Vector2( 0, 400 )
-
-[node name="Controller" parent="Table/Players/You" index="0" instance=ExtResource( 6 )]
-
-[node name="Hand" parent="Table/Players/You/Decks" index="0"]
-is_face_up = true
-
 [node name="Player 2" parent="Table/Players" index="1" instance=ExtResource( 3 )]
 position = Vector2( 0, -400 )
-rotation = 3.14159
+rotation = -3.14159
 table_index = 2
-
-[node name="Controller" parent="Table/Players/Player 2" index="2" instance=ExtResource( 7 )]
 
 [node name="Player 3" parent="Table/Players" index="2" instance=ExtResource( 3 )]
 position = Vector2( -800, 0 )
 rotation = 1.5708
 table_index = 1
-
-[node name="Controller" parent="Table/Players/Player 3" index="2" instance=ExtResource( 7 )]
 
 [node name="Play Pile" parent="Table/Piles" index="0" instance=ExtResource( 2 )]
 position = Vector2( -110, 0 )

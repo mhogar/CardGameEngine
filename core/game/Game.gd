@@ -5,8 +5,11 @@ onready var game_loop : EventQueue = $GameLoop
 onready var replay_menu := $CanvasLayer/ReplayMenu
 
 onready var table := $Table
-onready var players := $Table/Players
 onready var piles := $Table/Piles
+onready var players := $Table/Players
+onready var human := $Table/Players/You
+
+export var num_players := 2
 
 var game_ctx : GameContext
 
@@ -26,19 +29,35 @@ func init_game():
 
 func init_scoreboard():
 	pass
+	
+
+func create_ai_controller() -> Node:
+	return preload("res://core/players/AIController.tscn").instance()
 
 
 func reset():
 	get_tree().call_group("Console", "clear_logs")
 	
 	game_ctx.players.clear()
-	for player in players.get_children():
-		player.clear_decks()
-		game_ctx.players.append(player)
+	game_ctx.piles.clear()
+	
+	_add_player(human)
+	
+	for index in range(1, players.get_child_count()):
+		var player : Player = players.get_child(index)
+		
+		if index >= num_players:
+			player.queue_free()
+			break
+		
+		var controller := create_ai_controller()
+		controller.name = "Controller"
+		
+		player.add_child(controller)
+		_add_player(player)
 		
 	game_ctx.players.sort_custom(self, "_compare_players")
 		
-	game_ctx.piles.clear()
 	for pile in piles.get_children():
 		pile.clear()
 		game_ctx.piles[pile.name] = pile
@@ -46,6 +65,11 @@ func reset():
 
 func start():
 	game_loop.execute(game_ctx, { "num_iter": 1})
+
+
+func _add_player(player : Player):
+	player.clear_decks()
+	game_ctx.players.append(player)
 
 
 func _compare_players(a : Player, b : Player):
