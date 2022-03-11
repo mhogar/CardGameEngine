@@ -2,7 +2,9 @@
 
 [ext_resource path="res://core/deck/Hand.gd" type="Script" id=1]
 [ext_resource path="res://core/deck/Deck.tscn" type="PackedScene" id=2]
-[ext_resource path="res://core/EditorOutline.tscn" type="PackedScene" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 349.937, 70.8949 )
 
 [node name="Hand" instance=ExtResource( 2 )]
 script = ExtResource( 1 )
@@ -10,10 +12,7 @@ is_sorted = true
 
 [node name="Cards" type="Node2D" parent="." index="0"]
 
-[node name="EditorOutline" parent="." index="1" instance=ExtResource( 3 )]
-margin_left = -349.974
-margin_top = -73.8743
-margin_right = 350.026
-margin_bottom = 70.1257
+[node name="Outline" type="CollisionShape2D" parent="." index="1"]
+shape = SubResource( 1 )
 
 [node name="Tween" type="Tween" parent="." index="2"]

@@ -2,21 +2,26 @@ extends Deck
 class_name Hand
 
 onready var cards_node := $Cards
+onready var outline := $Outline
 onready var tween := $Tween
 
-const MAX_WIDTH := 700.0
-
+var max_width : float
 var card_nodes := []
 var hovered_card_indices := []
+
+
+func _ready():
+	var shape : RectangleShape2D = outline.shape
+	max_width = shape.extents.x * 2
 
 
 func adjust_spacing():
 	tween.remove_all()
 	
-	var spacing := MAX_WIDTH / (num_cards() + 1)
+	var spacing := max_width / (num_cards() + 1)
 	for card in card_nodes:
 		var start_pos : float = card.position.x
-		var new_pos : float = spacing * (card.z_index + 1) - (MAX_WIDTH / 2.0)
+		var new_pos : float = spacing * (card.z_index + 1) - (max_width / 2.0)
 		
 		tween.interpolate_property(card, "position:x", start_pos, new_pos, abs(start_pos - new_pos) / 500.0, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 
