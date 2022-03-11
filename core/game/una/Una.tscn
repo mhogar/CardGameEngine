@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://core/game/una/Una.gd" type="Script" id=1]
 [ext_resource path="res://core/deck/Pile.tscn" type="PackedScene" id=2]
 [ext_resource path="res://core/game/una/UnaPlayer.tscn" type="PackedScene" id=3]
 [ext_resource path="res://core/game/Game.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/light.png" type="Texture" id=5]
+[ext_resource path="res://core/players/HumanController.tscn" type="PackedScene" id=6]
 
 [node name="Una" instance=ExtResource( 4 )]
 script = ExtResource( 1 )
@@ -15,6 +16,14 @@ scale = Vector2( 1.87505, 0.42024 )
 texture = ExtResource( 5 )
 energy = 0.7
 range_height = 150.0
+
+[node name="You" parent="Table/Players" index="0" instance=ExtResource( 3 )]
+position = Vector2( 0, 400 )
+
+[node name="Hand" parent="Table/Players/You/Decks" index="0"]
+is_face_up = true
+
+[node name="Controller" parent="Table/Players/You" index="2" instance=ExtResource( 6 )]
 
 [node name="Player 2" parent="Table/Players" index="1" instance=ExtResource( 3 )]
 position = Vector2( 0, -400 )

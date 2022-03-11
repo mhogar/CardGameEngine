@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://core/gui/game/Console.tscn" type="PackedScene" id=1]
 [ext_resource path="res://core/game/Game.gd" type="Script" id=2]
@@ -6,9 +6,7 @@
 [ext_resource path="res://core/gui/game/Scoreboard.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/table_tile.png" type="Texture" id=5]
 [ext_resource path="res://assets/table_tile_n.png" type="Texture" id=6]
-[ext_resource path="res://core/players/HumanController.tscn" type="PackedScene" id=7]
 [ext_resource path="res://core/gui/menu/ReplayMenu.tscn" type="PackedScene" id=8]
-[ext_resource path="res://core/game/una/UnaPlayer.tscn" type="PackedScene" id=9]
 
 [node name="Game" type="Node2D"]
 position = Vector2( 960, 540 )
@@ -56,16 +54,6 @@ region_rect = Rect2( 0, 0, 2000, 1000 )
 
 [node name="Players" type="Node2D" parent="Table"]
 
-[node name="You" parent="Table/Players" instance=ExtResource( 9 )]
-position = Vector2( 0, 400 )
-
-[node name="Hand" parent="Table/Players/You/Decks" index="0"]
-is_face_up = true
-
-[node name="Controller" parent="Table/Players/You" instance=ExtResource( 7 )]
-
 [node name="Piles" type="Node2D" parent="Table"]
 
 [connection signal="play_again" from="CanvasLayer/ReplayMenu" to="." method="_on_ReplayMenu_play_again"]
-
-[editable path="Table/Players/You"]
