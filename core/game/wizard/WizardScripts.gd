@@ -21,3 +21,7 @@ func select_winner(ctx : GameContext, inputs : Dictionary) -> Dictionary:
 			winner = index
 	
 	return { "player_index": winner }
+	
+
+func log_set_winner(ctx : GameContext, inputs : Dictionary):
+	ctx.logs.log_message("%p won the set", [inputs["player"]])

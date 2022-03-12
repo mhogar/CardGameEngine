@@ -6,6 +6,7 @@ var piles := {}
 
 var table : Node2D
 var scoreboard : ScoreboardData
+var logs : Logs
 
 var current_player_index := 0
 var turn_dir := 1
@@ -13,6 +14,7 @@ var turn_dir := 1
 
 func _init(table : Node2D):
 	scoreboard = ScoreboardData.new()
+	logs = Logs.new()
 	self.table = table
 
 

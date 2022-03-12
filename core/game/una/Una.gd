@@ -36,7 +36,7 @@ func build_event_queue():
 	
 	var player_out := factory.event_queue("PlayerOut")
 	player_out.merge(factory.scoreboard_script_event(scripts, "player_out_score", { "player_index": 0 }))
-	player_out.map(factory.remove_player_event())
+	player_out.map(factory.remove_player(0))
 	
 	play_loop.map(factory.play_cards(0, "Hand", play_pile, UnaRuleset.new(), draw_cards, player_out))
 

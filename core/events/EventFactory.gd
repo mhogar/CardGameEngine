@@ -1,6 +1,12 @@
 extends Node
 class_name EventFactory
 
+var log_scripts : StandardLogScripts
+
+
+func _init():
+	log_scripts = StandardLogScripts.new()
+
 
 func init_event(event : Event, args : Dictionary = {}) -> Event:
 	event.static_args = args
@@ -12,7 +18,7 @@ func init_conditional_event(event : ConditionalEvent, true_event : Event, false_
 	return init_event(event, args)
 
 
-func init_script_event(event : ScriptEvent, object : Node, func_name : String, args : Dictionary = {}) -> Event:
+func init_script_event(event : ScriptEvent, object : Object, func_name : String, args : Dictionary = {}) -> Event:
 	event.object = object
 	event.func_name = func_name
 	return init_event(event, args)
@@ -20,10 +26,6 @@ func init_script_event(event : ScriptEvent, object : Node, func_name : String, a
 
 func null_event() -> Event:
 	return init_event(preload("res://core/events/Event.tscn").instance())
-
-
-func log_message_event(args : Dictionary = {}) -> Event:
-	return init_event(preload("res://core/events/console/LogMessage.tscn").instance(), args)
 
 
 func select_card_event(args : Dictionary = {}) -> Event:
@@ -42,14 +44,6 @@ func move_cards_event(leave_top_card : bool, args : Dictionary = {}) -> Event:
 	var event := init_event(preload("res://core/events/card/MoveCards.tscn").instance(), args)
 	event.leave_top_card = leave_top_card
 	return event
-	
-
-func log_card_played_event(args : Dictionary = {}) -> Event:
-	return init_event(preload("res://core/events/card/LogCardPlayed.tscn").instance(), args)
-	
-	
-func log_card_drawn_event(args : Dictionary = {}) -> Event:
-	return init_event(preload("res://core/events/card/LogCardDrawn.tscn").instance(), args)
 	
 
 func shuffle_deck_event(args : Dictionary = {}) -> Event:
@@ -99,12 +93,16 @@ func players_left_condition(players_left_event : Event, num_players : int) -> Ev
 	return init_conditional_event(preload("res://core/events/conditional/PlayersLeft.tscn").instance(), players_left_event, null_event(), { "num_players": num_players })
 
 
-func script_event(object : Node, func_name : String, args : Dictionary = {}) -> Event:
+func script_event(object : Object, func_name : String, args : Dictionary = {}) -> Event:
 	return init_script_event(preload("res://core/events/script/ScriptEvent.tscn").instance(), object, func_name, args)
 
 
-func scoreboard_script_event(object : Node, func_name : String, args : Dictionary = {}) -> Event:
+func scoreboard_script_event(object : Object, func_name : String, args : Dictionary = {}) -> Event:
 	return init_script_event(preload("res://core/events/script/ScoreboardScript.tscn").instance(), object, func_name, args)
+
+
+func log_script_event(object : Object, func_name : String, args : Dictionary = {}) -> Event:
+	return init_script_event(preload("res://core/events/script/LogScript.tscn").instance(), object, func_name, args)
 
 
 func event_queue(name : String, num_iter : int = 1, args : Dictionary = {}) -> EventQueue:
@@ -119,10 +117,6 @@ func break_queue(target_queue : EventQueue) -> Event:
 	event.name = "BreakQueue"
 	event.target_queue = target_queue
 	return event
-
-
-func log_message(message : String) -> Event:
-	return log_message_event({ "log_message": message })
 
 
 func move_card(dest : Deck) -> Event:
@@ -166,7 +160,7 @@ func draw_cards(player_index : int, deck_name : String, pile : Pile, deck_emptie
 	queue.merge(select_player_event({ "player_index": player_index }))
 	queue.merge(select_card_event())
 	queue.merge(select_player_deck_event(SelectDeckEvent.DECK_TYPE.DEST, deck_name))
-	queue.merge(log_card_drawn_event())
+	queue.merge(log_script_event(log_scripts, "card_drawn"))
 	queue.merge(move_card_event())
 	queue.map(deck_empty_condition(deck_emptied_event))
 	
@@ -188,7 +182,7 @@ func play_cards(player_index : int, deck_name : String, pile : Pile, ruleset : R
 	
 	var play_queue := event_queue("PlayCards")
 	play_queue.merge(select_card_event())
-	play_queue.merge(log_card_played_event())
+	play_queue.merge(log_script_event(log_scripts, "card_played"))
 	play_queue.merge(move_card(pile))
 	play_queue.map(deck_empty_condition(hand_emptied_event))
 	
@@ -200,12 +194,18 @@ func play_cards(player_index : int, deck_name : String, pile : Pile, ruleset : R
 func reshuffle_pile(pile : Pile, source : Pile, leave_top_card : bool) -> EventQueue:
 	var queue := event_queue("ReshufflePile")
 	
-	queue.merge(move_cards_event(leave_top_card, { "source_deck": source, "dest_deck": pile }))
-	queue.map(shuffle_pile(pile))
-	queue.map(log_message("Reshuffled " + pile.name))
+	queue.map(move_cards_event(leave_top_card, { "source_deck": source, "dest_deck": pile }))
+	queue.merge(shuffle_pile(pile))
+	queue.map(log_script_event(log_scripts, "reshuffled_deck"))
 	
 	return queue
 
 
 func remove_player(index : int) -> Event:
-	return remove_player_event({ "player_index": index })
+	var queue := event_queue("RemovePlayer")
+	
+	queue.merge(select_player_event({ "player_index": index }))
+	queue.merge(log_script_event(log_scripts, "player_out"))
+	queue.map(remove_player_event())
+	
+	return queue

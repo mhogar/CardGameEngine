@@ -53,6 +53,7 @@ func choose_winner(play_pile : Pile) -> EventQueue:
 	
 	queue.merge(factory.script_event(scripts, "select_winner"))
 	queue.merge(factory.select_player_event())
+	queue.merge(factory.log_script_event(scripts, "log_set_winner"))
 	queue.merge(factory.select_player_deck_event(SelectDeckEvent.DECK_TYPE.DEST, "Sets"))
 	queue.merge(factory.move_cards_event(false, { "source_deck": play_pile }))
 	queue.merge(factory.set_turn_event())

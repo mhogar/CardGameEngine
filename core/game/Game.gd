@@ -37,7 +37,8 @@ func create_ai_controller() -> Node:
 
 
 func reset():
-	get_tree().call_group("Console", "clear_logs")
+	game_ctx.logs.clear()
+	get_tree().call_group("Console", "update_logs", game_ctx.logs.to_string())
 	
 	game_ctx.players.clear()
 	game_ctx.piles.clear()

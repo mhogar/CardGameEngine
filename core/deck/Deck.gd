@@ -1,6 +1,8 @@
 extends Node2D
 class_name Deck
 
+const DECK_COLOR := "fuchsia"
+
 export var is_sorted := false
 export var is_face_up := false
 
@@ -97,6 +99,14 @@ func get_card_global_position(_index : int) -> Vector2:
 
 func set_show_card_outline(_index : int, _val : bool):
 	pass
+	
+
+func to_text() -> String:
+	return name
+	
+
+func to_bb_text() -> String:
+	return "[color=%s]%s[/color]" % [DECK_COLOR, to_text()]
 
 
 func _insert_sorted(card : CardData) -> int:

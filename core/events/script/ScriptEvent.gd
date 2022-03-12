@@ -1,7 +1,7 @@
 extends Event
 class_name ScriptEvent
 
-var object : Node
+var object : Object
 var func_name : String
 
 

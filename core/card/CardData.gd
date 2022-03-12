@@ -25,28 +25,42 @@ func compare(other : CardData) -> bool:
 
 
 func to_text() -> String:
-	return "%s %s" % [_value_to_string(), _suit_to_string()]
+	return "%s %s" % [_value_to_string(), suit_to_text()]
 	
 
 func to_bb_text() -> String:
-	return "[color=%s]%s %s[/color]" % [_get_suit_color(), _value_to_string(), _suit_to_string()]
+	return "[color=%s]The %s of %s[/color]" % [_get_suit_color(), _value_to_string(), suit_to_text()]
+
+
+func suit_to_text() -> String:
+	match suit:
+		0: return "Clubs"
+		1: return "Diamonds"
+		2: return "Hearts"
+		3: return "Spades"
+
+	return ""
+
+
+func suit_to_bb_text() -> String:
+	return "[color=%s]%s[/color]" % [_get_suit_color(), suit_to_text()]
 
 
 func _value_to_string() -> String:
 	match value:
-		0: return "The Ace"
-		1: return "The Two"
-		2: return "The Three"
-		3: return "The Four"
-		4: return "The Five"
-		5: return "The Six"
-		6: return "The Seven"
-		7: return "The Eight"
-		8: return "The Nine"
-		9: return "The Ten"
-		10: return "The Jack"
-		11: return "The Queen"
-		12: return "The King"
+		0: return "Ace"
+		1: return "Two"
+		2: return "Three"
+		3: return "Four"
+		4: return "Five"
+		5: return "Six"
+		6: return "Seven"
+		7: return "Eight"
+		8: return "Nine"
+		9: return "Ten"
+		10: return "Jack"
+		11: return "Queen"
+		12: return "King"
 		
 	return ""
 	
@@ -59,14 +73,3 @@ func _get_suit_color() -> String:
 		3: return BLACK_SUIT_COLOR
 		
 	return "white"
-			
-			
-func _suit_to_string() -> String:
-	match suit:
-		0: return "of Clubs"
-		1: return "of Diamonds"
-		2: return "of Hearts"
-		3: return "of Spades"
-
-	return ""
-	
