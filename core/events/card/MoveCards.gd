@@ -1,12 +1,17 @@
 extends Event
-class_name MoveCards
+class_name MoveCardsEvent
 
 onready var tween := $Tween
+
+export var leave_top_card := false
 
 
 func execute(ctx : GameContext, inputs : Dictionary):
 	var deck : Deck = inputs["source_deck"]
-	var last_index := deck.num_cards() - 2
+	var last_index := deck.num_cards() - 1
+	
+	if leave_top_card:
+		last_index -= 1
 	
 	var delay := 0.0
 	for index in range(last_index + 1):

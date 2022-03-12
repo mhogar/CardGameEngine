@@ -1,8 +1,8 @@
 extends AIController
 class_name UnaAIController
+	
 
-
-func select_card(_ctx : GameContext, deck : Deck, indices : Array):
+func select_index(_ctx : GameContext, deck : Deck, indices : Array) -> int:
 	var selected_index := 0
 	var max_playable := 0
 	
@@ -17,5 +17,5 @@ func select_card(_ctx : GameContext, deck : Deck, indices : Array):
 		if playable > max_playable:
 			max_playable = playable
 			selected_index = index
-	
-	emit_signal("select_card", selected_index)
+			
+	return selected_index

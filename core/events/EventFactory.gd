@@ -37,8 +37,11 @@ func select_top_card_event(args : Dictionary = {}) -> Event:
 func move_card_event(args : Dictionary = {}) -> Event:
 	return init_event(preload("res://core/events/card/MoveCard.tscn").instance(), args)
 	
-func move_cards_event(args : Dictionary = {}) -> Event:
-	return init_event(preload("res://core/events/card/MoveCards.tscn").instance(), args)
+	
+func move_cards_event(leave_top_card : bool, args : Dictionary = {}) -> Event:
+	var event := init_event(preload("res://core/events/card/MoveCards.tscn").instance(), args)
+	event.leave_top_card = leave_top_card
+	return event
 	
 
 func log_card_played_event(args : Dictionary = {}) -> Event:
@@ -61,9 +64,10 @@ func select_player_event(args : Dictionary = {}) -> Event:
 	return init_event(preload("res://core/events/player/SelectPlayer.tscn").instance(), args)
 	
 
-func select_player_deck_event(deck_type : int, args : Dictionary = {}) -> Event:
-	var event := init_event(preload("res://core/events/player/SelectPlayerDeck.tscn").instance(), args)
+func select_player_deck_event(deck_type : int, deck_name : String, args : Dictionary = {}) -> Event:
+	var event := init_event(preload("res://core/events/player/SelectPlayerDeck.tscn").instance())
 	event.deck_type = deck_type
+	event.static_args = event.merge_inputs({ "deck_name": deck_name }, args)
 	return event 
 
 
@@ -73,6 +77,10 @@ func remove_player_event(args : Dictionary = {}) -> Event:
 
 func next_turn_event(args : Dictionary = {}) -> Event:
 	return init_event(preload("res://core/events/player/NextTurn.tscn").instance(), args)
+
+
+func set_turn_event(args : Dictionary = {}) -> Event:
+	return init_event(preload("res://core/events/player/SetTurn.tscn").instance(), args)
 
 
 func apply_ruleset_event(args : Dictionary = {}) -> Event:
@@ -157,7 +165,7 @@ func draw_cards(player_index : int, deck_name : String, pile : Pile, deck_emptie
 	queue.merge(apply_ruleset_event({ "ruleset": TopCardRuleset.new() }))
 	queue.merge(select_player_event({ "player_index": player_index }))
 	queue.merge(select_card_event())
-	queue.merge(select_player_deck_event(SelectDeckEvent.DECK_TYPE.DEST, { "deck_name" : deck_name }))
+	queue.merge(select_player_deck_event(SelectDeckEvent.DECK_TYPE.DEST, deck_name))
 	queue.merge(log_card_drawn_event())
 	queue.merge(move_card_event())
 	queue.map(deck_empty_condition(deck_emptied_event))
@@ -165,11 +173,17 @@ func draw_cards(player_index : int, deck_name : String, pile : Pile, deck_emptie
 	return queue
 	
 
-func play_cards(player_index : int, deck_name : String, pile : Pile, ruleset : Ruleset, cant_play_event : Event, hand_emptied_event : Event) -> EventQueue:
+func play_cards(player_index : int, deck_name : String, pile : Pile, ruleset : Ruleset, cant_play_event : Event = null, hand_emptied_event : Event = null) -> EventQueue:
 	var queue := event_queue("TryPlayCards")
 	
+	if cant_play_event == null:
+		cant_play_event = null_event()
+		
+	if hand_emptied_event == null:
+		hand_emptied_event = null_event()
+	
 	queue.merge(select_player_event({ "player_index": player_index }))
-	queue.merge(select_player_deck_event(SelectDeckEvent.DECK_TYPE.SOURCE, { "deck_name" : deck_name }))
+	queue.merge(select_player_deck_event(SelectDeckEvent.DECK_TYPE.SOURCE, deck_name))
 	queue.merge(apply_ruleset_event({ "ruleset": ruleset }))
 	
 	var play_queue := event_queue("PlayCards")
@@ -181,12 +195,12 @@ func play_cards(player_index : int, deck_name : String, pile : Pile, ruleset : R
 	queue.map(has_selectable_indices_condition(play_queue, cant_play_event))
 	
 	return queue
+
 	
-	
-func reshuffle_pile(pile : Pile, source : Pile) -> EventQueue:
+func reshuffle_pile(pile : Pile, source : Pile, leave_top_card : bool) -> EventQueue:
 	var queue := event_queue("ReshufflePile")
 	
-	queue.merge(move_cards_event({ "source_deck": source, "dest_deck": pile }))
+	queue.merge(move_cards_event(leave_top_card, { "source_deck": source, "dest_deck": pile }))
 	queue.map(shuffle_pile(pile))
 	queue.map(log_message("Reshuffled " + pile.name))
 	

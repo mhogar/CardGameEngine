@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://core/game/Game.tscn" type="PackedScene" id=1]
+[ext_resource path="res://core/game/wizard/WizardPlayer.tscn" type="PackedScene" id=2]
+[ext_resource path="res://core/players/HumanController.tscn" type="PackedScene" id=3]
+[ext_resource path="res://core/deck/Pile.tscn" type="PackedScene" id=4]
+[ext_resource path="res://core/game/wizard/Wizard.gd" type="Script" id=5]
+
+[node name="Wizard" instance=ExtResource( 1 )]
+script = ExtResource( 5 )
+
+[node name="You" parent="Table/Players" index="0" instance=ExtResource( 2 )]
+position = Vector2( 0, 400 )
+
+[node name="Controller" parent="Table/Players/You" index="0" instance=ExtResource( 3 )]
+
+[node name="Player 2" parent="Table/Players" index="1" instance=ExtResource( 2 )]
+position = Vector2( 0, -400 )
+rotation = 3.14159
+
+[node name="Play Pile" parent="Table/Piles" index="0" instance=ExtResource( 4 )]
+is_face_up = true
+
+[node name="Deal Pile" parent="Table/Piles" index="1" instance=ExtResource( 4 )]
+position = Vector2( 220, 0 )
+
+[editable path="Table/Players/You"]
+[editable path="Table/Players/You/Decks/Hand"]

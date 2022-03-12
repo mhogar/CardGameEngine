@@ -31,7 +31,7 @@ func build_event_queue():
 	var play_loop := factory.event_queue("PlayLoop", 0)
 	game_loop.map(play_loop)
 	
-	var reshuffle_draw_pile := factory.reshuffle_pile(draw_pile, play_pile)
+	var reshuffle_draw_pile := factory.reshuffle_pile(draw_pile, play_pile, true)
 	var draw_cards := factory.draw_cards(0, "Hand", draw_pile, reshuffle_draw_pile)
 	
 	var player_out := factory.event_queue("PlayerOut")

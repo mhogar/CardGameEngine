@@ -9,5 +9,9 @@ func _ready():
 	rng.randomize()
 
 
-func select_card(_ctx : GameContext, _deck : Deck, indices : Array):
-	emit_signal("select_card", indices[rng.randi() % indices.size()])
+func select_card(ctx : GameContext, deck : Deck, indices : Array):
+	emit_signal("select_card", select_index(ctx, deck, indices))
+
+
+func select_index(_ctx : GameContext, _deck : Deck, indices : Array) -> int:
+	return indices[rng.randi() % indices.size()]

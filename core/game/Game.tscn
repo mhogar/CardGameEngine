@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://core/gui/game/Console.tscn" type="PackedScene" id=1]
 [ext_resource path="res://core/game/Game.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://core/gui/game/Scoreboard.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/table_tile.png" type="Texture" id=5]
 [ext_resource path="res://assets/table_tile_n.png" type="Texture" id=6]
+[ext_resource path="res://assets/light.png" type="Texture" id=7]
 [ext_resource path="res://core/gui/menu/ReplayMenu.tscn" type="PackedScene" id=8]
 
 [node name="Game" type="Node2D"]
@@ -41,6 +42,12 @@ color = Color( 0.666667, 0.666667, 0.666667, 1 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+
+[node name="Light2D" type="Light2D" parent="."]
+scale = Vector2( 1.87505, 0.42024 )
+texture = ExtResource( 7 )
+energy = 0.7
+range_height = 150.0
 
 [node name="Table" type="Node2D" parent="."]
 

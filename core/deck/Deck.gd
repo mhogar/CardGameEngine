@@ -81,6 +81,16 @@ func clear():
 		remove_card(0)
 
 
+func indices_of_suit(suit : int) -> Array:
+	var indices := []
+	
+	for index in num_cards():
+		if get_card(index).suit == suit:
+			indices.append(index)
+			
+	return indices
+
+
 func get_card_global_position(_index : int) -> Vector2:
 	return get_global_position()
 	

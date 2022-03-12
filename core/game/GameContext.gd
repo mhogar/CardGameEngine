@@ -30,6 +30,10 @@ func set_current_player_index(relative_index : int):
 
 func next_turn():
 	set_current_player_index(turn_dir)
+	
+
+func set_turn(relative_index : int):
+	set_current_player_index(relative_index)
 
 
 func remove_player(relative_index : int) -> Player:
