@@ -38,7 +38,7 @@ func create_ai_controller() -> Node:
 
 func reset():
 	game_ctx.logs.clear()
-	get_tree().call_group("Console", "update_logs", game_ctx.logs.to_string())
+	_update_console()
 	
 	game_ctx.players.clear()
 	game_ctx.piles.clear()
@@ -69,6 +69,10 @@ func start():
 	game_loop.execute(game_ctx, { "num_iter": 1})
 
 
+func _update_console():
+	get_tree().call_group("Console", "update_logs", game_ctx.logs.to_string())
+
+
 func _add_player(player : Player):
 	player.clear_decks()
 	game_ctx.players.append(player)
@@ -79,7 +83,9 @@ func _compare_players(a : Player, b : Player):
 
 
 func _on_GameLoop_completed(_event, _outputs):
-	get_tree().call_group("Console", "log_message", "Game Over!")
+	game_ctx.logs.log_message("GAME OVER!")
+	_update_console()
+	
 	replay_menu.show()
 	
 

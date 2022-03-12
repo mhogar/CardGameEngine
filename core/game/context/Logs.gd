@@ -4,7 +4,7 @@ class_name Logs
 var logs := ""
 
 
-func log_message(format : String, args : Array):
+func log_message(format : String, args : Array = []):
 	var message := _format_message(format, args)
 	logs += "> %s\n" % (message % args)
 
