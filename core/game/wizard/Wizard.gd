@@ -14,7 +14,13 @@ func _ready():
 	init_game()
 	build_event_queue()
 	start()
-	
+
+
+func init_scoreboard():
+	game_ctx.scoreboard.add_score("Round", 1)
+	game_ctx.add_player_score("Round Score")
+	game_ctx.add_player_score("Total Score")
+
 
 func create_ai_controller() -> Node:
 	return preload("res://core/game/wizard/WizardAIController.tscn").instance()
@@ -26,8 +32,10 @@ func build_event_queue():
 
 	game_loop.map(factory.build_pile(deal_pile, StandardDeckBuilder.new()))
 	game_loop.map(factory.shuffle_pile(deal_pile))
+	
 	game_loop.map(factory.deal_cards(game_ctx.players, "Hand", deal_pile, ROUND))
 	game_loop.map(create_round_loop(play_pile))
+	game_loop.map(factory.scoreboard_script_event(scripts, "score_round_end"))
 
 
 func create_round_loop(play_pile : Pile) -> EventQueue:
@@ -54,8 +62,9 @@ func choose_winner(play_pile : Pile) -> EventQueue:
 	queue.merge(factory.script_event(scripts, "select_winner"))
 	queue.merge(factory.select_player_event())
 	queue.merge(factory.log_script_event(scripts, "log_set_winner"))
+	queue.merge(factory.scoreboard_script_event(scripts, "score_set_winner"))
 	queue.merge(factory.select_player_deck_event(SelectDeckEvent.DECK_TYPE.DEST, "Sets"))
 	queue.merge(factory.move_cards_event(false, { "source_deck": play_pile }))
-	queue.merge(factory.set_turn_event())
+	queue.map(factory.set_turn_event())
 	
 	return queue

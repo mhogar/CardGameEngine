@@ -7,7 +7,11 @@ var scores := {}
 func _init(players : Array):
 	for player in players:
 		scores[player.name] = 0
-		
+	
+
+func get_value(player : String) -> int:
+	return scores[player]
+
 
 func set_value(player : String, score : int):
 	scores[player] = score
