@@ -5,6 +5,3 @@
 
 [node name="HasSelectableIndices" instance=ExtResource( 2 )]
 script = ExtResource( 1 )
-type = 0
-static_args = {
-}

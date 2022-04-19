@@ -5,5 +5,3 @@
 
 [node name="EmptyDeck" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-static_args = {
-}

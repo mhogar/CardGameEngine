@@ -5,5 +5,3 @@
 
 [node name="PlayersLeft" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-static_args = {
-}

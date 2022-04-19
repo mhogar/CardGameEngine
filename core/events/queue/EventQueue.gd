@@ -6,71 +6,60 @@ var break_triggered := false
 
 var current_event_index : int
 var current_iter : int
+var next_inputs := {}
 
 var game_ctx : GameContext
 var init_inputs := {}
-var next_inputs := {}
+
+var captured_outputs := []
 
 
-func create_event(event : Event, args : Dictionary) -> Event:
+func add_event(event : Event, args : Dictionary):
 	event.static_args = args
-	return event
-
-
-func add_event(event : Event, type : int):
-	event.type = type
 	add_child(event)
 
 
-func map(event : Event):
-	add_event(event, Event.EventType.MAP)
-
-	
-func merge(event : Event):
-	add_event(event, Event.EventType.MERGE)
-
-
-func execute(ctx : GameContext, inputs : Dictionary):
-	num_iterations = inputs["num_iter"]
-	
-	current_event_index = -1
+func _execute(ctx : GameContext, inputs : Dictionary):
 	game_ctx = ctx
-	init_inputs = inputs
+	init_inputs = inputs.duplicate()
+	next_inputs = inputs
 	
-	execute_next(init_inputs)
+	num_iterations = inputs["num_iter"]
+	current_event_index = -1
+	
+	_execute_next()
 	
 
-func execute_next(inputs : Dictionary):
+func _execute_next():
 	current_event_index += 1
 	
 	if break_triggered || current_event_index >= get_child_count():
-		end_pipeline(inputs)
+		_end_pipeline(next_inputs)
 		return
 		
 	var event : Event = get_child(current_event_index)
-	next_inputs = merge_inputs(inputs, event.static_args)
-	
 	event.connect("completed", self, "_on_event_completed", [], CONNECT_DEFERRED | CONNECT_ONESHOT)
 	event.execute(game_ctx, next_inputs)
 
 
-func end_pipeline(outputs : Dictionary):
+func _end_pipeline(outputs : Dictionary):
 	current_iter += 1
 	
 	if !break_triggered && (num_iterations < 1 || current_iter < num_iterations):
-		execute(game_ctx, init_inputs)
+		_execute(game_ctx, init_inputs)
 	else:
 		current_iter = 0
 		break_triggered = false
-		emit_signal("completed", self, outputs)
+		
+		var queue_outputs := {}
+		for captured_output in captured_outputs:
+			queue_outputs[captured_output] = outputs[captured_output]
+		
+		emit_signal("completed", self, queue_outputs)
 
 
 func _on_event_completed(event : Event, outputs : Dictionary):
-	var inputs := {}
+	for key in outputs:
+		next_inputs[key] = outputs[key]
 	
-	if event.type == EventType.MERGE:
-		inputs = merge_inputs(next_inputs, outputs)
-	else:
-		inputs = outputs
-	
-	execute_next(inputs)
+	_execute_next()

@@ -18,7 +18,8 @@ func execute(ctx : GameContext, inputs : Dictionary):
 		var event : Event = preload("res://core/events/card/MoveCard.tscn").instance()
 		add_child(event)
 		
-		tween.interpolate_deferred_callback(event, delay, "execute", ctx, merge_inputs(inputs, { "card_index": 0 }))
+		inputs["card_index"] = 0
+		tween.interpolate_deferred_callback(event, delay, "execute", ctx, inputs)
 		delay += 0.1
 		
 		if index == last_index:
