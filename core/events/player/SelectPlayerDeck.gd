@@ -4,7 +4,7 @@ class_name SelectPlayerDeckEvent
 var deck_type : int
 
 
-func execute(_ctx : GameContext, inputs : Dictionary):
+func _execute(_ctx : GameContext, inputs : Dictionary):
 	var player : Player = inputs["player"]
 	var deck_name : String = inputs["deck_name"]
 	

@@ -1,7 +1,7 @@
 extends Node2D
 class_name Game
 
-onready var game_queue : EventQueue = $GameQueue
+onready var game_queue : EventQueue
 onready var replay_menu := $CanvasLayer/ReplayMenu
 
 onready var table := $Table
@@ -16,7 +16,6 @@ var game_ctx : GameContext
 
 func _ready():
 	position = Vector2()
-	game_queue.connect("completed", self, "_on_GameLoop_completed")
 
 
 func init_game():
@@ -66,6 +65,7 @@ func reset():
 
 
 func start():
+	game_queue.connect("completed", self, "_on_GameLoop_completed", [], CONNECT_ONESHOT)
 	game_queue.execute(game_ctx, { "num_iter": 1 })
 
 

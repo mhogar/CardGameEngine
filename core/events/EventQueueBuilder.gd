@@ -5,12 +5,17 @@ var queue : EventQueue
 var log_scripts : StandardLogScripts
 
 
-func _init(name : String, captured_outputs : Array):
+func _init(name : String, captured_outputs : Array, args : Dictionary):
 	log_scripts = StandardLogScripts.new()
 	
 	queue = preload("res://core/events/queue/EventQueue.tscn").instance()
 	queue.name = name
 	queue.captured_outputs = captured_outputs
+	queue.static_args = args
+
+
+func _new_builder(name : String, captured_outputs : Array, args : Dictionary) -> EventQueueBuilder:
+	return get_script().new(name, captured_outputs, args)
 
 
 func _add_event(event : Event, args : Dictionary) -> EventQueueBuilder:
@@ -18,8 +23,7 @@ func _add_event(event : Event, args : Dictionary) -> EventQueueBuilder:
 	return self
 	
 
-func finalize(args : Dictionary) -> EventQueue:
-	queue.static_args = args
+func get_queue() -> EventQueue:
 	return queue
 
 
@@ -27,16 +31,17 @@ func finalize(args : Dictionary) -> EventQueue:
 # QUEUE EVENTS
 ##
 
-func sub_queue(builder : EventQueueBuilder, args : Dictionary) -> EventQueueBuilder:
-	return _add_event(builder.finalize(args), args)
+func sub_queue(builder : EventQueueBuilder) -> EventQueueBuilder:
+	var queue : EventQueue = builder.get_queue()
+	return _add_event(queue, queue.static_args)
 
 
 # Break out of the target queue.
 # Inputs: none
-# Outputs: none
-func break_queue(target_queue : EventQueue) -> EventQueueBuilder:
-	var event : Event = preload("res://core/events/queue/BreakQueue.tscn").instance()
-	event.target_queue = target_queue
+# Outputs: break
+func break_queue(level : int) -> EventQueueBuilder:
+	var event : BreakQueueEvent = preload("res://core/events/queue/BreakQueue.tscn").instance()
+	event.level = level
 	
 	return _add_event(event, {})
 
@@ -81,7 +86,7 @@ func players_left_condition(players_left_event : Event, args : Dictionary) -> Ev
 # SCRIPTS EVENTS
 ##
 
-func _add_script_event(event : ScriptEvent, object : Object, func_name : String) -> EventQueueBuilder:
+func _add_script_event(event : ScriptEvent, object : Object, func_name : String, args : Dictionary) -> EventQueueBuilder:
 	event.object = object
 	event.func_name = func_name
 	
@@ -91,22 +96,22 @@ func _add_script_event(event : ScriptEvent, object : Object, func_name : String)
 # Runs the provided generic script.
 # Inputs: none
 # Outputs: none
-func run_script(object : Object, func_name : String) -> EventQueueBuilder:
-	return _add_script_event(preload("res://core/events/script/ScriptEvent.tscn").instance(), object, func_name)
+func run_script(object : Object, func_name : String, args : Dictionary) -> EventQueueBuilder:
+	return _add_script_event(preload("res://core/events/script/ScriptEvent.tscn").instance(), object, func_name, args)
 
 
 # Runs the provided scoreboard script.
 # Inputs: none
 # Outputs: none
-func scoreboard_script_event(object : Object, func_name : String) -> EventQueueBuilder:
-	return _add_script_event(preload("res://core/events/script/ScoreboardScript.tscn").instance(), object, func_name)
+func run_scoreboard_script(object : Object, func_name : String, args : Dictionary) -> EventQueueBuilder:
+	return _add_script_event(preload("res://core/events/script/ScoreboardScript.tscn").instance(), object, func_name, args)
 
 
 # Runs the provided log script.
 # Inputs: none
 # Outputs: none
-func run_log_script(object : Object, func_name : String) -> EventQueueBuilder:
-	return _add_script_event(preload("res://core/events/script/LogScript.tscn").instance(), object, func_name)
+func run_log_script(object : Object, func_name : String, args : Dictionary) -> EventQueueBuilder:
+	return _add_script_event(preload("res://core/events/script/LogScript.tscn").instance(), object, func_name, args)
 
 
 ##
@@ -154,12 +159,13 @@ func move_card(args : Dictionary) -> EventQueueBuilder:
 # Inputs: source_deck, dest_deck
 # Outputs: none
 func move_top_card(args : Dictionary) -> EventQueueBuilder:
-	var builder := EventQueueBuilder.new("MoveTopCard", []) \
+	args["num_iter"] = 1
+	
+	var builder := _new_builder("MoveTopCard", [], args) \
 		.select_top_card({}) \
 		.move_card({})
 		
-	args["num_iter"] = 1
-	return sub_queue(builder, args)
+	return sub_queue(builder)
 
 
 # Moves all cards from source_deck to dest_deck.
@@ -180,7 +186,7 @@ func move_cards(leave_top_card : bool, args : Dictionary) -> EventQueueBuilder:
 # Shuffles target deck. 
 # Inputs: source_deck / dest_deck
 # Outputs: none
-func shuffle_pile(deck_type : int, args : Dictionary) -> EventQueueBuilder:
+func shuffle_deck(deck_type : int, args : Dictionary) -> EventQueueBuilder:
 	var event : ShuffleDeckEvent = preload("res://core/events/deck/ShuffleDeck.tscn").instance()
 	event.deck_type = deck_type
 	
@@ -190,21 +196,25 @@ func shuffle_pile(deck_type : int, args : Dictionary) -> EventQueueBuilder:
 # Builds source_deck using the provided builder.
 # Inputs: source_deck
 # Outputs: none
-func build_deck_event(builder : DeckBuilder, args : Dictionary) -> EventQueueBuilder:
-	return _add_event(preload("res://core/events/deck/BuildDeck.tscn").instance(), args)
+func build_deck(builder : DeckBuilder, args : Dictionary) -> EventQueueBuilder:
+	var event : BuildDeckEvent = preload("res://core/events/deck/BuildDeck.tscn").instance()
+	event.builder = builder
+	
+	return _add_event(event, args)
 
 
 # Moves all cards from source_deck to dest_deck, then shuffles dest_deck.
 # Inputs: source_deck, dest_deck
 # Outputs: none
 func reshuffle_deck(leave_top_card : bool, args : Dictionary) -> EventQueueBuilder:
-	var builder := EventQueueBuilder.new("ReshuffleDeck", []) \
-		.move_cards(leave_top_card, {}) \
-		.shuffle_pile(Event.DECK_TYPE.DEST, {}) \
-		.run_log_script(log_scripts, "reshuffled_deck")
-	
 	args["num_iter"] = 1
-	return sub_queue(builder, args)
+	
+	var builder := _new_builder("ReshuffleDeck", [], args) \
+		.move_cards(leave_top_card, {}) \
+		.shuffle_deck(Event.DECK_TYPE.DEST, {}) \
+		.run_log_script(log_scripts, "reshuffled_deck", {})
+	
+	return sub_queue(builder)
 
 
 ##
@@ -247,13 +257,14 @@ func remove_player(args : Dictionary) -> EventQueueBuilder:
 # Inputs: player_index
 # Outputs: none
 func player_out(args : Dictionary) -> EventQueueBuilder:
-	var builder := EventQueueBuilder.new("PlayerOut", []) \
+	args["num_iter"] = 1
+	
+	var builder := _new_builder("PlayerOut", [], args) \
 		.select_player({}) \
-		.run_log_script(log_scripts, "player_out") \
+		.run_log_script(log_scripts, "player_out", {}) \
 		.remove_player({})
 	
-	args["num_iter"] = 1
-	return sub_queue(builder, args)
+	return sub_queue(builder)
 
 
 # Sets the turn to player_index.
@@ -274,50 +285,51 @@ func loop_num_players() -> EventQueueBuilder:
 # Inputs: num_iter, deck_name, source_deck
 # Outputs: none
 func deal_cards(args : Dictionary) -> EventQueueBuilder:
-	var deal_card_builder := EventQueueBuilder.new("DealCard", []) \
+	var deal_card_builder := _new_builder("DealCard", [], {}) \
 		.next_turn() \
 		.select_player({ "player_index": 0 }) \
 		.select_player_deck(Event.DECK_TYPE.DEST, {}) \
 		.move_top_card({}) \
 	
-	var deal_cards_builder := EventQueueBuilder.new("DealCards", []) \
+	var deal_cards_builder := _new_builder("DealCards", [], args) \
 		.loop_num_players() \
-		.sub_queue(deal_card_builder, args)
+		.sub_queue(deal_card_builder)
 	
-	return sub_queue(deal_cards_builder, {})
+	return sub_queue(deal_cards_builder)
 
 
 # Starts UX for player with player_index to play a card from their deck with deck_name to dest_deck.
 # Inputs: player_index, deck_name, dest_deck
 # Outputs: none
 func play_card(ruleset : Ruleset, cant_play_event : Event, hand_emptied_event : Event, args : Dictionary) -> EventQueueBuilder:	
-	var play_card_builder := EventQueueBuilder.new("PlayCard", []) \
+	args["num_iter"] = 1
+	
+	var play_card_builder := _new_builder("PlayCard", [], args) \
 		.select_card({}) \
-		.run_log_script(log_scripts, "card_played") \
+		.run_log_script(log_scripts, "card_played", {}) \
 		.move_card({}) \
 		.deck_empty_condition(hand_emptied_event, {}) \
 	
-	var try_play_card_builder := EventQueueBuilder.new("TryPlayCard", []) \
+	var try_play_card_builder := _new_builder("TryPlayCard", [], args) \
 		.select_player({}) \
 		.select_player_deck(Event.DECK_TYPE.SOURCE, {}) \
 		.apply_ruleset(ruleset, {}) \
-		.has_selectable_indices_condition(play_card_builder.finalize(args), cant_play_event)
-	
-	args["num_iter"] = 1
-	return sub_queue(try_play_card_builder, args)
+		.has_selectable_indices_condition(play_card_builder.get_queue(), cant_play_event)
+		
+	return sub_queue(try_play_card_builder)
 
 
 # Starts UX for drawing cards from source deck to the player with player_index's deck with deck_name.
 # Inputs: num_iter, source_deck, player_index, deck_name
 # Outputs: none
 func draw_cards(deck_emptied_event : Event, args : Dictionary) -> EventQueueBuilder:
-	var builder := EventQueueBuilder.new("DrawCards", []) \
+	var builder := _new_builder("DrawCards", [], args) \
 		.apply_ruleset(TopCardRuleset.new(), {}) \
 		.select_player({}) \
 		.select_card({}) \
 		.select_player_deck(Event.DECK_TYPE.DEST, {}) \
-		.run_log_script(log_scripts, "card_drawn") \
+		.run_log_script(log_scripts, "card_drawn", {}) \
 		.move_card({}) \
 		.deck_empty_condition(deck_emptied_event, {})
 	
-	return sub_queue(builder, args)
+	return sub_queue(builder)

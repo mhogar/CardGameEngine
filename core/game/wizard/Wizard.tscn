@@ -8,7 +8,6 @@
 
 [node name="Wizard" instance=ExtResource( 1 )]
 script = ExtResource( 5 )
-num_players = 2
 
 [node name="You" parent="Table/Players" index="0" instance=ExtResource( 2 )]
 position = Vector2( 0, 400 )

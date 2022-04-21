@@ -6,7 +6,7 @@ onready var tween := $Tween
 export var leave_top_card := false
 
 
-func execute(ctx : GameContext, inputs : Dictionary):
+func _execute(ctx : GameContext, inputs : Dictionary):
 	var deck : Deck = inputs["source_deck"]
 	var last_index := deck.num_cards() - 1
 	

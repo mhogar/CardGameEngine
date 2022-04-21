@@ -1,9 +1,8 @@
 extends Event
 class_name BreakQueueEvent
 
-var target_queue : EventQueue
+var level : int
 
 
-func execute(_ctx : GameContext, _inputs : Dictionary):
-	target_queue.break_triggered = true
-	emit_signal("completed", self, {})
+func _execute(_ctx : GameContext, _inputs : Dictionary):
+	emit_signal("completed", self, { "break": level })

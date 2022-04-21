@@ -4,7 +4,7 @@ class_name BuildDeckEvent
 var builder : DeckBuilder
 
 
-func execute(_ctx : GameContext, inputs : Dictionary):
+func _execute(_ctx : GameContext, inputs : Dictionary):
 	var deck : Deck = inputs["source_deck"]
 	
 	builder.build_deck(deck)

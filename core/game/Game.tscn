@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://core/gui/game/Console.tscn" type="PackedScene" id=1]
 [ext_resource path="res://core/game/Game.gd" type="Script" id=2]
-[ext_resource path="res://core/events/queue/EventQueue.tscn" type="PackedScene" id=3]
 [ext_resource path="res://core/gui/game/Scoreboard.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/table_tile.png" type="Texture" id=5]
 [ext_resource path="res://assets/table_tile_n.png" type="Texture" id=6]
@@ -12,8 +11,6 @@
 [node name="Game" type="Node2D"]
 position = Vector2( 960, 540 )
 script = ExtResource( 2 )
-
-[node name="GameQueue" parent="." instance=ExtResource( 3 )]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
