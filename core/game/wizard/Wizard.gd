@@ -1,8 +1,6 @@
 extends Game
 class_name WizardGame
 
-const ROUND := 5
-
 var scripts : WizardScripts
 
 
@@ -29,17 +27,22 @@ func build_game_queue() -> EventQueue:
 
 	return EventQueueBuilder.new("Wizard", [], {}) \
 		.build_deck(StandardDeckBuilder.new(), { "source_deck": deal_pile }) \
+		.run_script(scripts, "calc_num_rounds", {}) \
 		.sub_queue(_game_loop(play_pile, deal_pile)) \
 		.get_queue()
 
 
 func _game_loop(play_pile : Pile, deal_pile : Pile) -> EventQueueBuilder:
-	return EventQueueBuilder.new("Wizard", [], { "num_iter": 1 }) \
+	return EventQueueBuilder.new("GameLoop", [], {}) \
+		.run_log_script(scripts, "log_round_start", {}) \
 		.shuffle_deck(Event.DECK_TYPE.SOURCE, { "source_deck": deal_pile }) \
-		.deal_cards({ "num_iter": ROUND, "deck_name": "Hand", "source_deck": deal_pile }) \
+		.run_script(scripts, "set_round_iterations", {}) \
+		.deal_cards({ "deck_name": "Hand", "source_deck": deal_pile }) \
 		.next_turn() \
 		.sub_queue(_round_loop(play_pile)) \
-		.run_scoreboard_script(scripts, "score_round_end", {})
+		.run_log_script(scripts, "log_round_over", {}) \
+		.run_scoreboard_script(scripts, "score_round_end", {}) \
+		.sub_queue(_clean_up_sets(deal_pile))
 
 
 func _round_loop(play_pile : Pile) -> EventQueueBuilder:
@@ -47,7 +50,7 @@ func _round_loop(play_pile : Pile) -> EventQueueBuilder:
 		.play_card(WizardRuleset.new(), null, null, { "player_index": 0, "deck_name": "Hand", "dest_deck": play_pile }) \
 		.next_turn()
 	
-	return EventQueueBuilder.new("RoundLoop", [], { "num_iter": ROUND }) \
+	return EventQueueBuilder.new("RoundLoop", [], {}) \
 		.loop_num_players() \
 		.sub_queue(play_loop) \
 		.sub_queue(_choose_winner(play_pile))
@@ -62,3 +65,15 @@ func _choose_winner(play_pile : Pile) -> EventQueueBuilder:
 		.select_player_deck(Event.DECK_TYPE.DEST, { "deck_name": "Sets" }) \
 		.move_cards(false, { "source_deck": play_pile }) \
 		.set_turn({})
+
+
+func _clean_up_sets(deal_pile : Pile) -> EventQueueBuilder:
+	var clean_up_set_builder := EventQueueBuilder.new("CleanUpSet", [], {}) \
+		.select_player({ "player_index": 0 }) \
+		.select_player_deck(Event.DECK_TYPE.SOURCE, { "deck_name": "Sets" }) \
+		.move_cards(false, { "dest_deck": deal_pile }) \
+		.next_turn()
+		
+	return EventQueueBuilder.new("CleanUpSets", [], { "num_iter": 1 }) \
+		.loop_num_players() \
+		.sub_queue(clean_up_set_builder)

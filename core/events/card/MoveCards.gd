@@ -13,6 +13,10 @@ func _execute(ctx : GameContext, inputs : Dictionary):
 	if leave_top_card:
 		last_index -= 1
 	
+	if last_index < 0:
+		emit_signal("completed", self, {})
+		return
+	
 	var delay := 0.0
 	for index in range(last_index + 1):
 		var event : Event = preload("res://core/events/card/MoveCard.tscn").instance()
