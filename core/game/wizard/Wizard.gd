@@ -10,7 +10,6 @@ func _ready():
 	scripts = WizardScripts.new()
 	
 	init_game()
-	build_event_queue()
 	start()
 
 
@@ -24,57 +23,42 @@ func create_ai_controller() -> Node:
 	return preload("res://core/game/wizard/WizardAIController.tscn").instance()
 
 
-func build_event_queue():
+func build_game_queue() -> EventQueue:
 	var play_pile : Pile = game_ctx.piles["Play Pile"]
 	var deal_pile : Pile = game_ctx.piles["Deal Pile"]
 
-	#game_queue.map(factory.build_pile(deal_pile, StandardDeckBuilder.new()))
-	#game_queue.map(build_game_loop(play_pile, deal_pile))
+	return EventQueueBuilder.new("Wizard", [], {}) \
+		.build_deck(StandardDeckBuilder.new(), { "source_deck": deal_pile }) \
+		.sub_queue(_game_loop(play_pile, deal_pile)) \
+		.get_queue()
+
+
+func _game_loop(play_pile : Pile, deal_pile : Pile) -> EventQueueBuilder:
+	return EventQueueBuilder.new("Wizard", [], { "num_iter": 1 }) \
+		.shuffle_deck(Event.DECK_TYPE.SOURCE, { "source_deck": deal_pile }) \
+		.deal_cards({ "num_iter": ROUND, "deck_name": "Hand", "source_deck": deal_pile }) \
+		.next_turn() \
+		.sub_queue(_round_loop(play_pile)) \
+		.run_scoreboard_script(scripts, "score_round_end", {})
+
+
+func _round_loop(play_pile : Pile) -> EventQueueBuilder:
+	var play_loop := EventQueueBuilder.new("PlayLoop", [], {}) \
+		.play_card(WizardRuleset.new(), null, null, { "player_index": 0, "deck_name": "Hand", "dest_deck": play_pile }) \
+		.next_turn()
 	
-	#return EventQueueBuilder.new() \
-	#	.play_cards() \
-	#	.draw_cards() \
-	#	.get_queue() \
+	return EventQueueBuilder.new("RoundLoop", [], { "num_iter": ROUND }) \
+		.loop_num_players() \
+		.sub_queue(play_loop) \
+		.sub_queue(_choose_winner(play_pile))
 
 
-#func build_game_loop(play_pile : Pile, deal_pile : Pile) -> EventQueue:
-#	var queue := factory.event_queue("GameLoop")
-#	
-#	queue.map(factory.shuffle_pile(deal_pile))
-#	queue.map(factory.deal_cards(game_ctx.players, "Hand", deal_pile, ROUND))
-#	queue.map(build_round_loop(play_pile))
-#	queue.map(factory.scoreboard_script_event(scripts, "score_round_end"))
-#	
-#	return queue
-
-
-#func build_round_loop(play_pile : Pile) -> EventQueue:
-#	var queue := factory.event_queue("RoundLoop", ROUND)
-#	
-#	queue.map(build_play_loop(play_pile))
-#	queue.map(choose_winner(play_pile))
-#	
-#	return queue
-
-
-#func build_play_loop(play_pile : Pile) -> EventQueue:
-#	var queue := factory.event_queue("PlayLoop", num_players)
-#	
-#	queue.map(factory.play_cards(0, "Hand", play_pile, WizardRuleset.new()))
-#	queue.map(factory.next_turn())
-#	
-#	return queue
-
-
-#func choose_winner(play_pile : Pile) -> EventQueue:
-#	var queue := factory.event_queue("ChooseWinner")
-#	
-#	queue.merge(factory.script_event(scripts, "select_winner"))
-#	queue.merge(factory.select_player_event())
-#	queue.merge(factory.log_script_event(scripts, "log_set_winner"))
-#	queue.merge(factory.scoreboard_script_event(scripts, "score_set_winner"))
-#	queue.merge(factory.select_player_deck_event(SelectDeckEvent.DECK_TYPE.DEST, "Sets"))
-#	queue.merge(factory.move_cards_event(false, { "source_deck": play_pile }))
-#	queue.map(factory.set_turn_event())
-#	
-#	return queue
+func _choose_winner(play_pile : Pile) -> EventQueueBuilder:
+	return EventQueueBuilder.new("ChooseWinner", [], { "num_iter": 1 }) \
+		.run_script(scripts, "select_winner", {}) \
+		.select_player({}) \
+		.run_log_script(scripts, "log_set_winner", {}) \
+		.run_scoreboard_script(scripts, "score_set_winner", {}) \
+		.select_player_deck(Event.DECK_TYPE.DEST, { "deck_name": "Sets" }) \
+		.move_cards(false, { "source_deck": play_pile }) \
+		.set_turn({})

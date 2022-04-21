@@ -7,7 +7,6 @@ func _ready():
 	scripts = UnaScripts.new()
 	
 	init_game()
-	build_event_queue()
 	start()
 
 
@@ -19,16 +18,14 @@ func create_ai_controller() -> Node:
 	return preload("res://core/game/una/UnaAIController.tscn").instance()
 
 
-func build_event_queue():	
+func build_game_queue() -> EventQueue:
 	var play_pile : Pile = game_ctx.piles["Play Pile"]
 	var draw_pile : Pile = game_ctx.piles["Draw Pile"]
 
-	game_queue = EventQueueBuilder.new("Una", [], {}) \
+	return EventQueueBuilder.new("Una", [], {}) \
 		.sub_queue(_setup_piles(draw_pile, play_pile)) \
 		.sub_queue(_play_loop(draw_pile, play_pile)) \
 		.get_queue()
-		
-	add_child(game_queue)
 	
 
 func _setup_piles(draw_pile : Pile, play_pile : Pile) -> EventQueueBuilder:

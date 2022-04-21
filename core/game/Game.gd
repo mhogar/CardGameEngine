@@ -23,8 +23,16 @@ func init_game():
 	game_ctx = GameContext.new(table)
 	
 	reset()
+	
+	game_queue = build_game_queue()
+	add_child(game_queue)
+	
 	init_scoreboard()
 	get_tree().call_group("Scoreboard", "update_scoreboard", game_ctx.scoreboard.to_string())
+
+
+func build_game_queue() -> EventQueue:
+	return null
 
 
 func init_scoreboard():

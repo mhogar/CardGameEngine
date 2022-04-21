@@ -8,6 +8,7 @@
 
 [node name="Wizard" instance=ExtResource( 1 )]
 script = ExtResource( 5 )
+num_players = 3
 
 [node name="You" parent="Table/Players" index="0" instance=ExtResource( 2 )]
 position = Vector2( 0, 400 )
@@ -17,6 +18,12 @@ position = Vector2( 0, 400 )
 [node name="Player 2" parent="Table/Players" index="1" instance=ExtResource( 2 )]
 position = Vector2( 0, -400 )
 rotation = 3.14159
+table_index = 2
+
+[node name="Player 3" parent="Table/Players" index="2" instance=ExtResource( 2 )]
+position = Vector2( -744.919, -86.0491 )
+rotation = 1.5708
+table_index = 1
 
 [node name="Play Pile" parent="Table/Piles" index="0" instance=ExtResource( 4 )]
 is_face_up = true
